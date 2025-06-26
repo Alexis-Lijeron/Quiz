@@ -58,6 +58,26 @@ let currentTheme = '';
 let currentQuestionIndex = 0;
 let quizAnswered = false; // Nueva variable para controlar si ya se respondió
 
+// *** NUEVA FUNCIONALIDAD: Función para colapsar el navbar ***
+function collapseNavbar() {
+    const navbarCollapse = document.getElementById('navbarNav');
+    const navbarToggler = document.querySelector('.navbar-toggler');
+
+    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+        // Usar Bootstrap para colapsar el navbar
+        const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+            toggle: false
+        });
+        bsCollapse.hide();
+
+        // También actualizar el estado del botón toggler
+        if (navbarToggler) {
+            navbarToggler.setAttribute('aria-expanded', 'false');
+            navbarToggler.classList.add('collapsed');
+        }
+    }
+}
+
 // Funciones de gestión de usuarios
 function initializeApp() {
     loadExistingUsers();
@@ -808,6 +828,7 @@ function goBack() {
 }
 
 function showMainMenu() {
+    collapseNavbar();
     document.getElementById('main-menu').style.display = 'flex';
     document.getElementById('statistics').style.display = 'none';
     document.getElementById('leaderboard').style.display = 'none';
@@ -822,7 +843,7 @@ function showMainMenu() {
 function showStatistics() {
     const userData = getUserData();
     if (!userData) return;
-
+    collapseNavbar();
     document.getElementById('main-menu').style.display = 'none';
     document.getElementById('leaderboard').style.display = 'none';
     document.getElementById('quiz-section').style.display = 'none';
@@ -854,6 +875,7 @@ function showStatistics() {
 }
 
 function showLeaderboard() {
+    collapseNavbar();
     document.getElementById('main-menu').style.display = 'none';
     document.getElementById('statistics').style.display = 'none';
     document.getElementById('quiz-section').style.display = 'none';
