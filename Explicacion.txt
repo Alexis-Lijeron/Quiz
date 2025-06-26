@@ -1,0 +1,116 @@
+1. script.js
+Este archivo tiene todo lo que hace funcionar el sistema, como el control de los usuarios y las preguntas del quiz.
+
+Sistema de usuarios
+initializeApp(): Es como el encargado de abrir la aplicación. Primero revisa si ya hay un usuario logueado. Si es así, muestra la pantalla principal; si no, muestra la pantalla de login (donde el usuario debe ingresar su nombre).
+
+showLoginScreen() y hideLoginScreen(): Son como dos interruptores. Uno muestra la pantalla de login y el otro la oculta.
+
+loadExistingUsers(): Esta función revisa si hay usuarios guardados y los muestra en una lista para que el usuario pueda seleccionar uno e iniciar sesión.
+
+createNewUser(): Si un usuario no existe, puede crear uno nuevo. El nuevo usuario es guardado para usarlo luego, por ejemplo, con su puntaje en el quiz.
+
+loginUser(): Esta función se encarga de que el usuario inicie sesión. Si el usuario no existe, la aplicación le avisa que debe crear uno.
+
+logout(): Cuando un usuario quiera salir, esta función lo saca de la aplicación y lo lleva de vuelta a la pantalla de login.
+
+El Quiz
+startQuiz(theme): Aquí es donde el quiz comienza. La aplicación te muestra preguntas dependiendo del tema que elijas (HTML, CSS, etc.). Además, resetea el contador y las respuestas anteriores.
+
+displayQuestion(): Esta es la función que se encarga de mostrar la pregunta y las opciones de respuesta en la pantalla.
+
+checkAnswer(): Cuando el usuario responde una pregunta, esta función verifica si la respuesta es correcta o incorrecta. También muestra un mensaje de retroalimentación: si la respuesta es correcta, el mensaje será positivo; si es incorrecta, será un mensaje de error.
+
+nextQuestion(): Después de que el usuario responde, esta función lo lleva a la siguiente pregunta. Si ya respondió todas, muestra el puntaje final.
+
+Guardado de datos
+getStoredUsers(): Esta función recupera todos los usuarios que están guardados en el navegador del usuario, para poder mostrar su información en la aplicación.
+
+saveUsers(users): Guarda los datos de los usuarios, como su nombre y puntaje, para que no se pierdan cuando cierran la página.
+
+getCurrentUser(): Devuelve el nombre del usuario que está logueado en ese momento.
+
+setCurrentUser(username): Guarda el nombre del usuario que ha iniciado sesión para saber qué usuario está utilizando la aplicación en ese momento.
+
+Estadísticas Globales
+loadGlobalStats() y saveGlobalStats(): Estas funciones cargan y guardan las estadísticas de todos los usuarios. Es como un marcador global donde se guarda el puntaje de todos los jugadores.
+
+showGlobalStatistics(): Muestra una pantalla con las estadísticas de todos los usuarios. Se pueden ver los puntajes más altos y otros detalles.
+
+Retroalimentación del usuario
+generateCorrectFeedback(question, selectedAnswer): Si el usuario responde correctamente, esta función muestra un mensaje que explica por qué la respuesta es correcta.
+
+generateIncorrectFeedback(question, selectedAnswer, correctAnswer): Si el usuario se equivoca, esta función muestra un mensaje que explica cuál era la respuesta correcta.
+
+Navegación en la aplicación
+showLeaderboard(): Muestra un ranking con los mejores jugadores. Se ordenan según el puntaje que tienen.
+
+drawPie(id, label, score): Dibuja un gráfico de pastel (un círculo con secciones) que muestra el puntaje de un usuario en un tema específico (como HTML o CSS).
+
+2. index.html
+Este archivo es el "esqueleto" de la aplicación, lo que se muestra en la pantalla del usuario. Aquí se definen las pantallas y secciones principales.
+
+Pantalla de Login
+Aquí es donde el usuario ingresa su nombre o elige crear un nuevo usuario.
+
+También se muestra una lista con los usuarios ya registrados, para que el usuario pueda iniciar sesión con uno existente.
+
+Menú Principal
+Cuando el usuario inicia sesión, ve varias tarjetas (botones) con los diferentes temas del quiz, como HTML, CSS, Condicionales, etc. Cada tarjeta es clickeable, y al hacer clic en una tarjeta, empieza el quiz del tema seleccionado.
+
+Quiz
+Cuando el usuario está en el quiz, se le muestra una pregunta con varias opciones. El usuario selecciona una opción y luego puede avanzar a la siguiente pregunta.
+
+Estadísticas
+Aquí el usuario puede ver cuántas preguntas ha respondido correctamente y su puntaje en cada tema.
+
+También muestra gráficos para que el usuario vea sus estadísticas de forma visual.
+
+Ranking
+Muestra una lista con los usuarios y su puntaje, de modo que los mejores jugadores estén en la parte superior.
+
+Barra de Navegación
+Es una barra en la parte superior que tiene botones para navegar entre las diferentes secciones: inicio (menú principal), estadísticas y ranking.
+
+3. style.css
+Este archivo se encarga de la apariencia visual de la aplicación: cómo se ven las cosas en la pantalla.
+
+Estilos Generales
+El fondo de la aplicación tiene un degradado de colores (como un fondo de arco iris).
+
+El cuerpo de la página está diseñado para que todo esté centrado, y los textos se vean bien.
+
+Pantalla de Login
+El formulario de login tiene un diseño limpio, con un fondo blanco y bordes redondeados.
+
+El nombre de usuario se ingresa en un campo de texto, y hay botones para crear un nuevo usuario o iniciar sesión.
+
+Menú Principal
+Las tarjetas que representan cada tema del quiz tienen un diseño con sombras y bordes redondeados, lo que les da un efecto de "botón" atractivo.
+
+Al pasar el ratón sobre una tarjeta, la tarjeta se eleva un poco.
+
+Quiz
+La sección del quiz tiene un cuadro con bordes redondeados y espacio suficiente para las preguntas y respuestas.
+
+Los botones para enviar respuestas y avanzar a la siguiente pregunta tienen colores agradables, como verde, que cambia cuando se pasa el ratón sobre ellos.
+
+Estadísticas
+Las estadísticas y gráficos se muestran en tarjetas separadas para que el usuario vea su rendimiento en cada tema.
+
+Los gráficos se visualizan con Chart.js, y se utilizan colores para indicar las respuestas correctas (verde), incorrectas (rojo) y la dificultad de las preguntas (amarillo).
+
+Leaderboard
+El ranking tiene una lista de los mejores jugadores, con un color dorado para el primer puesto, plateado para el segundo y bronce para el tercero.
+
+Responsive Design
+La aplicación está diseñada para verse bien tanto en computadoras de escritorio como en teléfonos móviles. Cuando la pantalla es pequeña (como en un móvil), los elementos se reorganizan para que sigan siendo fáciles de usar.
+
+Resumen General para Estudiantes de Colegio
+script.js: Este archivo es como el "cerebro" de la aplicación. Controla el inicio de sesión, las preguntas del quiz, las respuestas del usuario y las estadísticas.
+
+index.html: Este archivo es como la estructura de una casa. Define cómo se ven las pantallas y las secciones de la aplicación.
+
+style.css: Este archivo es como la pintura y los muebles de la casa. Se asegura de que todo se vea bonito y ordenado.
+
+Todo el código está hecho para que el usuario pueda registrar un nombre, hacer un quiz sobre temas como HTML y CSS, ver sus estadísticas, y ver cómo se compara con otros usuarios en el ranking.
