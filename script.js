@@ -231,6 +231,8 @@ function startQuiz(theme) {
     currentQuestionIndex = 0;
     quizAnswered = false; // Resetear el estado al iniciar un nuevo quiz
     // *** NUEVA FUNCIONALIDAD: Reiniciar puntuación del tema ***
+    // *** NUEVA FUNCIONALIDAD: Inicializar control de envío de respuestas ***
+    window.answerSubmitted = false;
     const userData = getUserData();
     if (userData) {
         // Preguntar al usuario si quiere reiniciar su puntuación para este tema
@@ -268,6 +270,7 @@ function displayQuestion() {
     const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = '';
     quizAnswered = false; // Resetear el estado para la nueva pregunta
+    window.answerSubmitted = false; // Resetear el estado de envío
     question.options.forEach((opt, i) => {
         const radio = document.createElement('input');
         radio.type = 'radio';
@@ -288,6 +291,13 @@ function displayQuestion() {
     messageElement.style.backgroundColor = '';
     messageElement.style.color = '';
     messageElement.classList.remove('fade-in');
+    // *** RESETEAR BOTÓN DE ENVIAR ***
+    const submitButton = document.querySelector('button[onclick="checkAnswer()"]');
+    if (submitButton) {
+        submitButton.textContent = 'Enviar Respuesta';
+        submitButton.disabled = false;
+        submitButton.style.opacity = '1';
+    }
 }
 
 function checkAnswer() {
@@ -304,6 +314,9 @@ function checkAnswer() {
     }
     // Marcar que ya se respondió esta pregunta
     quizAnswered = true;
+
+    // *** NUEVA FUNCIONALIDAD: Marcar que la respuesta ha sido enviada ***
+    window.answerSubmitted = true;
 
     // *** NUEVA FUNCIONALIDAD: Deshabilitar todas las opciones ***
     const allRadios = document.querySelectorAll('input[name="answer"]');
@@ -323,6 +336,13 @@ function checkAnswer() {
     const currentQuestion = allQuestions[currentTheme][currentQuestionIndex];
     const selectedAnswer = selected.value;
 
+    // *** NUEVA FUNCIONALIDAD: Cambiar el botón de enviar ***
+    const submitButton = document.querySelector('button[onclick="checkAnswer()"]');
+    if (submitButton) {
+        submitButton.textContent = 'Respuesta Enviada ✓';
+        submitButton.disabled = true;
+        submitButton.style.opacity = '0.6';
+    }
     // Verificar si la respuesta es correcta
     const isCorrect = selectedAnswer === correct;
 
@@ -736,6 +756,18 @@ function generateIncorrectFeedback(question, selectedAnswer, correctAnswer) {
 }
 
 function nextQuestion() {
+    // Verificar si se ha seleccionado una respuesta
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+    if (!selectedAnswer) {
+        alert('Por favor, selecciona una respuesta antes de continuar.');
+        return; // No continuar si no hay respuesta seleccionada
+    }
+    // Verificar si la respuesta ha sido enviada/procesada
+    if (!window.answerSubmitted) {
+        alert('Por favor, envía tu respuesta antes de continuar.');
+        return; // No continuar si la respuesta no ha sido enviada
+    }
     currentQuestionIndex++;
     if (currentQuestionIndex >= allQuestions[currentTheme].length) {
         const userData = getUserData();
@@ -753,6 +785,8 @@ function nextQuestion() {
         goBack();
     } else {
         displayQuestion();
+        // Resetear el flag para la siguiente pregunta
+        window.answerSubmitted = false;
     }
 }
 
