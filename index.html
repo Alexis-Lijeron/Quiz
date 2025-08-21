@@ -105,14 +105,29 @@
         </div>
     </div>
 
-    <!-- Quiz -->
-    <div class="quiz-container" id="quiz-section">
+    <!-- Quiz 
+     <div class="quiz-container" id="quiz-section">
         <h3 id="question-text"></h3>
         <div id="options-container"></div>
         <button onclick="checkAnswer()">Enviar Respuesta</button>
         <div class="message" id="message"></div>
         <button onclick="nextQuestion()">Siguiente</button>
         <button class="back-button" onclick="goBack()">Volver al menú</button>
+    </div> 
+    -->
+   <div class="quiz-container" id="quiz-section">
+        <div class="quiz-content">
+            <div class="quiz-question">
+                <h3 id="question-text"></h3>
+            </div>
+            <div class="options-container" id="options-container"></div>
+            <div class="quiz-controls">
+                <button class="btn-quiz" id="submit-btn" onclick="checkAnswer()">Enviar Respuesta</button>
+                <button class="btn-quiz" id="next-btn" onclick="nextQuestion()" style="display: none;">Siguiente</button>
+                <button class="btn-quiz btn-back" onclick="goBack()">Volver al menú</button>
+            </div>
+            <div class="quiz-message" id="message"></div>
+        </div>
     </div>
 
     <!-- Estadísticas -->

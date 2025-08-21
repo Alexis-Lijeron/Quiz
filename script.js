@@ -289,84 +289,77 @@ function displayQuestion() {
     document.getElementById('question-text').innerText = question.question;
     const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = '';
-    quizAnswered = false; // Resetear el estado para la nueva pregunta
-    window.answerSubmitted = false; // Resetear el estado de envío
+    quizAnswered = false;
+    selectedOption = null;
+    window.answerSubmitted = false;
+
     question.options.forEach((opt, i) => {
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = 'answer';
-        radio.value = opt.charAt(0);
-        radio.id = `opt${i}`;
-        const label = document.createElement('label');
-        label.setAttribute('for', `opt${i}`);
-        label.textContent = opt;
-        const div = document.createElement('div');
-        div.appendChild(radio);
-        div.appendChild(label);
-        optionsContainer.appendChild(div);
+        const button = document.createElement('button');
+        button.className = `option-button option-${opt.charAt(0).toLowerCase()}`;
+        button.value = opt.charAt(0);
+
+        // Crear estructura interna mejorada
+        const contentDiv = document.createElement('div');
+        contentDiv.style.cssText = 'display: flex; align-items: flex-start; gap: 15px; width: 100%;';
+
+        const letterDiv = document.createElement('div');
+        letterDiv.style.cssText = 'background: rgba(255,255,255,0.3); border-radius: 50%; width: 35px; height: 35px; min-width: 35px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold; flex-shrink: 0;';
+        letterDiv.textContent = opt.charAt(0);
+
+        const textDiv = document.createElement('div');
+        textDiv.style.cssText = 'flex: 1; text-align: left; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; line-height: 1.4;';
+        textDiv.textContent = opt.substring(3);
+
+        contentDiv.appendChild(letterDiv);
+        contentDiv.appendChild(textDiv);
+        button.appendChild(contentDiv);
+
+        button.onclick = () => selectOption(button, opt.charAt(0));
+        optionsContainer.appendChild(button);
     });
-    document.getElementById('message').innerText = '';
-    // Limpiar estilos previos del mensaje
-    const messageElement = document.getElementById('message');
-    messageElement.style.backgroundColor = '';
-    messageElement.style.color = '';
-    messageElement.classList.remove('fade-in');
-    // *** RESETEAR BOTÓN DE ENVIAR ***
-    const submitButton = document.querySelector('button[onclick="checkAnswer()"]');
-    if (submitButton) {
-        submitButton.textContent = 'Enviar Respuesta';
-        submitButton.disabled = false;
-        submitButton.style.opacity = '1';
-    }
+
+    // Resetear mensaje y botones
+    document.getElementById('message').innerHTML = '';
+    document.getElementById('submit-btn').style.display = 'inline-block';
+    document.getElementById('next-btn').style.display = 'none';
+    document.getElementById('submit-btn').disabled = false;
+    document.getElementById('submit-btn').textContent = 'Enviar Respuesta';
+}
+function selectOption(button, value) {
+    if (quizAnswered) return;
+
+    // Remover selección anterior
+    document.querySelectorAll('.option-button').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+
+    // Seleccionar nueva opción
+    button.classList.add('selected');
+    selectedOption = value;
 }
 
 function checkAnswer() {
-    // *** NUEVA FUNCIONALIDAD: Prevenir cambios después de responder ***
-    if (quizAnswered) {
-        return; // Si ya se respondió, no hacer nada
-    }
+    if (quizAnswered) return;
 
-    const selected = document.querySelector('input[name="answer"]:checked');
-    const message = document.getElementById('message');
-    if (!selected) {
-        message.innerText = 'Por favor, selecciona una respuesta.';
+    if (!selectedOption) {
+        alert('Por favor, selecciona una respuesta.');
         return;
     }
-    // Marcar que ya se respondió esta pregunta
-    quizAnswered = true;
 
-    // *** NUEVA FUNCIONALIDAD: Marcar que la respuesta ha sido enviada ***
+    quizAnswered = true;
     window.answerSubmitted = true;
 
-    // *** NUEVA FUNCIONALIDAD: Deshabilitar todas las opciones ***
-    const allRadios = document.querySelectorAll('input[name="answer"]');
-    allRadios.forEach(radio => {
-        radio.disabled = true;
-    });
-
-    // También deshabilitar los labels para evitar clics
-    const allLabels = document.querySelectorAll('label[for^="opt"]');
-    allLabels.forEach(label => {
-        label.style.pointerEvents = 'none';
-        label.style.opacity = '0.6';
+    // Deshabilitar todas las opciones
+    document.querySelectorAll('.option-button').forEach(btn => {
+        btn.classList.add('disabled');
     });
 
     const userData = getUserData();
     const correct = allQuestions[currentTheme][currentQuestionIndex].correct;
     const currentQuestion = allQuestions[currentTheme][currentQuestionIndex];
-    const selectedAnswer = selected.value;
+    const isCorrect = selectedOption === correct;
 
-    // *** NUEVA FUNCIONALIDAD: Cambiar el botón de enviar ***
-    const submitButton = document.querySelector('button[onclick="checkAnswer()"]');
-    if (submitButton) {
-        submitButton.textContent = 'Respuesta Enviada ✓';
-        submitButton.disabled = true;
-        submitButton.style.opacity = '0.6';
-    }
-    // Verificar si la respuesta es correcta
-    const isCorrect = selectedAnswer === correct;
-
-    // Registrar la respuesta correcta/incorrecta en las estadísticas globales
+    // Registrar respuesta en estadísticas globales
     registerUserResponse(currentTheme, currentQuestionIndex, isCorrect);
 
     // Actualizar estadísticas del usuario
@@ -379,38 +372,45 @@ function checkAnswer() {
         updates.scores[currentTheme]++;
         updates.correctAnswers = (userData.correctAnswers || 0) + 1;
 
-        // Retroalimentación cuando la respuesta es correcta
-        message.innerHTML = `
-      <div class="feedback correct">
-        <img src="bien.jpg" class="avatar" alt="Correcto" />
-        <div class="text">
-          <span class="emoji">🎉</span>
-          <span class="correct-message">¡Correcto!</span> <strong>Puntaje: ${updates.scores[currentTheme]}</strong>
-          <p>${generateCorrectFeedback(currentQuestion, selectedAnswer)}</p>
-        </div>
-      </div>`;
-        message.style.backgroundColor = "#6ee7b7";  // Verde suave
-        message.style.color = "#0f4c4c";  // Color oscuro para el texto
-        message.classList.add("fade-in");  // Animación para el mensaje
+        document.getElementById('message').innerHTML = `
+                    <div class="feedback correct">
+                        <img src="bien.jpg" class="avatar" alt="Correcto" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 15px;" />
+                        <div class="text">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span class="emoji">🎉</span>
+                                <span class="correct-message">¡Correcto!</span>
+                            </div>
+                            <div><strong>Puntaje: ${updates.scores[currentTheme]}/10</strong></div>
+                            <p style="margin-top: 10px;">${generateCorrectFeedback(currentQuestion, selectedOption)}</p>
+                        </div>
+                    </div>
+                `;
+        document.getElementById('message').className = 'quiz-message correct';
     } else {
-        // Retroalimentación cuando la respuesta es incorrecta
-        message.innerHTML = `
-      <div class="feedback incorrect">
-        <img src="mal.jpg" class="avatar" alt="Incorrecto" />
-        <div class="text">
-          <span class="emoji">💥</span>
-          <span class="incorrect-message">¡Incorrecto! </span><strong>La respuesta correcta es: ${correct}</strong>
-          <p>${generateIncorrectFeedback(currentQuestion, selectedAnswer, correct)}</p>
-        </div>
-      </div>`;
-        message.style.backgroundColor = "#fbbf24";  // Amarillo suave
-        message.style.color = "#1f2937";  // Texto oscuro
-        message.classList.add("fade-in");  // Animación para el mensaje
+        document.getElementById('message').innerHTML = `
+                    <div class="feedback incorrect">
+                        <img src="mal.jpg" class="avatar" alt="Incorrecto" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 15px;" />
+                        <div class="text">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span class="emoji">💥</span>
+                                <span class="incorrect-message">¡Incorrecto!</span>
+                            </div>
+                            <div><strong>La respuesta correcta es: ${correct}</strong></div>
+                            <p style="margin-top: 10px;">${generateIncorrectFeedback(currentQuestion, selectedOption, correct)}</p>
+                        </div>
+                    </div>
+                `;
+        document.getElementById('message').className = 'quiz-message incorrect';
     }
 
     updateUserData(updates);
     updateScores();
+
+    // Cambiar botones
+    document.getElementById('submit-btn').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'inline-block';
 }
+
 
 let globalStats = {
     'HTML': {
@@ -776,26 +776,18 @@ function generateIncorrectFeedback(question, selectedAnswer, correctAnswer) {
 }
 
 function nextQuestion() {
-    // Verificar si se ha seleccionado una respuesta
-    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-
-    if (!selectedAnswer) {
-        alert('Por favor, selecciona una respuesta antes de continuar.');
-        return; // No continuar si no hay respuesta seleccionada
-    }
-    // Verificar si la respuesta ha sido enviada/procesada
     if (!window.answerSubmitted) {
         alert('Por favor, envía tu respuesta antes de continuar.');
-        return; // No continuar si la respuesta no ha sido enviada
+        return;
     }
+
     currentQuestionIndex++;
     if (currentQuestionIndex >= allQuestions[currentTheme].length) {
         const userData = getUserData();
         const finalScore = userData.scores[currentTheme];
 
-        // Calcular tiempo transcurrido
         if (userStartTime) {
-            const timeSpent = Math.floor((Date.now() - userStartTime) / 60000); // en minutos
+            const timeSpent = Math.floor((Date.now() - userStartTime) / 60000);
             updateUserData({
                 totalTime: (userData.totalTime || 0) + timeSpent
             });
@@ -805,10 +797,10 @@ function nextQuestion() {
         goBack();
     } else {
         displayQuestion();
-        // Resetear el flag para la siguiente pregunta
         window.answerSubmitted = false;
     }
 }
+
 
 function updateScores() {
     const userData = getUserData();
@@ -821,6 +813,7 @@ function updateScores() {
         }
     }
 }
+
 
 function goBack() {
     document.getElementById('quiz-section').style.display = 'none';
