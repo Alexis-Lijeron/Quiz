@@ -4,6 +4,10 @@
     {
       "src": "./server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,16 +16,12 @@
       "dest": "/server.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/(login\\.html|student-dashboard\\.html|teacher-dashboard\\.html|style\\.css|script\\.js|.*\\.(jpg|jpeg|png|gif|ico|svg))$",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/",
       "dest": "/server.js"
     }
-  ],
-  "env": {
-    "DB_HOST": "@db_host",
-    "DB_PORT": "@db_port",
-    "DB_USER": "@db_user", 
-    "DB_PASSWORD": "@db_password",
-    "DB_NAME": "@db_name",
-    "JWT_SECRET": "@jwt_secret"
-  }
+  ]
 }

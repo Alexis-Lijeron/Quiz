@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Docente - RetoTech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .course-selector {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+        }
+        .course-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .course-card:hover {
+            border-color: #059669;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
+        }
+        .course-card.active {
+            border-color: #059669;
+            background: #f0fdf4;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 0 0.5rem;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Responsividad mejorada */
+        @media (max-width: 1200px) {
+            .course-selector {
+                margin: 1rem 0.5rem;
+                padding: 1.5rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .course-selector {
+                margin: 0.5rem;
+                padding: 1rem;
+                border-radius: 10px;
+            }
+            .course-card {
+                padding: 0.8rem;
+                border-radius: 8px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                margin: 0.5rem 0;
+                padding: 0 0.25rem;
+            }
+            .stat-card {
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .course-selector {
+                margin: 0.25rem;
+                padding: 0.8rem;
+            }
+            .course-card {
+                padding: 0.6rem;
+                margin: 0.25rem 0;
+            }
+            .stats-grid {
+                padding: 0;
+                margin: 0.25rem 0;
+            }
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Estilos base para contenedor de temas */
+        .themes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        
+        /* Estilos para vista detallada del estudiante - Completamente responsivo */
+        .student-detail-container {
+            max-width: 100%;
+            margin: 0;
+            padding: 1rem;
+        }
+        
+        .student-header-compact {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .student-header-compact:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .theme-answer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 6px;
+            max-width: 100%;
+        }
+        
+        .answer-bubble {
+            background: #dcfce7;
+            border: 2px solid #22c55e;
+            border-radius: 6px;
+            padding: 6px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        
+        .answer-bubble.incorrect {
+            background: #fecaca;
+            border-color: #ef4444;
+        }
+        
+        .answer-bubble:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .theme-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .theme-progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        /* Responsividad por tamaños de pantalla */
+        @media (max-width: 1400px) {
+            .student-detail-container {
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .student-header-compact {
+                padding: 1.2rem;
+                border-radius: 14px;
+            }
+            .theme-answer-grid {
+                grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+                gap: 5px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .student-detail-container {
+                padding: 0.6rem;
+            }
+            .student-header-compact {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .student-detail-container {
+                padding: 0.4rem;
+            }
+            .student-header-compact {
+                padding: 0.8rem;
+                border-radius: 12px;
+                margin-bottom: 0.8rem;
+            }
+            .theme-answer-grid {
+                grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+                gap: 4px;
+            }
+            .answer-bubble {
+                padding: 4px 2px;
+                min-height: 35px;
+                font-size: 0.7rem;
+                border-radius: 4px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .student-detail-container {
+                padding: 0.2rem;
+            }
+            .student-header-compact {
+                padding: 0.6rem;
+                margin-bottom: 0.6rem;
+            }
+            .theme-answer-grid {
+                grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
+                gap: 3px;
+            }
+            .answer-bubble {
+                padding: 3px 1px;
+                min-height: 30px;
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .student-detail-container {
+                padding: 0.1rem;
+            }
+            .student-header-compact {
+                padding: 0.5rem;
+                border-radius: 8px;
+            }
+            .theme-answer-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 2px;
+            }
+            .answer-bubble {
+                padding: 2px;
+                min-height: 28px;
+                font-size: 0.6rem;
+            }
+        }
+        .student-detail-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .answer-item {
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .answer-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .answer-correct {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            border-color: #22c55e;
+        }
+        .answer-incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+        }
+        .student-table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .theme-stat-card {
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 5px;
+            text-align: center;
+        }
+        .theme-stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .theme-stat-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .question-detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #3b82f6;
+        }
+        .correct-answer {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .student-answer {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .student-answer.correct {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .student-answer.incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .theme-performance {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #3b82f6;
+        }
+        .performance-indicator {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+        }
+        .performance-excellent { background: linear-gradient(135deg, #10b981, #059669); }
+        .performance-good { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .performance-poor { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .back-btn {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 1rem 0;
+        }
+        .view-detail-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        /* Estilos para controlar el crecimiento del contenido */
+        #studentAnswers {
+            max-height: 75vh !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding-right: 15px;
+            position: relative;
+        }
+        
+        .question-detail-card {
+            margin-bottom: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .theme-performance {
+            margin-bottom: 1.5rem !important;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem !important;
+            background: white;
+            max-height: 60vh !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            position: relative;
+        }
+        
+        /* Contenedor principal del detalle del estudiante */
+        #studentDetail {
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+        }
+        
+        /* Evitar que el contenido se desborde */
+        .container-fluid {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+        }
+        
+        /* Limitar el ancho de las opciones para evitar desbordamiento horizontal */
+        .question-detail-card .col-md-8,
+        .question-detail-card .col-md-4 {
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+        }
+        
+        /* Controlar el contenido de las preguntas */
+        .question-detail-card h6,
+        .question-detail-card small,
+        .question-detail-card span {
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+        
+        /* Limitar altura máxima de cada sección de tema */
+        .theme-performance > div:not(.d-flex) {
+            max-height: 50vh !important;
+            overflow-y: auto !important;
+        }
+        
+        /* Estilos para las respuestas compactas */
+        .answers-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .answer-item-compact {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+        
+        .answer-item-compact.correct {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .answer-item-compact.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .answer-letter {
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <div class="container-fluid">
+        <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">👨‍🏫 RetoTech - Docente</a>
+                <div class="d-flex align-items-center">
+                    <span class="user-info me-3">👋 <span id="currentTeacherName"></span></span>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showCourseSelector()">Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <!-- Selector de Cursos -->
+        <div class="course-selector" id="courseSelector">
+            <h2 class="text-center mb-4">📚 Selecciona un Curso para Ver Estadísticas</h2>
+            <div id="coursesList">
+                <div class="text-center">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Cargando cursos...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas del Curso -->
+        <div id="courseStats" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-gradient rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div>
+                    <h2 id="courseTitle" class="mb-1">📊 Estadísticas del Curso</h2>
+                    <small class="opacity-75">Análisis completo del rendimiento estudiantil</small>
+                </div>
+                <button class="btn btn-light" onclick="showCourseSelector()">
+                    <i class="fas fa-arrow-left me-2"></i>Volver a Cursos
+                </button>
+            </div>
+
+            <!-- Estadísticas Generales -->
+            <div class="stats-grid" id="generalStats"></div>
+
+            <!-- Rendimiento por Tema - Nuevo Diseño -->
+            <div class="mt-4">
+                <div class="modern-performance-section" style="
+                    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+                    border: none;
+                    border-radius: 20px;
+                    padding: 25px;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                    overflow: hidden;
+                ">
+                    <div class="section-header" style="
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                        margin-bottom: 25px;
+                        padding-bottom: 15px;
+                        border-bottom: 2px solid #e2e8f0;
+                    ">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            border-radius: 18px;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.8rem;
+                            color: white;
+                        ">
+                            📊
+                        </div>
+                        <div>
+                            <h4 style="margin: 0; color: #1e293b; font-size: 1.6rem; font-weight: 700;">Rendimiento Detallado por Tema</h4>
+                            <p style="margin: 0; color: #64748b; font-size: 1rem;">Análisis completo del desempeño estudiantil</p>
+                        </div>
+                    </div>
+                    
+                    <div id="themeStatsModern" class="themes-container"></div>
+                    
+                    <!-- Gráfico comparativo mejorado -->
+                    <div class="chart-section" style="
+                        margin-top: 30px;
+                        padding: 20px;
+                        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+                        border-radius: 15px;
+                        border: 1px solid #cbd5e1;
+                    ">
+                        <h5 style="
+                            text-align: center;
+                            color: #1e293b;
+                            margin-bottom: 20px;
+                            font-weight: 700;
+                        ">📈 Gráfico Comparativo de Rendimiento</h5>
+                        <div style="height: 250px; position: relative;">
+                            <canvas id="themeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Estudiantes - Nuevo Diseño -->
+            <div class="mt-4">
+                <div class="modern-students-section" style="
+                    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+                    border: none;
+                    border-radius: 20px;
+                    padding: 25px;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                    overflow: hidden;
+                ">
+                    <div class="section-header" style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 25px;
+                        padding-bottom: 15px;
+                        border-bottom: 2px solid #e2e8f0;
+                    ">
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                        ">
+                            <div style="
+                                width: 60px;
+                                height: 60px;
+                                border-radius: 18px;
+                                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 1.8rem;
+                                color: white;
+                            ">
+                                👥
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; color: #1e293b; font-size: 1.6rem; font-weight: 700;">Estudiantes del Curso</h4>
+                                <p style="margin: 0; color: #64748b; font-size: 1rem;">Gestión y seguimiento individual</p>
+                            </div>
+                        </div>
+                        <div id="studentsCounter" style="
+                            background: linear-gradient(135deg, #10b981, #059669);
+                            color: white;
+                            padding: 8px 16px;
+                            border-radius: 12px;
+                            font-weight: 700;
+                            font-size: 0.9rem;
+                        ">
+                            0 Estudiantes
+                        </div>
+                    </div>
+                    
+                    <div id="studentsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalle del Estudiante -->
+        <div id="studentDetail" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-gradient rounded" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">
+                <div>
+                    <h2 id="studentTitle" class="mb-1">👤 Detalle del Estudiante</h2>
+                    <small class="opacity-75">Análisis completo de respuestas y rendimiento</small>
+                </div>
+                <button class="btn btn-light" onclick="goBackToStats()">
+                    <i class="fas fa-arrow-left me-2"></i>Volver a Estadísticas
+                </button>
+            </div>
+
+            <div class="student-detail-card">
+                <div id="studentInfo"></div>
+                <div id="studentAnswers"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Preguntas del quiz para referencia del docente
+        const allQuestions = {
+            'HTML': [
+                { question: '¿Qué significa HTML?', options: ['A) Hyper Transfer Machine Language', 'B) HyperText Markup Language', 'C) HighText Machine Language', 'D) HyperTool Manual Language'], correct: 'B' },
+                { question: '¿Cuál de estas es una etiqueta obligatoria en un documento HTML?', options: ['A) <table>', 'B) <section>', 'C) <html>', 'D) <br>'], correct: 'C' },
+                { question: '¿Qué etiqueta se usa para dividir bloques grandes en HTML?', options: ['A) <span>', 'B) <div>', 'C) <header>', 'D) <p>'], correct: 'B' },
+                { question: '¿Qué atributo se usa para vincular una hoja CSS externa?', options: ['A) src', 'B) style', 'C) href', 'D) class'], correct: 'C' },
+                { question: '¿Cuál es la diferencia entre "id" y "class" en HTML?', options: ['A) class es único, id puede repetirse', 'B) Ambos pueden repetirse', 'C) id es único, class se puede repetir', 'D) Ninguno sirve para identificar elementos'], correct: 'C' },
+                { question: '¿Cuál representa una estructura válida de HTML5?', options: ['A) <head><title>Mi sitio</title></head><body><h1>Hola</h1></body>', 'B) <html><body><title>Hola</title></body></html>', 'C) <!DOCTYPE html><html><head><title>Mi primera página HTML</title></head><body><h1>¡Bienvenido!</h1></body></html>', 'D) html<body><h1>Hola mundo</h1></body>'], correct: 'C' },
+                { question: '¿Qué etiqueta se usa para un enlace que diga "Estas visitando mi página"?', options: ['A) <p href="...">', 'B) <a src="...">', 'C) <a href="...">Estas visitando mi pagina</a>', 'D) <link href="...">'], correct: 'C' },
+                { question: '¿Cómo se inserta correctamente una imagen con texto alternativo?', options: ['A) <img href="img.jpg" texto="...">', 'B) <img src="img.jpg" alt="...">', 'C) <img link="img.jpg" content="...">', 'D) <img source="img.jpg" label="...">'], correct: 'B' },
+                { question: '¿Qué opción crea una lista ordenada y un enlace a id="contacto"?', options: ['A) <ul>...</ul><a link="#contacto">...</a>', 'B) <ol>...</ol><a href="#contacto">...</a>', 'C) html<ol>...<goto>...</goto>', 'D) <ul>...<a name="#contacto">...</a>'], correct: 'B' },
+                { question: '¿Qué opción divide la página con clases y <div>?', options: ['A) <div class="principal">...</div><div class="lateral">...</div>', 'B) <section id="principal">...</section><aside class="lateral">...</aside>', 'C) <div id="contenido">...</div><div id="barra">...</div>', 'D) <body class="...">Contenido</body>'], correct: 'A' }
+            ],
+            'CSS': [
+                { question: '¿Qué significa CSS?', options: ['A) Creative Style System', 'B) Color Style Script', 'C) Cascading Style Sheets', 'D) Control Style Sheet'], correct: 'C' },
+                { question: '¿Cómo se enlaza un archivo CSS externo correctamente?', options: ['A) <script src="estilos.css">', 'B) <link rel="stylesheet" href="estilos.css">', 'C) <css link="estilos.css">', 'D) <style src="estilos.css">'], correct: 'B' },
+                { question: '¿Qué propiedad controla el espacio entre el borde y el contenido?', options: ['A) border', 'B) padding', 'C) margin', 'D) spacing'], correct: 'B' },
+                { question: '¿Cuál de estas opciones tiene mayor especificidad en CSS?', options: ['A) Selector de etiqueta', 'B) Selector de clase', 'C) Selector de ID', 'D) Selector universal'], correct: 'C' },
+                { question: '¿Cuál es un ejemplo correcto de pseudoelemento en CSS?', options: ['A) p:first-letter {}', 'B) p::first-letter {}', 'C) p->first-letter {}', 'D) p:firstletter {}'], correct: 'B' },
+                { question: '¿Cuál de las siguientes reglas cambia el fondo y el color del texto del cuerpo?', options: ['A) body { background-color: #f0f0f0; color: #333333; }', 'B) body { text-align: center; font-size: 12px; }', 'C) h1 { background: white; color: black; }', 'D) html { background-color: gray; }'], correct: 'A' },
+                { question: '¿Qué propiedad se usa para centrar un texto?', options: ['A) margin: auto;', 'B) align: center;', 'C) text-align: center;', 'D) center: true;'], correct: 'C' },
+                { question: '¿Cuál de estas opciones da estilo a una lista de navegación horizontal?', options: ['A) ul { list-style: disc; }', 'B) ul li { display: block; }', 'C) ul li { list-style: none; display: inline-block; }', 'D) ul { float: left; }'], correct: 'C' },
+                { question: '¿Cuál es una forma correcta de crear una clase ".caja" con fondo azul y borde negro?', options: ['A) .caja { width: 300px; height: 150px; background-color: lightblue; border: 2px solid black; }', 'B) .box { size: 300px 150px; color: blue; }', 'C) .caja { width: 300px; height: 150px; background-color: lightblue; border: 2px solid black; margin: 20px; }', 'D) #caja { width: auto; border-color: black; }'], correct: 'C' },
+                { question: '¿Qué regla CSS aplica Flexbox para distribuir tres elementos en fila?', options: ['A) .container { display: grid; grid-template-columns: auto auto auto; }', 'B) .container { display: flex; justify-content: space-between; }', 'C) .flex { float: left; }', 'D) .parent { column-count: 3; }'], correct: 'B' }
+            ],
+            'Condicionales': [
+                { question: '¿Qué estructura se usa para tomar decisiones en programación?', options: ['A) loop', 'B) if', 'C) function', 'D) try'], correct: 'B' },
+                { question: '¿Qué operador verifica si dos valores son iguales en Python?', options: ['A) ===', 'B) ==', 'C) =', 'D) equal()'], correct: 'B' },
+                { question: '¿Cuál es la función del bloque else?', options: ['A) Ejecuta si la condición es verdadera', 'B) Ejecuta si otra condición fue verdadera', 'C) Ejecuta si ninguna condición anterior se cumplió', 'D) Solo se usa con errores'], correct: 'C' },
+                { question: '¿Cuál de estos valores es considerado "falso" (falsy)?', options: ['A) True', 'B) "Hola"', 'C) []', 'D) 1'], correct: 'C' },
+                { question: '¿Qué hace este código en JavaScript?: if (edad > 18 && tieneLicencia) { console.log("Puede conducir"); }', options: ['A) Evalúa si tieneLicencia es true', 'B) Evalúa solo edad', 'C) Evalúa ambas condiciones juntas', 'D) No funciona, falta else'], correct: 'C' },
+                { question: '¿Cuál verifica edad y da mensaje según el valor?', options: ['A) if edad >= 18 { print("Mayor") } else { print("Menor") }', 'B) if edad < 18 then print("Menor")', 'C) edad == 18 ? "Exacto" : "Otro"', 'D) edad = 18'], correct: 'A' },
+                { question: '¿Qué resultado da nota = 9?', options: ['A) Desaprobado', 'B) Bueno', 'C) Excelente', 'D) Regular'], correct: 'C' },
+                { question: '¿Qué estructura permite validar acceso con usuario y clave?', options: ['A) if (usuario == "admin" && clave == "123") { acceso = true }', 'B) if usuario igual admin', 'C) validar(usuario)', 'D) console.log("Listo")'], correct: 'A' },
+                { question: '¿Qué pasa con número = 72 si se evalúa su paridad y valor?', options: ['A) Es impar', 'B) Par y mayor que 50', 'C) Par pero menor o igual a 50', 'D) Nada'], correct: 'B' },
+                { question: '¿Qué operadores evalúan múltiples condiciones en lenguajes como JavaScript?', options: ['A) = y !=', 'B) & y |', 'C) && y ||', 'D) > y <'], correct: 'C' }
+            ],
+            'While': [
+                { question: '¿Qué pasa si un bucle while nunca se detiene?', options: ['A) Lanza error de sintaxis', 'B) Termina automáticamente', 'C) Genera un bucle infinito', 'D) Salta al siguiente código'], correct: 'C' },
+                { question: '¿Qué bucle se usa cuando no se sabe cuántas veces repetir?', options: ['A) for', 'B) while', 'C) repeat', 'D) do-while'], correct: 'B' },
+                { question: '¿Qué hace break dentro de un bucle?', options: ['A) Repite el ciclo', 'B) Pausa el programa', 'C) Sale del bucle inmediatamente', 'D) Ignora la condición'], correct: 'C' },
+                { question: '¿Qué previene un bucle infinito?', options: ['A) Condición fija', 'B) No usar input()', 'C) Cambiar variables dentro del bucle', 'D) Usar for en lugar de while'], correct: 'C' },
+                { question: '¿Qué hace este código con "salir"?', options: ['A) Repite siempre', 'B) Solo se ejecuta una vez', 'C) Termina si escribís "salir"', 'D) Da error por break'], correct: 'C' },
+                { question: '¿Cómo imprimir del 1 al 10 con while?', options: ['A) while (i <= 10) { print(i); i++ }', 'B) for i in range(10): print(i)', 'C) while true: print("hola")', 'D) i = 0; print(i)'], correct: 'A' },
+                { question: '¿Qué hace este código si ingresas 0?', options: ['A) Suma y termina', 'B) Sigue sumando', 'C) Error', 'D) Se reinicia'], correct: 'A' },
+                { question: '¿Qué hace este while con clave "admin"?', options: ['A) Pide clave hasta acertar', 'B) Solo una vez', 'C) No valida', 'D) Corta siempre'], correct: 'A' },
+                { question: '¿Qué hace este código si adivinas el número?', options: ['A) Nunca se detiene', 'B) Siempre imprime "Correcto"', 'C) Cuenta intentos hasta adivinar', 'D) Solo imprime 1 intento'], correct: 'C' },
+                { question: '¿Qué hace este código con Fibonacci?', options: ['A) Muestra 100 veces el 1', 'B) Solo imprime 0', 'C) Genera números Fibonacci menores a100', 'D) Da error de sintaxis'], correct: 'C' }
+            ]
+        };
+    </script>
+    <script>
+        let currentTeacher = null;
+        let authToken = null;
+        let selectedCourse = null;
+        let currentCourseStats = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTeacherDashboard();
+        });
+
+        async function initializeTeacherDashboard() {
+            // Verificar autenticación
+            authToken = localStorage.getItem('retotech_token');
+            const userData = localStorage.getItem('retotech_user');
+            
+            if (!authToken || !userData) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            currentTeacher = JSON.parse(userData);
+            
+            // Verificar que sea docente
+            if (currentTeacher.role !== 'docente') {
+                alert('Acceso denegado. Solo docentes pueden acceder aquí.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Actualizar UI
+            document.getElementById('currentTeacherName').textContent = currentTeacher.username;
+
+            // Cargar cursos disponibles
+            await loadCourses();
+        }
+
+        async function loadCourses() {
+            try {
+                const response = await fetch('/api/teacher/courses', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const courses = await response.json();
+                    displayCourses(courses);
+                } else if (response.status === 401) {
+                    logout();
+                } else {
+                    document.getElementById('coursesList').innerHTML = 
+                        '<div class="alert alert-warning">Error cargando cursos</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('coursesList').innerHTML = 
+                    '<div class="alert alert-danger">Error de conexión</div>';
+            }
+        }
+
+        function displayCourses(courses) {
+            const container = document.getElementById('coursesList');
+            
+            if (courses.length === 0) {
+                container.innerHTML = `
+                    <div class="alert alert-info text-center">
+                        <h5>📚 No hay cursos con estudiantes registrados</h5>
+                        <p>Los cursos aparecerán aquí cuando los estudiantes se registren.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = courses.map(course => `
+                <div class="course-card" onclick="selectCourse('${course}')">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">📖 ${course}</h5>
+                            <p class="text-muted mb-0">Ver estadísticas y rendimiento</p>
+                        </div>
+                        <div>
+                            <span class="badge bg-success">Activo</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function selectCourse(course) {
+            selectedCourse = course;
+            
+            // Mostrar loading
+            document.getElementById('courseSelector').style.display = 'none';
+            document.getElementById('courseStats').style.display = 'block';
+            document.getElementById('courseTitle').textContent = `📊 Estadísticas - ${course}`;
+
+            try {
+                const response = await fetch(`/api/teacher/course-stats/${encodeURIComponent(course)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const stats = await response.json();
+                    currentCourseStats = stats;
+                    displayCourseStats(stats);
+                } else {
+                    alert('Error cargando estadísticas del curso');
+                    showCourseSelector();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión');
+                showCourseSelector();
+            }
+        }
+
+        function displayCourseStats(stats) {
+            // Estadísticas generales
+            const generalStats = document.getElementById('generalStats');
+            const avgScore = Math.round(stats.general.promedio_aciertos || 0);
+            
+            generalStats.innerHTML = `
+                <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white;">
+                    <div class="stat-number">${stats.general.total_estudiantes || 0}</div>
+                    <div>👥 Total Estudiantes</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                    <div class="stat-number">${stats.general.estudiantes_activos || 0}</div>
+                    <div>🎯 Estudiantes Activos</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
+                    <div class="stat-number">${stats.general.total_respuestas || 0}</div>
+                    <div>📝 Total Respuestas</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, ${avgScore >= 80 ? '#10b981, #059669' : avgScore >= 60 ? '#f59e0b, #d97706' : '#ef4444, #dc2626'}); color: white;">
+                    <div class="stat-number">${avgScore}%</div>
+                    <div>� Promedio General</div>
+                </div>
+            `;
+
+            // Gráfico por temas
+            drawThemeChart(stats.byTheme);
+
+            // Lista de estudiantes
+            displayStudentsList(stats.byStudent);
+        }
+
+        function drawThemeChart(themeStats) {
+            // Nuevo diseño moderno para estadísticas por tema
+            const themeStatsContainer = document.getElementById('themeStatsModern');
+            if (themeStatsContainer) {
+                const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
+                const icons = ['🏗️', '🎨', '🔀', '🔄'];
+                
+                themeStatsContainer.innerHTML = themes.map((theme, index) => {
+                    const stat = themeStats.find(s => s.tema === theme);
+                    const accuracy = stat && stat.total_respuestas > 0 ? 
+                        Math.round((stat.respuestas_correctas / stat.total_respuestas) * 100) : 0;
+                    const participantes = stat ? stat.estudiantes_participantes : 0;
+                    const correctas = stat ? stat.respuestas_correctas : 0;
+                    const total = stat ? stat.total_respuestas : 0;
+                    
+                    // Función para obtener color basado en accuracy
+                    const getScoreColor = (score) => {
+                        if (score >= 80) return '#10b981';  // Verde excelente
+                        if (score >= 60) return '#f59e0b';  // Amarillo bueno
+                        if (score >= 40) return '#f97316';  // Naranja regular
+                        return '#ef4444';                   // Rojo necesita mejorar
+                    };
+                    
+                    return `
+                        <div class="theme-performance-card-responsive" style="
+                            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+                            border: 2px solid ${accuracy >= 70 ? '#22c55e' : accuracy >= 50 ? '#f59e0b' : '#ef4444'};
+                            border-radius: 16px;
+                            padding: 1.2rem;
+                            margin-bottom: 1rem;
+                            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+                            position: relative;
+                            overflow: hidden;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 35px rgba(0, 0, 0, 0.15)'"
+                           onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 6px 24px rgba(0, 0, 0, 0.1)'">
+                            
+                            <!-- Header responsivo con estadísticas principales -->
+                            <div class="theme-header-responsive" style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: flex-start;
+                                margin-bottom: 1rem;
+                                padding-bottom: 0.8rem;
+                                border-bottom: 2px solid #e2e8f0;
+                                flex-wrap: wrap;
+                                gap: 0.8rem;
+                            ">
+                                <div class="theme-title-responsive" style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 0.8rem;
+                                    flex: 1;
+                                    min-width: 200px;
+                                ">
+                                    <div class="theme-icon-responsive" style="
+                                        width: 40px;
+                                        height: 40px;
+                                        border-radius: 10px;
+                                        background: linear-gradient(135deg, ${getScoreColor(accuracy)}, ${getScoreColor(accuracy)}dd);
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-size: 1.2rem;
+                                        color: white;
+                                        transition: transform 0.3s ease;
+                                        flex-shrink: 0;
+                                    ">
+                                        ${icons[index]}
+                                    </div>
+                                    <div style="flex: 1; min-width: 0;">
+                                        <h5 class="theme-title-text" style="margin: 0; color: #1e293b; font-size: 1.1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${theme}</h5>
+                                        <p class="theme-subtitle-text" style="margin: 0; color: #64748b; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${participantes} estudiante${participantes !== 1 ? 's' : ''} participante${participantes !== 1 ? 's' : ''}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="theme-metrics-responsive" style="
+                                    display: flex;
+                                    gap: 0.8rem;
+                                    align-items: center;
+                                    flex-wrap: wrap;
+                                    justify-content: flex-end;
+                                ">
+                                    <div class="metric-responsive" style="text-align: center; min-width: 60px;">
+                                        <div class="metric-value-responsive" style="font-size: 1.6rem; font-weight: 800; color: ${getScoreColor(accuracy)}; line-height: 1;">
+                                            ${accuracy}%
+                                        </div>
+                                        <div class="metric-label-responsive" style="font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                            Promedio
+                                        </div>
+                                    </div>
+                                    <div class="metric-responsive" style="text-align: center; min-width: 50px;">
+                                        <div class="metric-value-responsive" style="font-size: 1.2rem; font-weight: 700; color: #10b981; line-height: 1;">
+                                            ${correctas}
+                                        </div>
+                                        <div class="metric-label-responsive" style="font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                            Correctas
+                                        </div>
+                                    </div>
+                                    <div class="metric-responsive" style="text-align: center; min-width: 50px;">
+                                        <div class="metric-value-responsive" style="font-size: 1.2rem; font-weight: 700; color: #64748b; line-height: 1;">
+                                            ${total}
+                                        </div>
+                                        <div class="metric-label-responsive" style="font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                            Total
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Barra de progreso responsiva -->
+                            <div class="progress-section-responsive" style="margin-top: 1rem;">
+                                <div class="progress-header-responsive" style="
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    margin-bottom: 0.5rem;
+                                    flex-wrap: wrap;
+                                    gap: 0.5rem;
+                                ">
+                                    <span class="progress-title-responsive" style="font-size: 0.7rem; color: #64748b; font-weight: 600; white-space: nowrap;">Progreso del Tema</span>
+                                    <span class="progress-percentage-responsive" style="font-size: 0.7rem; color: #64748b; font-weight: 700; white-space: nowrap;">${accuracy}% de efectividad</span>
+                                </div>
+                                <div class="progress-bar-responsive" style="
+                                    width: 100%;
+                                    height: 6px;
+                                    background: #e2e8f0;
+                                    border-radius: 3px;
+                                    overflow: hidden;
+                                    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+                                ">
+                                    <div class="progress-fill-responsive" style="
+                                        width: ${accuracy}%;
+                                        height: 100%;
+                                        background: linear-gradient(90deg, ${getScoreColor(accuracy)}, ${getScoreColor(accuracy)}dd);
+                                        border-radius: 3px;
+                                        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+                                        box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+                                    "></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Gráfico mejorado complementario al diseño de tarjetas
+            const ctx = document.getElementById('themeChart');
+            if (ctx) {
+            
+            if (ctx.chart) {
+                ctx.chart.destroy();
+            }
+
+            const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
+            const data = themes.map(theme => {
+                const stat = themeStats.find(s => s.tema === theme);
+                if (stat && stat.total_respuestas > 0) {
+                    return Math.round((stat.respuestas_correctas / stat.total_respuestas) * 100);
+                }
+                return 0;
+            });
+
+            ctx.chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: themes,
+                    datasets: [{
+                        label: '% de Respuestas Correctas',
+                        data: data,
+                        backgroundColor: [
+                            '#f97316', // HTML - Orange
+                            '#3b82f6', // CSS - Blue
+                            '#10b981', // Condicionales - Green
+                            '#8b5cf6'  // While - Purple
+                        ],
+                        borderRadius: 8,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Gráfico de Rendimiento Comparativo',
+                            font: { size: 16 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            }
+        }
+
+        function displayStudentsList(students) {
+            const container = document.getElementById('studentsList');
+            const counterElement = document.getElementById('studentsCounter');
+            
+            // Actualizar contador
+            counterElement.textContent = `${students.length} Estudiante${students.length !== 1 ? 's' : ''}`;
+            
+            if (students.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="
+                        text-align: center;
+                        padding: 40px 20px;
+                        color: #64748b;
+                    ">
+                        <div style="font-size: 4rem; margin-bottom: 16px;">👥</div>
+                        <h5 style="color: #64748b; margin-bottom: 8px;">No hay estudiantes registrados</h5>
+                        <p style="color: #94a3b8; font-size: 0.9rem;">Los estudiantes aparecerán aquí una vez que se registren en el curso</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Nuevo diseño con tarjetas de estudiantes
+            container.innerHTML = `
+                <div class="students-grid-responsive" style="
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1rem;
+                    margin-top: 0.5rem;
+                    padding: 0.5rem;
+                ">
+                    ${students.map(student => {
+                        const accuracy = student.total_respuestas > 0 ? 
+                            Math.round((student.respuestas_correctas / student.total_respuestas) * 100) : 0;
+                        
+                        const getPerformanceLevel = (acc) => {
+                            if (acc >= 80) return { level: 'Excelente', color: '#10b981', bg: '#dcfce7' };
+                            if (acc >= 60) return { level: 'Bueno', color: '#f59e0b', bg: '#fef3c7' };
+                            if (acc >= 40) return { level: 'Regular', color: '#f97316', bg: '#fed7aa' };
+                            return { level: 'Necesita Mejorar', color: '#ef4444', bg: '#fecaca' };
+                        };
+                        
+                        const performance = getPerformanceLevel(accuracy);
+                        const initials = student.username.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                        
+                        return `
+                            <div class="student-card" style="
+                                background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+                                border: 2px solid ${performance.color}30;
+                                border-radius: 16px;
+                                padding: 20px;
+                                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                                transition: all 0.3s ease;
+                                position: relative;
+                                overflow: hidden;
+                            " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 30px rgba(0, 0, 0, 0.12)'"
+                               onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 20px rgba(0, 0, 0, 0.08)'">
+                               
+                                <!-- Header del estudiante -->
+                                <div style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 15px;
+                                    margin-bottom: 15px;
+                                ">
+                                    <div class="student-avatar" style="
+                                        width: 50px;
+                                        height: 50px;
+                                        border-radius: 12px;
+                                        background: linear-gradient(135deg, ${performance.color}, ${performance.color}dd);
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        color: white;
+                                        font-weight: 800;
+                                        font-size: 1.1rem;
+                                    ">
+                                        ${initials}
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <h6 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.1rem;">
+                                            ${student.username}
+                                        </h6>
+                                        <p style="margin: 0; color: #64748b; font-size: 0.85rem;">
+                                            ${student.email}
+                                        </p>
+                                    </div>
+                                    <div class="performance-badge" style="
+                                        background: ${performance.bg};
+                                        color: ${performance.color};
+                                        padding: 4px 12px;
+                                        border-radius: 20px;
+                                        font-size: 0.75rem;
+                                        font-weight: 700;
+                                        border: 1px solid ${performance.color}40;
+                                    ">
+                                        ${performance.level}
+                                    </div>
+                                </div>
+                                
+                                <!-- Métricas principales -->
+                                <div class="student-metrics" style="
+                                    display: grid;
+                                    grid-template-columns: repeat(3, 1fr);
+                                    gap: 12px;
+                                    margin-bottom: 15px;
+                                ">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.4rem; font-weight: 800; color: ${performance.color};">
+                                            ${accuracy}%
+                                        </div>
+                                        <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                            Precisión
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.4rem; font-weight: 800; color: #10b981;">
+                                            ${student.respuestas_correctas}
+                                        </div>
+                                        <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                            Correctas
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.4rem; font-weight: 800; color: #64748b;">
+                                            ${student.total_respuestas || 0}
+                                        </div>
+                                        <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                            Total
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Barra de progreso -->
+                                <div style="margin-bottom: 15px;">
+                                    <div style="
+                                        width: 100%;
+                                        height: 6px;
+                                        background: #e2e8f0;
+                                        border-radius: 3px;
+                                        overflow: hidden;
+                                    ">
+                                        <div style="
+                                            width: ${accuracy}%;
+                                            height: 100%;
+                                            background: linear-gradient(90deg, ${performance.color}, ${performance.color}dd);
+                                            border-radius: 3px;
+                                            transition: width 1s ease;
+                                        "></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Información adicional -->
+                                <div style="
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    font-size: 0.8rem;
+                                    color: #64748b;
+                                    margin-bottom: 15px;
+                                ">
+                                    <span>⏱️ Promedio: ${student.tiempo_promedio ? Math.round(student.tiempo_promedio) + 's' : 'N/A'}</span>
+                                    <span>� ${student.ultima_actividad ? new Date(student.ultima_actividad).toLocaleDateString('es-ES') : 'Sin actividad'}</span>
+                                </div>
+                                
+                                <!-- Botón de acción -->
+                                <button class="btn-view-detail" style="
+                                    width: 100%;
+                                    background: linear-gradient(135deg, ${performance.color}, ${performance.color}dd);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 10px;
+                                    padding: 10px;
+                                    font-weight: 600;
+                                    font-size: 0.9rem;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+                                " onclick="viewStudentDetail(${student.id})"
+                                   onmouseover="this.style.transform='scale(1.02)'"
+                                   onmouseout="this.style.transform='scale(1)'">
+                                    <i class="fas fa-chart-line me-2"></i>Ver Análisis Detallado
+                                </button>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        async function viewStudentDetail(studentId) {
+            try {
+                const response = await fetch(`/api/teacher/student-details/${studentId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Datos del estudiante recibidos:', data); // Debug
+                    showStudentDetail(data);
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('Error del servidor:', errorData);
+                    alert(`Error cargando detalles del estudiante: ${errorData.error || 'Error desconocido'}`);
+                }
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                alert('Error de conexión al servidor');
+            }
+        }
+
+        function showStudentDetail(data) {
+            // Validar que tenemos los datos necesarios
+            if (!data || !data.student) {
+                alert('Error: Datos del estudiante no válidos');
+                return;
+            }
+
+            document.getElementById('courseStats').style.display = 'none';
+            document.getElementById('studentDetail').style.display = 'block';
+            document.getElementById('studentTitle').textContent = `👤 Detalle Completo - ${data.student.username}`;
+
+            const answers = data.answers || []; // Asegurar que answers sea un array
+            const correctAnswers = answers.filter(a => a.es_correcta).length;
+            const totalAnswers = answers.length;
+            const accuracy = totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
+
+            // Vista compacta y moderna del resumen del estudiante
+            const getPerformanceColor = (acc) => {
+                if (acc >= 80) return '#10b981';
+                if (acc >= 60) return '#f59e0b'; 
+                return '#ef4444';
+            };
+
+            const initials = data.student.username.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+            
+            document.getElementById('studentInfo').innerHTML = `
+                <!-- Header compacto y responsivo del estudiante -->
+                <div class="student-header-responsive" style="
+                    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                    border-radius: 16px;
+                    padding: 1.5rem;
+                    margin-bottom: 1.5rem;
+                    border: 2px solid ${getPerformanceColor(accuracy)}40;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                ">
+                    <!-- Layout responsivo que cambia según el tamaño -->
+                    <div style="
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                        align-items: start;
+                    " class="student-header-grid">
+                        
+                        <!-- Sección principal: Avatar + Datos + Métricas principales -->
+                        <div style="
+                            display: grid;
+                            grid-template-columns: auto 1fr auto;
+                            gap: 1rem;
+                            align-items: center;
+                        " class="main-info-section">
+                            
+                            <!-- Avatar y datos básicos -->
+                            <div style="
+                                display: flex;
+                                align-items: center;
+                                gap: 0.8rem;
+                            " class="student-basic-info">
+                                <div style="
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 12px;
+                                    background: linear-gradient(135deg, ${getPerformanceColor(accuracy)}, ${getPerformanceColor(accuracy)}dd);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 800;
+                                    font-size: 1.1rem;
+                                " class="student-avatar">
+                                    ${initials}
+                                </div>
+                                <div class="student-details">
+                                    <h5 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.1rem;">
+                                        ${data.student.username}
+                                    </h5>
+                                    <p style="margin: 2px 0 0 0; color: #64748b; font-size: 0.8rem;">
+                                        📧 ${data.student.email}
+                                    </p>
+                                    <p style="margin: 2px 0 0 0; color: #64748b; font-size: 0.75rem;">
+                                        📅 ${new Date(data.student.created_at).toLocaleDateString('es-ES')} • 🎓 ${data.student.curso}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Spacer flexible -->
+                            <div></div>
+
+                            <!-- Métricas principales -->
+                            <div style="
+                                display: grid;
+                                grid-template-columns: repeat(3, 1fr);
+                                gap: 1rem;
+                                text-align: center;
+                                min-width: 200px;
+                            " class="main-metrics">
+                                <div>
+                                    <div style="
+                                        font-size: 1.6rem;
+                                        font-weight: 800;
+                                        color: ${getPerformanceColor(accuracy)};
+                                        line-height: 1;
+                                    " class="metric-value">
+                                        ${accuracy}%
+                                    </div>
+                                    <div style="
+                                        font-size: 0.65rem;
+                                        color: #64748b;
+                                        text-transform: uppercase;
+                                        font-weight: 600;
+                                        margin-top: 2px;
+                                    " class="metric-label">
+                                        Precisión
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="
+                                        font-size: 1.6rem;
+                                        font-weight: 800;
+                                        color: #10b981;
+                                        line-height: 1;
+                                    " class="metric-value">
+                                        ${correctAnswers}
+                                    </div>
+                                    <div style="
+                                        font-size: 0.65rem;
+                                        color: #64748b;
+                                        text-transform: uppercase;
+                                        font-weight: 600;
+                                        margin-top: 2px;
+                                    " class="metric-label">
+                                        Correctas
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="
+                                        font-size: 1.6rem;
+                                        font-weight: 800;
+                                        color: #64748b;
+                                        line-height: 1;
+                                    " class="metric-value">
+                                        ${totalAnswers}
+                                    </div>
+                                    <div style="
+                                        font-size: 0.65rem;
+                                        color: #64748b;
+                                        text-transform: uppercase;
+                                        font-weight: 600;
+                                        margin-top: 2px;
+                                    " class="metric-label">
+                                        /40 Total
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resumen por temas responsivo -->
+                        <div style="
+                            background: rgba(255, 255, 255, 0.7);
+                            border-radius: 12px;
+                            padding: 1rem;
+                            border: 1px solid #e2e8f0;
+                        " class="themes-summary-responsive">
+                            <h6 style="
+                                margin: 0 0 0.8rem 0;
+                                color: #475569;
+                                font-size: 0.85rem;
+                                font-weight: 700;
+                                text-align: center;
+                            ">
+                                📊 Rendimiento por Tema
+                            </h6>
+                            <div style="
+                                display: grid;
+                                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                                gap: 0.6rem;
+                            " class="themes-grid-responsive">
+                                ${['HTML', 'CSS', 'Condicionales', 'While'].map(theme => {
+                                    const themeAnswers = answers.filter(a => a.tema === theme);
+                                    const themeCorrect = themeAnswers.filter(a => a.es_correcta).length;
+                                    const themeAccuracy = themeAnswers.length > 0 ? Math.round((themeCorrect / themeAnswers.length) * 100) : 0;
+                                    const themeColor = themeAccuracy >= 70 ? '#10b981' : themeAccuracy >= 50 ? '#f59e0b' : '#ef4444';
+                                    
+                                    return `
+                                        <div style="
+                                            background: white;
+                                            border-radius: 8px;
+                                            padding: 0.6rem;
+                                            border-left: 3px solid ${themeColor};
+                                            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                                            transition: transform 0.2s ease;
+                                        " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                                            <div style="
+                                                display: flex;
+                                                justify-content: space-between;
+                                                align-items: center;
+                                                gap: 0.5rem;
+                                            ">
+                                                <span style="
+                                                    font-size: 0.75rem;
+                                                    font-weight: 600;
+                                                    color: #374151;
+                                                    white-space: nowrap;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;
+                                                ">
+                                                    ${theme}
+                                                </span>
+                                                <span style="
+                                                    font-size: 0.7rem;
+                                                    font-weight: 700;
+                                                    color: ${themeColor};
+                                                    white-space: nowrap;
+                                                ">
+                                                    ${themeCorrect}/${themeAnswers.length}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    @media (max-width: 768px) {
+                        .main-info-section {
+                            grid-template-columns: 1fr !important;
+                            text-align: center;
+                            gap: 1rem !important;
+                        }
+                        .student-basic-info {
+                            justify-content: center;
+                            flex-direction: column;
+                            gap: 0.5rem !important;
+                        }
+                        .student-avatar {
+                            width: 45px !important;
+                            height: 45px !important;
+                            font-size: 1rem !important;
+                        }
+                        .main-metrics {
+                            min-width: unset !important;
+                            grid-template-columns: repeat(3, 1fr) !important;
+                            gap: 0.8rem !important;
+                        }
+                        .metric-value {
+                            font-size: 1.3rem !important;
+                        }
+                        .themes-grid-responsive {
+                            grid-template-columns: repeat(2, 1fr) !important;
+                            gap: 0.4rem !important;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .student-header-responsive {
+                            padding: 1rem !important;
+                            margin-bottom: 1rem !important;
+                        }
+                        .student-avatar {
+                            width: 40px !important;
+                            height: 40px !important;
+                            font-size: 0.9rem !important;
+                        }
+                        .metric-value {
+                            font-size: 1.1rem !important;
+                        }
+                        .metric-label {
+                            font-size: 0.6rem !important;
+                        }
+                        .themes-summary-responsive {
+                            padding: 0.8rem !important;
+                        }
+                    }
+                </style>
+            `;
+
+            // Vista ultra compacta de respuestas por tema
+            const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
+            const themeIcons = ['🏗️', '🎨', '🔀', '🔄'];
+            
+            const answersHtml = `
+                <div class="themes-responses-container" style="
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1rem;
+                    margin-top: 1rem;
+                    padding: 0.5rem;
+                ">
+                    ${themes.map((theme, themeIndex) => {
+                        const themeAnswers = answers.filter(a => a.tema === theme);
+                        
+                        if (themeAnswers.length === 0) {
+                            return `
+                                <div class="empty-theme-card" style="
+                                    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+                                    border-radius: 12px;
+                                    padding: 1.5rem;
+                                    border: 2px dashed #cbd5e1;
+                                    text-align: center;
+                                    min-height: 200px;
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: center;
+                                ">
+                                    <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">${themeIcons[themeIndex]}</div>
+                                    <h6 style="color: #64748b; margin-bottom: 0.5rem; font-weight: 600; font-size: 1rem;">${theme}</h6>
+                                    <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">
+                                        Sin respuestas aún
+                                    </p>
+                                </div>
+                            `;
+                        }
+
+                        const themeCorrect = themeAnswers.filter(a => a.es_correcta).length;
+                        const themeAccuracy = Math.round((themeCorrect / themeAnswers.length) * 100);
+                        const themeColor = themeAccuracy >= 80 ? '#10b981' : themeAccuracy >= 60 ? '#f59e0b' : '#ef4444';
+
+                        return `
+                            <div class="theme-responses-card" style="
+                                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                                border: 2px solid ${themeColor}40;
+                                border-radius: 12px;
+                                padding: 1rem;
+                                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                                transition: transform 0.2s ease;
+                            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                
+                                <!-- Header del tema responsivo -->
+                                <div class="theme-header-responsive" style="
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    margin-bottom: 1rem;
+                                    padding-bottom: 0.8rem;
+                                    border-bottom: 2px solid #e2e8f0;
+                                    flex-wrap: wrap;
+                                    gap: 0.5rem;
+                                ">
+                                    <div style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.6rem;
+                                        flex: 1;
+                                        min-width: 120px;
+                                    ">
+                                        <div style="
+                                            width: 32px;
+                                            height: 32px;
+                                            border-radius: 8px;
+                                            background: linear-gradient(135deg, ${themeColor}, ${themeColor}dd);
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            color: white;
+                                            font-size: 1rem;
+                                        " class="theme-icon-responsive">
+                                            ${themeIcons[themeIndex]}
+                                        </div>
+                                        <div>
+                                            <h6 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 0.9rem;" class="theme-title-responsive">
+                                                ${theme}
+                                            </h6>
+                                            <small style="color: #64748b; font-size: 0.75rem;" class="theme-subtitle">
+                                                ${themeAnswers.length} pregunta${themeAnswers.length !== 1 ? 's' : ''}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="theme-metrics-responsive" style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.6rem;
+                                        flex-wrap: wrap;
+                                    ">
+                                        <div style="
+                                            background: ${themeColor}20;
+                                            color: ${themeColor};
+                                            padding: 3px 6px;
+                                            border-radius: 6px;
+                                            font-size: 0.7rem;
+                                            font-weight: 700;
+                                            white-space: nowrap;
+                                        ">
+                                            ${themeCorrect}/${themeAnswers.length}
+                                        </div>
+                                        <div style="
+                                            font-size: 1.1rem;
+                                            font-weight: 800;
+                                            color: ${themeColor};
+                                            white-space: nowrap;
+                                        ">
+                                            ${themeAccuracy}%
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Grid de respuestas ultra responsivo -->
+                                <div class="answers-grid-responsive" style="
+                                    display: grid;
+                                    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+                                    gap: 4px;
+                                    margin-bottom: 1rem;
+                                ">
+                                    ${themeAnswers
+                                        .sort((a, b) => a.pregunta_numero - b.pregunta_numero)
+                                        .map((answer) => {
+                                            const isCorrect = answer.es_correcta;
+                                            return `
+                                                <div class="answer-bubble-responsive ${isCorrect ? 'correct' : 'incorrect'}" style="
+                                                    background: ${isCorrect ? '#dcfce7' : '#fecaca'};
+                                                    border: 2px solid ${isCorrect ? '#22c55e' : '#ef4444'};
+                                                    border-radius: 6px;
+                                                    padding: 6px 4px;
+                                                    text-align: center;
+                                                    cursor: pointer;
+                                                    transition: all 0.2s ease;
+                                                    min-height: 35px;
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                    justify-content: center;
+                                                " title="Pregunta ${answer.pregunta_numero + 1}: Respondió '${answer.respuesta_seleccionada}' ${isCorrect ? '(Correcto)' : '(Incorrecto)'}"
+                                                   onmouseover="this.style.transform='scale(1.05)'"
+                                                   onmouseout="this.style.transform='scale(1)'">
+                                                    <div style="
+                                                        font-size: 0.65rem;
+                                                        font-weight: 700;
+                                                        color: ${isCorrect ? '#16a34a' : '#dc2626'};
+                                                        line-height: 1;
+                                                        margin-bottom: 1px;
+                                                    ">
+                                                        P${answer.pregunta_numero + 1}
+                                                    </div>
+                                                    <div style="
+                                                        font-size: 0.75rem;
+                                                        font-weight: 800;
+                                                        color: ${isCorrect ? '#16a34a' : '#dc2626'};
+                                                        line-height: 1;
+                                                    ">
+                                                        ${answer.respuesta_seleccionada}
+                                                    </div>
+                                                </div>
+                                            `;
+                                        }).join('')
+                                    }
+                                </div>
+                                
+                                <!-- Barra de progreso del tema -->
+                                <div class="theme-progress" style="margin-top: 0.8rem;">
+                                    <div style="
+                                        width: 100%;
+                                        height: 5px;
+                                        background: #e2e8f0;
+                                        border-radius: 2px;
+                                        overflow: hidden;
+                                    ">
+                                        <div style="
+                                            width: ${themeAccuracy}%;
+                                            height: 100%;
+                                            background: linear-gradient(90deg, ${themeColor}, ${themeColor}dd);
+                                            border-radius: 2px;
+                                            transition: width 1s ease;
+                                        "></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                <style>
+                    /* Estilos responsivos para las tarjetas de temas */
+                    @media (max-width: 768px) {
+                        .themes-responses-container {
+                            grid-template-columns: 1fr !important;
+                            gap: 0.8rem !important;
+                            padding: 0.25rem !important;
+                        }
+                        
+                        .theme-responses-card {
+                            padding: 0.8rem !important;
+                            border-radius: 10px !important;
+                        }
+                        
+                        .theme-header-responsive {
+                            flex-direction: column !important;
+                            align-items: flex-start !important;
+                            gap: 0.8rem !important;
+                        }
+                        
+                        .theme-metrics-responsive {
+                            align-self: stretch !important;
+                            justify-content: space-between !important;
+                        }
+                        
+                        .answers-grid-responsive {
+                            grid-template-columns: repeat(5, 1fr) !important;
+                            gap: 3px !important;
+                        }
+                        
+                        .answer-bubble-responsive {
+                            padding: 4px 2px !important;
+                            min-height: 32px !important;
+                        }
+                        
+                        .empty-theme-card {
+                            padding: 1rem !important;
+                            min-height: 150px !important;
+                        }
+                    }
+
+                    @media (max-width: 576px) {
+                        .themes-responses-container {
+                            gap: 0.6rem !important;
+                            margin-top: 0.5rem !important;
+                        }
+                        
+                        .theme-responses-card {
+                            padding: 0.6rem !important;
+                        }
+                        
+                        .theme-icon-responsive {
+                            width: 28px !important;
+                            height: 28px !important;
+                            font-size: 0.9rem !important;
+                        }
+                        
+                        .theme-title-responsive {
+                            font-size: 0.8rem !important;
+                        }
+                        
+                        .theme-subtitle {
+                            font-size: 0.7rem !important;
+                        }
+                        
+                        .answers-grid-responsive {
+                            grid-template-columns: repeat(4, 1fr) !important;
+                            gap: 2px !important;
+                        }
+                        
+                        .answer-bubble-responsive {
+                            padding: 3px 1px !important;
+                            min-height: 28px !important;
+                            border-radius: 4px !important;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .themes-responses-container {
+                            padding: 0 !important;
+                        }
+                        
+                        .theme-responses-card {
+                            padding: 0.5rem !important;
+                            border-radius: 8px !important;
+                        }
+                        
+                        .answers-grid-responsive {
+                            grid-template-columns: repeat(3, 1fr) !important;
+                            gap: 2px !important;
+                        }
+                        
+                        .answer-bubble-responsive {
+                            padding: 2px !important;
+                            min-height: 25px !important;
+                            font-size: 0.6rem !important;
+                        }
+                        
+                        .empty-theme-card {
+                            padding: 0.8rem !important;
+                            min-height: 120px !important;
+                        }
+                    }
+
+                    /* Estilos adicionales para mejorar la legibilidad en móvil */
+                    @media (max-width: 320px) {
+                        .answer-bubble-responsive div {
+                            font-size: 0.55rem !important;
+                        }
+                        
+                        .theme-responses-card {
+                            padding: 0.4rem !important;
+                        }
+                    }
+                </style>
+            `;
+
+            document.getElementById('studentAnswers').innerHTML = answersHtml;
+        }
+
+        function goBackToStats() {
+            document.getElementById('studentDetail').style.display = 'none';
+            document.getElementById('courseStats').style.display = 'block';
+        }
+
+        function showCourseSelector() {
+            document.getElementById('courseStats').style.display = 'none';
+            document.getElementById('studentDetail').style.display = 'none';
+            document.getElementById('courseSelector').style.display = 'block';
+        }
+
+        function logout() {
+            localStorage.removeItem('retotech_token');
+            localStorage.removeItem('retotech_user');
+            window.location.href = 'login.html';
+        }
+
+        // Agregar estilos CSS responsivos adicionales
+        const responsiveStyles = document.createElement('style');
+        responsiveStyles.textContent = `
+            /* Responsividad global mejorada */
+            .container-fluid {
+                padding: 0.5rem;
+            }
+            
+            /* Grid de estudiantes responsivo */
+            @media (max-width: 768px) {
+                .students-grid-responsive {
+                    grid-template-columns: 1fr !important;
+                    gap: 0.8rem !important;
+                    padding: 0.25rem !important;
+                }
+                
+                .student-card {
+                    padding: 0.8rem !important;
+                    border-radius: 12px !important;
+                }
+                
+                .student-metrics {
+                    grid-template-columns: repeat(3, 1fr) !important;
+                    gap: 0.8rem !important;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .students-grid-responsive {
+                    padding: 0 !important;
+                    margin-top: 0.25rem !important;
+                }
+                
+                .student-card {
+                    padding: 0.6rem !important;
+                    border-radius: 10px !important;
+                }
+                
+                .student-avatar {
+                    width: 40px !important;
+                    height: 40px !important;
+                }
+                
+                .student-metrics div div:first-child {
+                    font-size: 1.2rem !important;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .student-card {
+                    padding: 0.5rem !important;
+                }
+                
+                .student-metrics {
+                    gap: 0.6rem !important;
+                }
+                
+                .student-avatar {
+                    width: 35px !important;
+                    height: 35px !important;
+                }
+            }
+
+            /* Gráficos y contenedores responsivos */
+            @media (max-width: 768px) {
+                .chart-section {
+                    margin-top: 20px !important;
+                    padding: 15px !important;
+                }
+                
+                .themes-container {
+                    display: grid !important;
+                    grid-template-columns: 1fr !important;
+                    gap: 1rem !important;
+                    padding: 0.5rem !important;
+                }
+                
+                .theme-performance-card, .theme-performance-card-responsive {
+                    padding: 15px !important;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .chart-section {
+                    padding: 10px !important;
+                    margin-top: 15px !important;
+                }
+                
+                .theme-performance-card {
+                    padding: 10px !important;
+                    border-radius: 15px !important;
+                }
+                
+                .theme-icon {
+                    width: 35px !important;
+                    height: 35px !important;
+                    font-size: 1.1rem !important;
+                }
+                
+                .metric div:first-child {
+                    font-size: 1.4rem !important;
+                }
+            }
+
+            /* Navegación y botones responsivos */
+            @media (max-width: 768px) {
+                .btn {
+                    padding: 0.4rem 0.8rem !important;
+                    font-size: 0.85rem !important;
+                }
+                
+                .card-header h5 {
+                    font-size: 1rem !important;
+                }
+            }
+
+            /* Responsividad para tarjetas de rendimiento por tema */
+            @media (max-width: 768px) {
+                .theme-performance-card-responsive {
+                    padding: 1rem !important;
+                    border-radius: 12px !important;
+                    margin-bottom: 0.8rem !important;
+                }
+                
+                .theme-header-responsive {
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                    gap: 0.8rem !important;
+                }
+                
+                .theme-title-responsive {
+                    min-width: unset !important;
+                }
+                
+                .theme-metrics-responsive {
+                    align-self: stretch !important;
+                    justify-content: space-around !important;
+                }
+                
+                .theme-icon-responsive {
+                    width: 35px !important;
+                    height: 35px !important;
+                    font-size: 1.1rem !important;
+                }
+                
+                .theme-title-text {
+                    font-size: 1rem !important;
+                }
+                
+                .metric-value-responsive {
+                    font-size: 1.4rem !important;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .theme-performance-card-responsive {
+                    padding: 0.8rem !important;
+                    border-radius: 10px !important;
+                }
+                
+                .theme-icon-responsive {
+                    width: 30px !important;
+                    height: 30px !important;
+                    font-size: 1rem !important;
+                }
+                
+                .theme-title-text {
+                    font-size: 0.9rem !important;
+                }
+                
+                .theme-subtitle-text {
+                    font-size: 0.7rem !important;
+                }
+                
+                .metric-responsive {
+                    min-width: 45px !important;
+                }
+                
+                .metric-value-responsive {
+                    font-size: 1.2rem !important;
+                }
+                
+                .metric-label-responsive {
+                    font-size: 0.6rem !important;
+                }
+                
+                .progress-header-responsive {
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                    gap: 0.25rem !important;
+                }
+                
+                .progress-bar-responsive {
+                    height: 5px !important;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .theme-performance-card-responsive {
+                    padding: 0.6rem !important;
+                    border-radius: 8px !important;
+                }
+                
+                .theme-header-responsive {
+                    gap: 0.6rem !important;
+                }
+                
+                .theme-metrics-responsive {
+                    gap: 0.6rem !important;
+                }
+                
+                .metric-responsive {
+                    min-width: 40px !important;
+                }
+                
+                .metric-value-responsive {
+                    font-size: 1.1rem !important;
+                }
+                
+                .progress-title-responsive,
+                .progress-percentage-responsive {
+                    font-size: 0.65rem !important;
+                }
+            }
+
+            /* Optimización para pantallas muy pequeñas */
+            @media (max-width: 360px) {
+                .container-fluid {
+                    padding: 0.25rem;
+                }
+                
+                .student-card, .theme-performance-card-responsive, .theme-responses-card {
+                    margin-bottom: 0.5rem !important;
+                }
+                
+                .theme-performance-card-responsive {
+                    padding: 0.5rem !important;
+                }
+                
+                .theme-icon-responsive {
+                    width: 25px !important;
+                    height: 25px !important;
+                    font-size: 0.9rem !important;
+                }
+                
+                .theme-title-text {
+                    font-size: 0.8rem !important;
+                }
+                
+                .metric-value-responsive {
+                    font-size: 1rem !important;
+                }
+                
+                h4, h5 {
+                    font-size: 0.9rem !important;
+                }
+                
+                .btn {
+                    font-size: 0.75rem !important;
+                    padding: 0.3rem 0.6rem !important;
+                }
+            }
+        `;
+        document.head.appendChild(responsiveStyles);
+    </script>
+</body>
+</html>
