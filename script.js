@@ -524,6 +524,24 @@ function createGlobalStatisticsSection() {
     return section;
 }
 
+// Funciones auxiliares para el nuevo diseño
+function getThemeIcon(theme) {
+    const icons = {
+        'HTML': '🏗️',
+        'CSS': '🎨', 
+        'Condicionales': '🔀',
+        'While': '🔄'
+    };
+    return icons[theme] || '📚';
+}
+
+function getScoreColor(score) {
+    if (score >= 80) return '#10b981';  // Verde excelente
+    if (score >= 60) return '#f59e0b';  // Amarillo bueno
+    if (score >= 40) return '#f97316';  // Naranja regular
+    return '#ef4444';                   // Rojo necesita mejorar
+}
+
 // Actualizar el display de estadísticas globales
 function updateGlobalStatisticsDisplay() {
     const globalStats = loadGlobalStats();
@@ -542,18 +560,88 @@ function updateGlobalStatisticsDisplay() {
         const themeAverage = totalAnswers > 0 ? Math.round((totalCorrect / totalAnswers) * 100) : 0;
 
         html += `
-            <div class="theme-stats" style="margin-bottom: 40px; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px;">
-                <h3 style="text-align: center; color: #059669; margin-bottom: 20px;">
-                    🎯 ${theme} - Promedio General: ${themeAverage}%
-                </h3>
-                
-                <div class="chart-container" style="margin-bottom: 20px;">
-                    <canvas id="globalChart${theme}" width="400" height="200"></canvas>
+            <div class="theme-performance-card" style="
+                background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+                border: none;
+                border-radius: 20px;
+                padding: 25px;
+                margin-bottom: 25px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                position: relative;
+                overflow: hidden;
+            ">
+                <!-- Header con estadísticas principales -->
+                <div class="theme-header" style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 20px;
+                    padding-bottom: 15px;
+                    border-bottom: 2px solid #e2e8f0;
+                ">
+                    <div class="theme-title" style="
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                    ">
+                        <div class="theme-icon" style="
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 15px;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.5rem;
+                            color: white;
+                        ">
+                            ${getThemeIcon(theme)}
+                        </div>
+                        <div>
+                            <h3 style="margin: 0; color: #1e293b; font-size: 1.4rem; font-weight: 700;">${theme}</h3>
+                            <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Análisis de rendimiento</p>
+                        </div>
+                    </div>
+                    
+                    <div class="theme-metrics" style="
+                        display: flex;
+                        gap: 20px;
+                        align-items: center;
+                    ">
+                        <div class="metric" style="text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 800; color: ${getScoreColor(themeAverage)};">
+                                ${themeAverage}%
+                            </div>
+                            <div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                Promedio
+                            </div>
+                        </div>
+                        <div class="metric" style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">
+                                ${totalCorrect}
+                            </div>
+                            <div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                Correctas
+                            </div>
+                        </div>
+                        <div class="metric" style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #64748b;">
+                                ${totalAnswers}
+                            </div>
+                            <div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: 600;">
+                                Total
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="questions-details">
-                    <h4>📋 Detalle por Pregunta:</h4>
-                    <div class="questions-grid" style="display: grid; gap: 10px;">
+
+                <!-- Visualización compacta de preguntas -->
+                <div class="questions-summary" style="
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                    gap: 8px;
+                    margin-top: 20px;
+                ">
         `;
 
         questions.forEach((q, index) => {
@@ -575,39 +663,80 @@ function updateGlobalStatisticsDisplay() {
             }
 
             html += `
-                <div class="question-stat" style="
-                    background: white; 
-                    border: 1px solid #e5e7eb; 
-                    border-radius: 8px; 
-                    padding: 15px; 
-                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-                ">
-                    <div style="font-weight: bold; color: #374151; margin-bottom: 8px;">
-                        Pregunta ${index + 1}
+                <div class="question-bubble" style="
+                    position: relative;
+                    background: ${percentage >= 70 ? 'linear-gradient(135deg, #dcfce7, #bbf7d0)' : 
+                                 percentage >= 50 ? 'linear-gradient(135deg, #fef3c7, #fde68a)' : 
+                                 'linear-gradient(135deg, #fecaca, #fca5a5)'};
+                    border: 2px solid ${percentage >= 70 ? '#22c55e' : percentage >= 50 ? '#f59e0b' : '#ef4444'};
+                    border-radius: 12px;
+                    padding: 12px 8px;
+                    text-align: center;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    min-height: 70px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                " title="Pregunta ${index + 1}: ${q.question}
+Correctas: ${correct} | Incorrectas: ${incorrect} | Total: ${total}">
+                    <div style="
+                        font-size: 0.9rem;
+                        font-weight: 800;
+                        color: ${percentage >= 70 ? '#166534' : percentage >= 50 ? '#92400e' : '#991b1b'};
+                        margin-bottom: 2px;
+                    ">
+                        P${index + 1}
                     </div>
-                    <div style="font-size: 0.9em; color: #6b7280; margin-bottom: 10px;">
-                        "${q.question.substring(0, 60)}${q.question.length > 60 ? '...' : ''}"
+                    <div style="
+                        font-size: 1.2rem;
+                        font-weight: 900;
+                        color: ${percentage >= 70 ? '#166534' : percentage >= 50 ? '#92400e' : '#991b1b'};
+                        margin-bottom: 2px;
+                    ">
+                        ${percentage}%
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <span style="color: #10b981;">✓ ${correct}</span> | 
-                            <span style="color: #ef4444;">✗ ${incorrect}</span>
-                            <div style="font-size: 0.8em; color: #6b7280;">Total: ${total} respuestas</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 1.2em; font-weight: bold; color: ${difficultyColor};">
-                                ${percentage}%
-                            </div>
-                            <div style="font-size: 0.8em; color: ${difficultyColor};">
-                                ${difficultyText}
-                            </div>
-                        </div>
+                    <div style="
+                        font-size: 0.7rem;
+                        color: ${percentage >= 70 ? '#166534' : percentage >= 50 ? '#92400e' : '#991b1b'};
+                        opacity: 0.8;
+                    ">
+                        ${total > 0 ? `${correct}/${total}` : '0/0'}
                     </div>
                 </div>
             `;
         });
 
         html += `
+                </div>
+                
+                <!-- Barra de progreso del tema -->
+                <div class="progress-section" style="margin-top: 20px;">
+                    <div style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 8px;
+                    ">
+                        <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Progreso General</span>
+                        <span style="font-size: 0.8rem; color: #64748b; font-weight: 700;">${themeAverage}% completado</span>
+                    </div>
+                    <div class="progress-bar" style="
+                        width: 100%;
+                        height: 10px;
+                        background: #e2e8f0;
+                        border-radius: 5px;
+                        overflow: hidden;
+                        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+                    ">
+                        <div style="
+                            width: ${themeAverage}%;
+                            height: 100%;
+                            background: linear-gradient(90deg, ${getScoreColor(themeAverage)}, ${getScoreColor(themeAverage)}dd);
+                            border-radius: 5px;
+                            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                        "></div>
                     </div>
                 </div>
             </div>
@@ -693,7 +822,16 @@ function drawGlobalChart(theme, stats) {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 3,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 10,
+                    bottom: 10
+                }
+            },
             plugins: {
                 title: {
                     display: true,

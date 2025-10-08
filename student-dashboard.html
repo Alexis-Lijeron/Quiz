@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estudiante - RetoTech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navegación Responsiva -->
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+            <div class="container-fluid px-3">
+                <a class="navbar-brand" href="#">🎓 RetoTech - Estudiante</a>
+                
+                <!-- Información del usuario en móviles -->
+                <div class="d-flex align-items-center d-lg-none">
+                    <span class="user-info me-2 text-light small">👋 <span id="currentUserNameMobile"></span></span>
+                    <span class="badge bg-info me-2 small" id="currentCourseMobile"></span>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                
+                <!-- Información del usuario en escritorio -->
+                <div class="d-none d-lg-flex align-items-center">
+                    <span class="user-info me-3">👋 <span id="currentUserName"></span></span>
+                    <span class="badge bg-info me-3" id="currentCourse"></span>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showMainMenu()">
+                                <i class="fas fa-home me-1"></i>Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showStatistics()">
+                                <i class="fas fa-chart-bar me-1"></i>Mis Estadísticas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-outline-danger btn-sm ms-2" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Menú Principal -->
+    <div class="card-container" id="main-menu">
+        <div class="card" onclick="startQuiz('HTML')">
+            <h3>HTML</h3>
+            <p>Estructura web</p>
+            <div class="score-board" id="score-HTML">Puntaje: 0/10</div>
+        </div>
+        <div class="card" onclick="startQuiz('CSS')">
+            <h3>CSS</h3>
+            <p>Estilos y diseño</p>
+            <div class="score-board" id="score-CSS">Puntaje: 0/10</div>
+        </div>
+        <div class="card" onclick="startQuiz('Condicionales')">
+            <h3>Condicionales</h3>
+            <p>Lógica de decisión</p>
+            <div class="score-board" id="score-Condicionales">Puntaje: 0/10</div>
+        </div>
+        <div class="card" onclick="startQuiz('While')">
+            <h3>While</h3>
+            <p>Bucles y repeticiones</p>
+            <div class="score-board" id="score-While">Puntaje: 0/10</div>
+        </div>
+    </div>
+
+    <!-- Quiz Section -->
+    <div class="quiz-container" id="quiz-section" style="display: none;">
+        <div class="quiz-header">
+            <div class="quiz-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-text" id="progress-text">Pregunta 1 de 10</span>
+            </div>
+            <div class="quiz-theme" id="quiz-theme">HTML</div>
+        </div>
+        
+        <div class="quiz-content">
+            <div class="quiz-question">
+                <div class="question-number" id="question-number">1</div>
+                <h3 id="question-text"></h3>
+            </div>
+            
+            <div class="options-container" id="options-container"></div>
+            
+            <div class="quiz-controls">
+                <button class="btn-quiz btn-primary" id="submit-btn" onclick="checkAnswer()">
+                    <span>✓</span> Enviar Respuesta
+                </button>
+                <button class="btn-quiz btn-success" id="next-btn" onclick="nextQuestion()" style="display: none;">
+                    <span>→</span> Siguiente Pregunta
+                </button>
+                <button class="btn-quiz btn-secondary" onclick="goBack()">
+                    <span>←</span> Volver al menú
+                </button>
+            </div>
+            
+            <div class="quiz-message" id="message"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Resultados -->
+    <div class="quiz-result-overlay" id="quiz-result-overlay" style="display: none;">
+        <div class="quiz-result-modal">
+            <div class="result-header">
+                <div class="result-icon" id="result-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="result-title" id="result-title">¡Quiz Completado!</h2>
+                <p class="result-theme" id="result-theme">HTML</p>
+            </div>
+            
+            <div class="result-content">
+                <div class="result-score-circle">
+                    <div class="score-circle" id="score-circle">
+                        <div class="score-percentage" id="score-percentage">80%</div>
+                        <div class="score-text">Precisión</div>
+                    </div>
+                </div>
+                
+                <div class="result-stats">
+                    <div class="stat-item">
+                        <div class="stat-number correct" id="correct-answers">8</div>
+                        <div class="stat-label">Correctas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number incorrect" id="incorrect-answers">2</div>
+                        <div class="stat-label">Incorrectas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number total" id="total-answers">10</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                </div>
+                
+                <div class="result-performance" id="result-performance">
+                    <div class="performance-badge excellent" id="performance-badge">
+                        <i class="fas fa-star"></i>
+                        <span>¡Excelente trabajo!</span>
+                    </div>
+                </div>
+                
+                <div class="result-actions">
+                    <button class="btn-result btn-success" onclick="retryQuiz()">
+                        <i class="fas fa-redo me-2"></i>Volver a Intentar
+                    </button>
+                    <button class="btn-result btn-primary" onclick="goBack()">
+                        <i class="fas fa-home me-2"></i>Ir al Menú Principal
+                    </button>
+                    <button class="btn-result btn-secondary" onclick="showStatistics()">
+                        <i class="fas fa-chart-bar me-2"></i>Ver Estadísticas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas Modernas -->
+    <div class="modern-statistics" id="statistics" style="display: none;">
+        <div class="stats-header">
+            <h2 class="stats-title">📊 Tu Progreso</h2>
+            <p class="stats-subtitle">Revisa tu rendimiento en cada tema</p>
+        </div>
+
+        <!-- Resumen Principal -->
+        <div class="stats-summary">
+            <div class="summary-card total-card">
+                <div class="summary-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="summary-content">
+                    <h3 id="totalQuestions">0</h3>
+                    <p>Preguntas Respondidas</p>
+                </div>
+            </div>
+            <div class="summary-card accuracy-card">
+                <div class="summary-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="summary-content">
+                    <h3 id="overallAccuracy">0%</h3>
+                    <p>Precisión General</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progreso por Temas -->
+        <div class="themes-progress">
+            <div class="theme-card" data-theme="HTML">
+                <div class="theme-header">
+                    <div class="theme-icon html-theme">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <div class="theme-info">
+                        <h4>HTML</h4>
+                        <p class="theme-description">Estructura web</p>
+                    </div>
+                </div>
+                <div class="theme-stats">
+                    <div class="progress-circle" id="progress-HTML">
+                        <div class="progress-text">
+                            <span class="score" id="score-HTML">0/10</span>
+                            <span class="percentage" id="percent-HTML">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card" data-theme="CSS">
+                <div class="theme-header">
+                    <div class="theme-icon css-theme">
+                        <i class="fab fa-css3-alt"></i>
+                    </div>
+                    <div class="theme-info">
+                        <h4>CSS</h4>
+                        <p class="theme-description">Estilos y diseño</p>
+                    </div>
+                </div>
+                <div class="theme-stats">
+                    <div class="progress-circle" id="progress-CSS">
+                        <div class="progress-text">
+                            <span class="score" id="score-CSS">0/10</span>
+                            <span class="percentage" id="percent-CSS">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card" data-theme="Condicionales">
+                <div class="theme-header">
+                    <div class="theme-icon js-theme">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="theme-info">
+                        <h4>Condicionales</h4>
+                        <p class="theme-description">Estructuras de control</p>
+                    </div>
+                </div>
+                <div class="theme-stats">
+                    <div class="progress-circle" id="progress-Condicionales">
+                        <div class="progress-text">
+                            <span class="score" id="score-Condicionales">0/10</span>
+                            <span class="percentage" id="percent-Condicionales">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card" data-theme="While">
+                <div class="theme-header">
+                    <div class="theme-icon loop-theme">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="theme-info">
+                        <h4>While</h4>
+                        <p class="theme-description">Bucles y repetición</p>
+                    </div>
+                </div>
+                <div class="theme-stats">
+                    <div class="progress-circle" id="progress-While">
+                        <div class="progress-text">
+                            <span class="score" id="score-While">0/10</span>
+                            <span class="percentage" id="percent-While">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-footer">
+            <button class="stats-back-btn" onclick="showMainMenu()">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver al menú</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Preguntas del quiz - necesarias para el dashboard del estudiante
+        const allQuestions = {
+            'HTML': [
+                { question: '¿Qué significa HTML?', options: ['A) Hyper Transfer Machine Language', 'B) HyperText Markup Language', 'C) HighText Machine Language', 'D) HyperTool Manual Language'], correct: 'B' },
+                { question: '¿Cuál de estas es una etiqueta obligatoria en un documento HTML?', options: ['A) <table>', 'B) <section>', 'C) <html>', 'D) <br>'], correct: 'C' },
+                { question: '¿Qué etiqueta se usa para dividir bloques grandes en HTML?', options: ['A) <span>', 'B) <div>', 'C) <header>', 'D) <p>'], correct: 'B' },
+                { question: '¿Qué atributo se usa para vincular una hoja CSS externa?', options: ['A) src', 'B) style', 'C) href', 'D) class'], correct: 'C' },
+                { question: '¿Cuál es la diferencia entre "id" y "class" en HTML?', options: ['A) class es único, id puede repetirse', 'B) Ambos pueden repetirse', 'C) id es único, class se puede repetir', 'D) Ninguno sirve para identificar elementos'], correct: 'C' },
+                { question: '¿Cuál representa una estructura válida de HTML5?', options: ['A) <head><title>Mi sitio</title></head><body><h1>Hola</h1></body>', 'B) <html><body><title>Hola</title></body></html>', 'C) <!DOCTYPE html><html><head><title>Mi primera página HTML</title></head><body><h1>¡Bienvenido!</h1></body></html>', 'D) html<body><h1>Hola mundo</h1></body>'], correct: 'C' },
+                { question: '¿Qué etiqueta se usa para un enlace que diga "Estas visitando mi página"?', options: ['A) <p href="...">', 'B) <a src="...">', 'C) <a href="...">Estas visitando mi pagina</a>', 'D) <link href="...">'], correct: 'C' },
+                { question: '¿Cómo se inserta correctamente una imagen con texto alternativo?', options: ['A) <img href="img.jpg" texto="...">', 'B) <img src="img.jpg" alt="...">', 'C) <img link="img.jpg" content="...">', 'D) <img source="img.jpg" label="...">'], correct: 'B' },
+                { question: '¿Qué opción crea una lista ordenada y un enlace a id="contacto"?', options: ['A) <ul>...</ul><a link="#contacto">...</a>', 'B) <ol>...</ol><a href="#contacto">...</a>', 'C) html<ol>...<goto>...</goto>', 'D) <ul>...<a name="#contacto">...</a>'], correct: 'B' },
+                { question: '¿Qué opción divide la página con clases y <div>?', options: ['A) <div class="principal">...</div><div class="lateral">...</div>', 'B) <section id="principal">...</section><aside class="lateral">...</aside>', 'C) <div id="contenido">...</div><div id="barra">...</div>', 'D) <body class="...">Contenido</body>'], correct: 'A' }
+            ],
+            'CSS': [
+                { question: '¿Qué significa CSS?', options: ['A) Creative Style System', 'B) Color Style Script', 'C) Cascading Style Sheets', 'D) Control Style Sheet'], correct: 'C' },
+                { question: '¿Cómo se enlaza un archivo CSS externo correctamente?', options: ['A) <script src="estilos.css">', 'B) <link rel="stylesheet" href="estilos.css">', 'C) <css link="estilos.css">', 'D) <style src="estilos.css">'], correct: 'B' },
+                { question: '¿Qué propiedad controla el espacio entre el borde y el contenido?', options: ['A) border', 'B) padding', 'C) margin', 'D) spacing'], correct: 'B' },
+                { question: '¿Cuál de estas opciones tiene mayor especificidad en CSS?', options: ['A) Selector de etiqueta', 'B) Selector de clase', 'C) Selector de ID', 'D) Selector universal'], correct: 'C' },
+                { question: '¿Cuál es un ejemplo correcto de pseudoelemento en CSS?', options: ['A) p:first-letter {}', 'B) p::first-letter {}', 'C) p->first-letter {}', 'D) p:firstletter {}'], correct: 'B' },
+                { question: '¿Cuál de las siguientes reglas cambia el fondo y el color del texto del cuerpo?', options: ['A) body { background-color: #f0f0f0; color: #333333; }', 'B) body { text-align: center; font-size: 12px; }', 'C) h1 { background: white; color: black; }', 'D) html { background-color: gray; }'], correct: 'A' },
+                { question: '¿Qué propiedad se usa para centrar un texto?', options: ['A) margin: auto;', 'B) align: center;', 'C) text-align: center;', 'D) center: true;'], correct: 'C' },
+                { question: '¿Cuál de estas opciones da estilo a una lista de navegación horizontal?', options: ['A) ul { list-style: disc; }', 'B) ul li { display: block; }', 'C) ul li { list-style: none; display: inline-block; }', 'D) ul { float: left; }'], correct: 'C' },
+                { question: '¿Cuál es una forma correcta de crear una clase ".caja" con fondo azul y borde negro?', options: ['A) .caja { width: 300px; height: 150px; background-color: lightblue; border: 2px solid black; }', 'B) .box { size: 300px 150px; color: blue; }', 'C) .caja { width: 300px; height: 150px; background-color: lightblue; border: 2px solid black; margin: 20px; }', 'D) #caja { width: auto; border-color: black; }'], correct: 'C' },
+                { question: '¿Qué regla CSS aplica Flexbox para distribuir tres elementos en fila?', options: ['A) .container { display: grid; grid-template-columns: auto auto auto; }', 'B) .container { display: flex; justify-content: space-between; }', 'C) .flex { float: left; }', 'D) .parent { column-count: 3; }'], correct: 'B' }
+            ],
+            'Condicionales': [
+                { question: '¿Qué estructura se usa para tomar decisiones en programación?', options: ['A) loop', 'B) if', 'C) function', 'D) try'], correct: 'B' },
+                { question: '¿Qué operador verifica si dos valores son iguales en Python?', options: ['A) ===', 'B) ==', 'C) =', 'D) equal()'], correct: 'B' },
+                { question: '¿Cuál es la función del bloque else?', options: ['A) Ejecuta si la condición es verdadera', 'B) Ejecuta si otra condición fue verdadera', 'C) Ejecuta si ninguna condición anterior se cumplió', 'D) Solo se usa con errores'], correct: 'C' },
+                { question: '¿Cuál de estos valores es considerado "falso" (falsy)?', options: ['A) True', 'B) "Hola"', 'C) []', 'D) 1'], correct: 'C' },
+                { question: '¿Qué hace este código en JavaScript?: if (edad > 18 && tieneLicencia) { console.log("Puede conducir"); }', options: ['A) Evalúa si tieneLicencia es true', 'B) Evalúa solo edad', 'C) Evalúa ambas condiciones juntas', 'D) No funciona, falta else'], correct: 'C' },
+                { question: '¿Cuál verifica edad y da mensaje según el valor?', options: ['A) if edad >= 18 { print("Mayor") } else { print("Menor") }', 'B) if edad < 18 then print("Menor")', 'C) edad == 18 ? "Exacto" : "Otro"', 'D) edad = 18'], correct: 'A' },
+                { question: '¿Qué resultado da nota = 9?', options: ['A) Desaprobado', 'B) Bueno', 'C) Excelente', 'D) Regular'], correct: 'C' },
+                { question: '¿Qué estructura permite validar acceso con usuario y clave?', options: ['A) if (usuario == "admin" && clave == "123") { acceso = true }', 'B) if usuario igual admin', 'C) validar(usuario)', 'D) console.log("Listo")'], correct: 'A' },
+                { question: '¿Qué pasa con número = 72 si se evalúa su paridad y valor?', options: ['A) Es impar', 'B) Par y mayor que 50', 'C) Par pero menor o igual a 50', 'D) Nada'], correct: 'B' },
+                { question: '¿Qué operadores evalúan múltiples condiciones en lenguajes como JavaScript?', options: ['A) = y !=', 'B) & y |', 'C) && y ||', 'D) > y <'], correct: 'C' }
+            ],
+            'While': [
+                { question: '¿Qué pasa si un bucle while nunca se detiene?', options: ['A) Lanza error de sintaxis', 'B) Termina automáticamente', 'C) Genera un bucle infinito', 'D) Salta al siguiente código'], correct: 'C' },
+                { question: '¿Qué bucle se usa cuando no se sabe cuántas veces repetir?', options: ['A) for', 'B) while', 'C) repeat', 'D) do-while'], correct: 'B' },
+                { question: '¿Qué hace break dentro de un bucle?', options: ['A) Repite el ciclo', 'B) Pausa el programa', 'C) Sale del bucle inmediatamente', 'D) Ignora la condición'], correct: 'C' },
+                { question: '¿Qué previene un bucle infinito?', options: ['A) Condición fija', 'B) No usar input()', 'C) Cambiar variables dentro del bucle', 'D) Usar for en lugar de while'], correct: 'C' },
+                { question: '¿Qué hace este código con "salir"?', options: ['A) Repite siempre', 'B) Solo se ejecuta una vez', 'C) Termina si escribís "salir"', 'D) Da error por break'], correct: 'C' },
+                { question: '¿Cómo imprimir del 1 al 10 con while?', options: ['A) while (i <= 10) { print(i); i++ }', 'B) for i in range(10): print(i)', 'C) while true: print("hola")', 'D) i = 0; print(i)'], correct: 'A' },
+                { question: '¿Qué hace este código si ingresas 0?', options: ['A) Suma y termina', 'B) Sigue sumando', 'C) Error', 'D) Se reinicia'], correct: 'A' },
+                { question: '¿Qué hace este while con clave "admin"?', options: ['A) Pide clave hasta acertar', 'B) Solo una vez', 'C) No valida', 'D) Corta siempre'], correct: 'A' },
+                { question: '¿Qué hace este código si adivinas el número?', options: ['A) Nunca se detiene', 'B) Siempre imprime "Correcto"', 'C) Cuenta intentos hasta adivinar', 'D) Solo imprime 1 intento'], correct: 'C' },
+                { question: '¿Qué hace este código con Fibonacci?', options: ['A) Muestra 100 veces el 1', 'B) Solo imprime 0', 'C) Genera números Fibonacci menores a 100', 'D) Da error de sintaxis'], correct: 'C' }
+            ]
+        };
+    </script>
+    <script>
+        // Variables globales del dashboard de estudiante
+        let currentUser = null;
+        let authToken = null;
+        let currentTheme = '';
+        let currentQuestionIndex = 0;
+        let selectedOption = null;
+        let quizAnswered = false;
+        let quizStartTime = null;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeStudentDashboard();
+        });
+
+        async function initializeStudentDashboard() {
+            // Verificar autenticación
+            authToken = localStorage.getItem('retotech_token');
+            const userData = localStorage.getItem('retotech_user');
+            
+            if (!authToken || !userData) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            currentUser = JSON.parse(userData);
+            
+            // Verificar que sea estudiante
+            if (currentUser.role !== 'estudiante') {
+                alert('Acceso denegado. Solo estudiantes pueden acceder aquí.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Actualizar UI
+            // Actualizar nombre de usuario en ambas ubicaciones
+            document.getElementById('currentUserName').textContent = currentUser.username;
+            document.getElementById('currentUserNameMobile').textContent = currentUser.username;
+            
+            // Actualizar curso en ambas ubicaciones
+            document.getElementById('currentCourse').textContent = currentUser.curso;
+            document.getElementById('currentCourseMobile').textContent = currentUser.curso;
+
+            // Cargar estadísticas del estudiante
+            await loadStudentStats();
+        }
+
+        async function loadStudentStats() {
+            try {
+                const response = await fetch('/api/student/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const stats = await response.json();
+                    updateScoreDisplay(stats);
+                } else if (response.status === 401) {
+                    // Token expirado
+                    logout();
+                } else {
+                    console.error('Error cargando estadísticas');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function updateScoreDisplay(stats) {
+            const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
+            
+            themes.forEach(theme => {
+                const stat = stats.find(s => s.tema === theme);
+                const scoreElement = document.getElementById(`score-${theme}`);
+                if (scoreElement) {
+                    const score = stat ? stat.respuestas_correctas : 0;
+                    scoreElement.textContent = `Puntaje: ${score}/10`;
+                }
+            });
+        }
+
+        function startQuiz(theme) {
+            currentTheme = theme;
+            currentQuestionIndex = 0;
+            quizAnswered = false;
+            quizStartTime = Date.now();
+
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('statistics').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            
+            // Actualizar tema en header
+            document.getElementById('quiz-theme').textContent = theme;
+            
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = allQuestions[currentTheme][currentQuestionIndex];
+            const totalQuestions = allQuestions[currentTheme].length;
+            
+            // Actualizar progreso
+            const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            document.getElementById('progress-text').textContent = `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`;
+            document.getElementById('question-number').textContent = currentQuestionIndex + 1;
+            
+            document.getElementById('question-text').innerText = question.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            quizAnswered = false;
+            selectedOption = null;
+
+            question.options.forEach((opt, i) => {
+                const button = document.createElement('button');
+                button.className = `option-button option-${opt.charAt(0).toLowerCase()}`;
+                button.value = opt.charAt(0);
+
+                const contentDiv = document.createElement('div');
+                contentDiv.style.cssText = 'display: flex; align-items: flex-start; gap: 15px; width: 100%;';
+
+                const letterDiv = document.createElement('div');
+                letterDiv.style.cssText = 'background: rgba(255,255,255,0.3); border-radius: 50%; width: 35px; height: 35px; min-width: 35px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold; flex-shrink: 0;';
+                letterDiv.textContent = opt.charAt(0);
+
+                const textDiv = document.createElement('div');
+                textDiv.style.cssText = 'flex: 1; text-align: left; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; line-height: 1.4;';
+                textDiv.textContent = opt.substring(3);
+
+                contentDiv.appendChild(letterDiv);
+                contentDiv.appendChild(textDiv);
+                button.appendChild(contentDiv);
+
+                button.onclick = () => selectOption(button, opt.charAt(0));
+                optionsContainer.appendChild(button);
+            });
+
+            document.getElementById('message').innerHTML = '';
+            document.getElementById('submit-btn').style.display = 'inline-block';
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+        function selectOption(button, value) {
+            if (quizAnswered) return;
+
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            button.classList.add('selected');
+            selectedOption = value;
+        }
+
+        async function checkAnswer() {
+            if (quizAnswered) return;
+
+            if (!selectedOption) {
+                alert('Por favor, selecciona una respuesta.');
+                return;
+            }
+
+            quizAnswered = true;
+            
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.classList.add('disabled');
+            });
+
+            const correct = allQuestions[currentTheme][currentQuestionIndex].correct;
+            const isCorrect = selectedOption === correct;
+            const timeSpent = Math.floor((Date.now() - quizStartTime) / 1000);
+
+            // Guardar respuesta en la base de datos
+            await saveAnswer(currentTheme, currentQuestionIndex, selectedOption, isCorrect, timeSpent);
+
+            // Mostrar feedback
+            showFeedback(isCorrect, correct);
+
+            document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        async function saveAnswer(tema, preguntaNumero, respuestaSeleccionada, esCorrecta, tiempoRespuesta) {
+            try {
+                const response = await fetch('/api/quiz/answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        tema,
+                        pregunta_numero: preguntaNumero,
+                        respuesta_seleccionada: respuestaSeleccionada,
+                        es_correcta: esCorrecta,
+                        tiempo_respuesta: tiempoRespuesta
+                    })
+                });
+
+                if (!response.ok) {
+                    console.error('Error guardando respuesta');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function showFeedback(isCorrect, correctAnswer) {
+            const messageDiv = document.getElementById('message');
+            
+            if (isCorrect) {
+                messageDiv.innerHTML = `
+                    <div class="feedback correct">
+                        <img src="bien.jpg" class="avatar" alt="Correcto" />
+                        <div class="text">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span class="emoji">🎉</span>
+                                <span class="correct-message">¡Correcto!</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                messageDiv.className = 'quiz-message correct';
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="feedback incorrect">
+                        <img src="mal.jpg" class="avatar" alt="Incorrecto" />
+                        <div class="text">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span class="emoji">💥</span>
+                                <span class="incorrect-message">¡Incorrecto!</span>
+                            </div>
+                            <div><strong>La respuesta correcta es: ${correctAnswer}</strong></div>
+                        </div>
+                    </div>
+                `;
+                messageDiv.className = 'quiz-message incorrect';
+            }
+        }
+
+        async function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= allQuestions[currentTheme].length) {
+                // Quiz completado - calcular resultado
+                await showQuizResult();
+            } else {
+                displayQuestion();
+            }
+        }
+
+        async function showQuizResult() {
+            try {
+                // Obtener estadísticas actualizadas para este tema
+                const response = await fetch('/api/student/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const stats = await response.json();
+                    const themeStat = stats.find(s => s.tema === currentTheme);
+                    const correct = themeStat ? themeStat.respuestas_correctas : 0;
+                    const total = themeStat ? themeStat.total_preguntas : 0;
+                    
+                    // Mostrar modal de resultados
+                    displayQuizResultModal(correct, total);
+                } else {
+                    // Fallback si no se pueden obtener estadísticas
+                    displayQuizResultModal(0, 10);
+                }
+                
+                // Recargar estadísticas en segundo plano
+                loadStudentStats();
+            } catch (error) {
+                console.error('Error:', error);
+                // Fallback en caso de error
+                displayQuizResultModal(0, 10);
+                loadStudentStats();
+            }
+        }
+
+        function displayQuizResultModal(correct, total) {
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            const incorrect = total - correct;
+            
+            // Actualizar contenido del modal
+            document.getElementById('result-theme').textContent = currentTheme;
+            document.getElementById('score-percentage').textContent = percentage + '%';
+            document.getElementById('correct-answers').textContent = correct;
+            document.getElementById('incorrect-answers').textContent = incorrect;
+            document.getElementById('total-answers').textContent = total;
+            
+            // Actualizar círculo de progreso
+            const scoreCircle = document.getElementById('score-circle');
+            const degrees = (percentage / 100) * 360;
+            scoreCircle.style.background = `conic-gradient(#10b981 0deg ${degrees}deg, #e5e7eb ${degrees}deg 360deg)`;
+            
+            // Determinar performance y mensaje
+            const performanceBadge = document.getElementById('performance-badge');
+            const resultIcon = document.getElementById('result-icon');
+            
+            if (percentage >= 90) {
+                performanceBadge.className = 'performance-badge excellent';
+                performanceBadge.innerHTML = '<i class="fas fa-trophy"></i><span>¡Excelente trabajo!</span>';
+                resultIcon.innerHTML = '<i class="fas fa-trophy"></i>';
+            } else if (percentage >= 80) {
+                performanceBadge.className = 'performance-badge excellent';
+                performanceBadge.innerHTML = '<i class="fas fa-star"></i><span>¡Muy bien hecho!</span>';
+                resultIcon.innerHTML = '<i class="fas fa-star"></i>';
+            } else if (percentage >= 70) {
+                performanceBadge.className = 'performance-badge good';
+                performanceBadge.innerHTML = '<i class="fas fa-thumbs-up"></i><span>¡Buen trabajo!</span>';
+                resultIcon.innerHTML = '<i class="fas fa-thumbs-up"></i>';
+            } else if (percentage >= 60) {
+                performanceBadge.className = 'performance-badge average';
+                performanceBadge.innerHTML = '<i class="fas fa-check"></i><span>Aprobado</span>';
+                resultIcon.innerHTML = '<i class="fas fa-check"></i>';
+            } else {
+                performanceBadge.className = 'performance-badge needs-improvement';
+                performanceBadge.innerHTML = '<i class="fas fa-redo"></i><span>Puedes mejorar</span>';
+                resultIcon.innerHTML = '<i class="fas fa-redo"></i>';
+            }
+            
+            // Mostrar el modal
+            document.getElementById('quiz-result-overlay').style.display = 'flex';
+        }
+
+        function closeQuizResult() {
+            document.getElementById('quiz-result-overlay').style.display = 'none';
+        }
+
+        function retryQuiz() {
+            // Cerrar modal de resultados
+            closeQuizResult();
+            
+            // Reiniciar el quiz del mismo tema
+            currentQuestionIndex = 0;
+            quizAnswered = false;
+            selectedOption = null;
+            quizStartTime = Date.now();
+            
+            // Limpiar mensaje anterior
+            document.getElementById('message').innerHTML = '';
+            document.getElementById('message').className = 'quiz-message';
+            
+            // Resetear botones de control
+            document.getElementById('submit-btn').style.display = 'inline-block';
+            document.getElementById('next-btn').style.display = 'none';
+            
+            // Mostrar la primera pregunta del tema actual
+            displayQuestion();
+        }
+
+        function goBack() {
+            // Cerrar modal de resultados si está abierto
+            document.getElementById('quiz-result-overlay').style.display = 'none';
+            
+            document.getElementById('quiz-section').style.display = 'none';
+            showMainMenu();
+        }
+
+        function showMainMenu() {
+            // Resetear cualquier quiz activo al volver al menú principal
+            currentTheme = null;
+            currentQuestionIndex = 0;
+            quizAnswered = false;
+            selectedOption = null;
+            
+            document.getElementById('main-menu').style.display = 'flex';
+            document.getElementById('statistics').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+        }
+
+        async function showStatistics() {
+            // Cerrar modal de resultados si está abierto
+            document.getElementById('quiz-result-overlay').style.display = 'none';
+            
+            // Verificar si hay un quiz activo
+            const quizSection = document.getElementById('quiz-section');
+            const isQuizActive = quizSection.style.display !== 'none';
+            
+            if (isQuizActive) {
+                // Mostrar confirmación para salir del test
+                const confirmExit = confirm('¿Quiere salir del test para ver las estadísticas?\n\nSe perderá el progreso actual del quiz.');
+                
+                if (!confirmExit) {
+                    return; // No hacer nada si cancela
+                }
+            }
+            
+            // Ocultar todas las secciones y mostrar estadísticas
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('statistics').style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/student/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const stats = await response.json();
+                    displayStatistics(stats);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function displayStatistics(stats) {
+            console.log('Estadísticas recibidas:', stats);
+            
+            const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
+            let totalQuestions = 0;
+            let totalCorrect = 0;
+
+            themes.forEach((theme, index) => {
+                const stat = stats.find(s => s.tema === theme);
+                const correct = stat ? parseInt(stat.respuestas_correctas) || 0 : 0;
+                const total = stat ? parseInt(stat.total_preguntas) || 0 : 0;
+                
+                console.log(`${theme}: ${correct}/${total}`);
+                
+                totalQuestions += total;
+                totalCorrect += correct;
+                
+                // Actualizar progreso del tema con animación
+                setTimeout(() => {
+                    updateThemeProgress(theme, correct, total);
+                }, 200 * (index + 1));
+            });
+
+            // Actualizar resumen general
+            setTimeout(() => {
+                animateValue('totalQuestions', 0, totalQuestions, 1000);
+                const accuracy = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+                setTimeout(() => {
+                    animateValue('overallAccuracy', 0, accuracy, 1000, '%');
+                }, 500);
+            }, 300);
+        }
+
+        function updateThemeProgress(theme, correct, total) {
+            const scoreElement = document.getElementById(`score-${theme}`);
+            const percentElement = document.getElementById(`percent-${theme}`);
+            const progressCircle = document.getElementById(`progress-${theme}`);
+            
+            if (scoreElement && percentElement && progressCircle) {
+                // Actualizar textos
+                scoreElement.textContent = `${correct}/${Math.max(total, 10)}`;
+                
+                const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+                percentElement.textContent = percentage + '%';
+                
+                // Animar círculo de progreso
+                const degrees = (percentage / 100) * 360;
+                const color = getThemeColor(theme);
+                
+                setTimeout(() => {
+                    progressCircle.style.background = `conic-gradient(${color} 0deg ${degrees}deg, #e5e7eb ${degrees}deg 360deg)`;
+                }, 100);
+            }
+        }
+
+        function getThemeColor(theme) {
+            switch(theme) {
+                case 'HTML': return '#e34c26';
+                case 'CSS': return '#1572b6';
+                case 'Condicionales': return '#f7df1e';
+                case 'While': return '#8b5cf6';
+                default: return '#10b981';
+            }
+        }
+
+        function animateValue(id, start, end, duration, suffix = '') {
+            const element = document.getElementById(id);
+            const range = end - start;
+            const startTime = performance.now();
+            
+            function updateValue(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const current = Math.round(start + (range * easeOutQuart));
+                
+                element.textContent = current + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateValue);
+                }
+            }
+            
+            requestAnimationFrame(updateValue);
+        }
+
+
+
+        function logout() {
+            localStorage.removeItem('retotech_token');
+            localStorage.removeItem('retotech_user');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
