@@ -71,3 +71,5 @@ docker-compose.override.yml
 
 # Volúmenes locales de Docker
 mysql_data/
+
+VERCEL-DEPLOY.md
