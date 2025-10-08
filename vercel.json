@@ -1,22 +1,17 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "./server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "public/**/*",
-      "use": "@vercel/static"
+  "functions": {
+    "server.js": {
+      "runtime": "@vercel/node@18"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "/server.js"
     },
     {
-      "src": "/(login\\.html|student-dashboard\\.html|teacher-dashboard\\.html|style\\.css|script\\.js|.*\\.(jpg|jpeg|png|gif|ico|svg))$",
+      "src": "/(.*\\.(html|css|js|jpg|jpeg|png|gif|ico|svg))$",
       "dest": "/public/$1"
     },
     {

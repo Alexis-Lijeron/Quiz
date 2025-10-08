@@ -380,6 +380,19 @@ app.get('/api/teacher/student-details/:studentId', verifyToken, verifyTeacher, a
     }
 });
 
+// Rutas específicas para archivos HTML
+app.get('/login.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/student-dashboard.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'student-dashboard.html'));
+});
+
+app.get('/teacher-dashboard.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'teacher-dashboard.html'));
+});
+
 // Ruta para servir la página principal - redirigir a login
 app.get('/', (req, res) => {
     res.redirect('/login.html');
