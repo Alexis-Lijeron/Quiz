@@ -40,7 +40,7 @@ async function createConnection() {
 // Middleware para verificar JWT
 const verifyToken = async (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
-    
+
     if (!token) {
         return res.status(401).json({ error: 'Token requerido' });
     }
@@ -68,7 +68,7 @@ const verifyTeacher = (req, res, next) => {
 app.post('/api/register', async (req, res) => {
     try {
         const { username, email, password, role, curso } = req.body;
-        
+
         if (!username || !email || !password || !role) {
             return res.status(400).json({ error: 'Todos los campos son requeridos' });
         }
@@ -79,7 +79,7 @@ app.post('/api/register', async (req, res) => {
         }
 
         const connection = await createConnection();
-        
+
         // Verificar si el usuario ya existe
         const [existingUsers] = await connection.execute(
             'SELECT id FROM usuarios WHERE email = ? OR username = ?',
@@ -102,9 +102,9 @@ app.post('/api/register', async (req, res) => {
 
         await connection.end();
 
-        res.status(201).json({ 
+        res.status(201).json({
             message: 'Usuario registrado exitosamente',
-            userId: result.insertId 
+            userId: result.insertId
         });
 
     } catch (error) {
@@ -123,7 +123,7 @@ app.post('/api/login', async (req, res) => {
         }
 
         const connection = await createConnection();
-        
+
         // Buscar usuario
         const [users] = await connection.execute(
             'SELECT * FROM usuarios WHERE email = ?',
@@ -146,11 +146,11 @@ app.post('/api/login', async (req, res) => {
 
         // Generar JWT
         const token = jwt.sign(
-            { 
-                id: user.id, 
-                username: user.username, 
+            {
+                id: user.id,
+                username: user.username,
                 role: user.role,
-                curso: user.curso 
+                curso: user.curso
             },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
@@ -186,9 +186,9 @@ app.post('/api/quiz/answer', verifyToken, async (req, res) => {
         }
 
         const { tema, pregunta_numero, respuesta_seleccionada, es_correcta, tiempo_respuesta } = req.body;
-        
+
         const connection = await createConnection();
-        
+
         // Verificar si ya respondió esta pregunta
         const [existing] = await connection.execute(
             'SELECT id FROM respuestas WHERE usuario_id = ? AND tema = ? AND pregunta_numero = ?',
@@ -226,7 +226,7 @@ app.get('/api/student/stats', verifyToken, async (req, res) => {
         }
 
         const connection = await createConnection();
-        
+
         // Obtener estadísticas por tema
         const [stats] = await connection.execute(`
             SELECT 
@@ -255,7 +255,7 @@ app.get('/api/student/stats', verifyToken, async (req, res) => {
 app.get('/api/teacher/courses', verifyToken, verifyTeacher, async (req, res) => {
     try {
         const connection = await createConnection();
-        
+
         const [courses] = await connection.execute(`
             SELECT DISTINCT curso 
             FROM usuarios 
@@ -277,7 +277,7 @@ app.get('/api/teacher/course-stats/:course', verifyToken, verifyTeacher, async (
     try {
         const { course } = req.params;
         const connection = await createConnection();
-        
+
         // Estadísticas generales del curso
         const [generalStats] = await connection.execute(`
             SELECT 
@@ -322,7 +322,7 @@ app.get('/api/teacher/course-stats/:course', verifyToken, verifyTeacher, async (
         `, [course]);
 
         await connection.end();
-        
+
         res.json({
             general: generalStats[0],
             byTheme: themeStats,
@@ -340,7 +340,7 @@ app.get('/api/teacher/student-details/:studentId', verifyToken, verifyTeacher, a
     try {
         const { studentId } = req.params;
         const connection = await createConnection();
-        
+
         // Información del estudiante
         const [studentInfo] = await connection.execute(`
             SELECT id, username, email, curso, created_at
@@ -368,7 +368,7 @@ app.get('/api/teacher/student-details/:studentId', verifyToken, verifyTeacher, a
         `, [studentId]);
 
         await connection.end();
-        
+
         res.json({
             student: studentInfo[0],
             answers: answers
@@ -399,9 +399,11 @@ app.get('/', (req, res) => {
 });
 
 // Inicializar servidor
-app.listen(PORT, () => {
-    console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
-    console.log('📚 RetoTech Quiz System iniciado correctamente');
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
+        console.log('📚 RetoTech Quiz System iniciado correctamente');
+    });
+}
 
 module.exports = app;
