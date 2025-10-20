@@ -399,11 +399,12 @@ app.get('/', (req, res) => {
 });
 
 // Inicializar servidor
+// Inicializar servidor solo en entorno local
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
-        console.log('📚 RetoTech Quiz System iniciado correctamente');
     });
 }
+
 
 module.exports = app;
