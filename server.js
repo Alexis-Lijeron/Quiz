@@ -188,14 +188,14 @@ app.post('/api/login', async (req, res) => {
 
 // RUTAS DEL QUIZ (ESTUDIANTES)
 
-// Guardar respuesta de estudiante
+// Guardar respuesta de estudiante CON NIVEL
 app.post('/api/quiz/answer', verifyToken, async (req, res) => {
     try {
         if (req.user.role !== 'estudiante') {
             return res.status(403).json({ error: 'Solo estudiantes pueden responder quiz' });
         }
 
-        const { tema, pregunta_numero, respuesta_seleccionada, es_correcta, tiempo_respuesta } = req.body;
+        const { tema, pregunta_numero, respuesta_seleccionada, es_correcta, tiempo_respuesta, nivel } = req.body;
 
         const connection = await createConnection();
 
@@ -206,16 +206,16 @@ app.post('/api/quiz/answer', verifyToken, async (req, res) => {
         );
 
         if (existing.length > 0) {
-            // Actualizar respuesta existente
+            // Actualizar respuesta existente - AHORA INCLUYE NIVEL
             await connection.execute(
-                'UPDATE respuestas SET respuesta_seleccionada = ?, es_correcta = ?, tiempo_respuesta = ?, fecha_respuesta = NOW() WHERE usuario_id = ? AND tema = ? AND pregunta_numero = ?',
-                [respuesta_seleccionada, es_correcta, tiempo_respuesta, req.user.id, tema, pregunta_numero]
+                'UPDATE respuestas SET respuesta_seleccionada = ?, es_correcta = ?, tiempo_respuesta = ?, nivel = ?, fecha_respuesta = NOW() WHERE usuario_id = ? AND tema = ? AND pregunta_numero = ?',
+                [respuesta_seleccionada, es_correcta, tiempo_respuesta, nivel || 'basico', req.user.id, tema, pregunta_numero]
             );
         } else {
-            // Insertar nueva respuesta
+            // Insertar nueva respuesta - AHORA INCLUYE NIVEL
             await connection.execute(
-                'INSERT INTO respuestas (usuario_id, tema, pregunta_numero, respuesta_seleccionada, es_correcta, tiempo_respuesta, fecha_respuesta) VALUES (?, ?, ?, ?, ?, ?, NOW())',
-                [req.user.id, tema, pregunta_numero, respuesta_seleccionada, es_correcta, tiempo_respuesta]
+                'INSERT INTO respuestas (usuario_id, tema, pregunta_numero, respuesta_seleccionada, es_correcta, tiempo_respuesta, nivel, fecha_respuesta) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
+                [req.user.id, tema, pregunta_numero, respuesta_seleccionada, es_correcta, tiempo_respuesta, nivel || 'basico']
             );
         }
 
@@ -227,8 +227,6 @@ app.post('/api/quiz/answer', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-
-// Obtener estadísticas del estudiante
 app.get('/api/student/stats', verifyToken, async (req, res) => {
     try {
         if (req.user.role !== 'estudiante') {
@@ -237,17 +235,20 @@ app.get('/api/student/stats', verifyToken, async (req, res) => {
 
         const connection = await createConnection();
 
-        // Obtener estadísticas por tema
+        // Obtener estadísticas por tema Y NIVEL
         const [stats] = await connection.execute(`
             SELECT 
                 tema,
+                nivel,
                 COUNT(*) as total_preguntas,
                 SUM(es_correcta) as respuestas_correctas,
                 AVG(tiempo_respuesta) as tiempo_promedio,
                 MAX(fecha_respuesta) as ultima_respuesta
             FROM respuestas 
             WHERE usuario_id = ?
-            GROUP BY tema
+            GROUP BY tema, nivel
+            ORDER BY tema, 
+                FIELD(nivel, 'basico', 'intermedio', 'avanzado')
         `, [req.user.id]);
 
         await connection.end();
@@ -258,7 +259,6 @@ app.get('/api/student/stats', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-
 // RUTAS PARA DOCENTES
 
 // Obtener cursos disponibles
