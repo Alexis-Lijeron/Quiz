@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RetoTech - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <style>
         .auth-container {
             min-height: 100vh;
@@ -13,7 +13,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 2rem 1rem;
         }
+
         .auth-card {
             background: white;
             border-radius: 20px;
@@ -22,11 +24,13 @@
             width: 100%;
             max-width: 450px;
         }
+
         .role-selector {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
         }
+
         .role-option {
             flex: 1;
             padding: 1rem;
@@ -36,25 +40,31 @@
             cursor: pointer;
             transition: all 0.3s;
         }
+
         .role-option.active {
             border-color: #059669;
             background-color: #f0fdf4;
         }
+
         .role-option:hover {
             border-color: #059669;
         }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
+
         .form-control {
             border-radius: 10px;
             border: 2px solid #e5e7eb;
             padding: 0.75rem 1rem;
         }
+
         .form-control:focus {
             border-color: #059669;
             box-shadow: 0 0 0 0.2rem rgba(5, 150, 105, 0.25);
         }
+
         .btn-auth {
             width: 100%;
             padding: 0.75rem;
@@ -62,35 +72,60 @@
             font-weight: bold;
             margin-bottom: 1rem;
         }
+
         .btn-primary-custom {
             background: linear-gradient(135deg, #059669, #047857);
             border: none;
             color: white;
         }
+
         .btn-primary-custom:hover {
             background: linear-gradient(135deg, #047857, #065f46);
         }
+
         .switch-mode {
             text-align: center;
             margin-top: 1rem;
         }
+
         .switch-mode a {
             color: #059669;
             text-decoration: none;
             font-weight: bold;
         }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .role-badge.estudiante {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .role-badge.docente {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
     </style>
 </head>
+
 <body>
     <div class="auth-container">
         <div class="auth-card">
             <div class="text-center mb-4">
-                <img src="principal.jpg" alt="RetoTech" style="height: 80px; width: 80px; border-radius: 15px; margin-bottom: 1rem;">
+                <img src="principal.jpg" alt="RetoTech"
+                    style="height: 80px; width: 80px; border-radius: 15px; margin-bottom: 1rem;">
                 <h2 class="text-success mb-2">RetoTech</h2>
                 <p class="text-muted" id="authSubtitle">Inicia sesión en tu cuenta</p>
             </div>
 
-            <!-- Selector de Rol (solo para login) -->
+            <!-- Selector de Rol (para login y registro) -->
             <div class="role-selector" id="roleSelector">
                 <div class="role-option" data-role="estudiante">
                     <div style="font-size: 2rem;">🎓</div>
@@ -104,7 +139,7 @@
                 </div>
             </div>
 
-            <!-- Formularios -->
+            <!-- Formulario de Login -->
             <form id="loginForm" style="display: block;">
                 <div class="form-group">
                     <label for="loginEmail">Email:</label>
@@ -117,36 +152,78 @@
                 <button type="submit" class="btn btn-auth btn-primary-custom">Iniciar Sesión</button>
             </form>
 
-            <form id="registerForm" style="display: none;">
-                <div class="form-group">
-                    <label for="registerUsername">Nombre de usuario:</label>
-                    <input type="text" id="registerUsername" class="form-control" required placeholder="tu_usuario">
+            <!-- Formulario de Registro Estudiante -->
+            <form id="registerStudentForm" style="display: none;">
+                <div class="text-center mb-3">
+                    <span class="role-badge estudiante">Registro de Estudiante</span>
                 </div>
                 <div class="form-group">
-                    <label for="registerEmail">Email:</label>
-                    <input type="email" id="registerEmail" class="form-control" required placeholder="tu@email.com">
+                    <label for="registerStudentUsername">Nombre de usuario:</label>
+                    <input type="text" id="registerStudentUsername" class="form-control" required
+                        placeholder="tu_usuario">
                 </div>
-                <div class="form-group" id="courseGroup" style="display: none;">
-                    <label for="registerCourse">Curso:</label>
-                    <select id="registerCourse" class="form-control">
+                <div class="form-group">
+                    <label for="registerStudentEmail">Email:</label>
+                    <input type="email" id="registerStudentEmail" class="form-control" required
+                        placeholder="tu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="registerStudentCourse">Curso:</label>
+                    <select id="registerStudentCourse" class="form-control" required>
                         <option value="">Selecciona tu curso</option>
-                        <option value="5to B">5to B de Secundaria - Turno Mañana</option>
-                        <option value="5to C">5to C de Secundaria - Turno Mañana</option>
-                        <option value="6to B">6to B de Secundaria - Turno Mañana</option>
-                        <option value="6to C">6to C de Secundaria - Turno Mañana</option>
-                        <option value="5to B">5to B de Secundaria - Turno Tarde</option>
-                        <option value="6to B">6to B de Secundaria - Turno Tarde</option>
+                        <option value="5to B Mañana">5to B de Secundaria - Turno Mañana</option>
+                        <option value="5to C Mañana">5to C de Secundaria - Turno Mañana</option>
+                        <option value="6to B Mañana">6to B de Secundaria - Turno Mañana</option>
+                        <option value="6to C Mañana">6to C de Secundaria - Turno Mañana</option>
+                        <option value="5to B Tarde">5to B de Secundaria - Turno Tarde</option>
+                        <option value="6to B Tarde">6to B de Secundaria - Turno Tarde</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="registerPassword">Contraseña:</label>
-                    <input type="password" id="registerPassword" class="form-control" required placeholder="••••••••">
+                    <label for="registerStudentPassword">Contraseña:</label>
+                    <input type="password" id="registerStudentPassword" class="form-control" required
+                        placeholder="••••••••">
                 </div>
                 <div class="form-group">
-                    <label for="confirmPassword">Confirmar contraseña:</label>
-                    <input type="password" id="confirmPassword" class="form-control" required placeholder="••••••••">
+                    <label for="confirmStudentPassword">Confirmar contraseña:</label>
+                    <input type="password" id="confirmStudentPassword" class="form-control" required
+                        placeholder="••••••••">
                 </div>
-                <button type="submit" class="btn btn-auth btn-primary-custom">Registrarse</button>
+                <button type="submit" class="btn btn-auth btn-primary-custom">Registrarse como Estudiante</button>
+            </form>
+
+            <!-- Formulario de Registro Docente -->
+            <form id="registerTeacherForm" style="display: none;">
+                <div class="text-center mb-3">
+                    <span class="role-badge docente">Registro de Docente</span>
+                </div>
+                <div class="form-group">
+                    <label for="registerTeacherUsername">Nombre completo:</label>
+                    <input type="text" id="registerTeacherUsername" class="form-control" required
+                        placeholder="Ej: Prof. Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label for="registerTeacherEmail">Email institucional:</label>
+                    <input type="email" id="registerTeacherEmail" class="form-control" required
+                        placeholder="profesor@institucion.edu">
+                </div>
+                <div class="form-group">
+                    <label for="registerTeacherCode">Código de docente:</label>
+                    <input type="text" id="registerTeacherCode" class="form-control" required
+                        placeholder="Código proporcionado por la institución">
+                    <small class="text-muted">Solicita este código al administrador del sistema</small>
+                </div>
+                <div class="form-group">
+                    <label for="registerTeacherPassword">Contraseña:</label>
+                    <input type="password" id="registerTeacherPassword" class="form-control" required
+                        placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="confirmTeacherPassword">Confirmar contraseña:</label>
+                    <input type="password" id="confirmTeacherPassword" class="form-control" required
+                        placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-auth btn-primary-custom">Registrarse como Docente</button>
             </form>
 
             <div class="switch-mode">
@@ -165,11 +242,10 @@
         let isLoginMode = true;
 
         // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Verificar si ya hay token válido
             const token = localStorage.getItem('retotech_token');
             if (token) {
-                // Verificar token y redirigir si es válido
                 verifyTokenAndRedirect(token);
             }
 
@@ -180,21 +256,26 @@
         function initializeEventListeners() {
             // Selector de rol
             document.querySelectorAll('.role-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    currentRole = this.dataset.role;
-                    updateRoleSelection();
+                option.addEventListener('click', function () {
+                    const newRole = this.dataset.role;
+                    // Solo cambiar si es diferente
+                    if (newRole !== currentRole) {
+                        currentRole = newRole;
+                        updateRoleSelection();
+                    }
                 });
             });
 
             // Cambio entre login y registro
-            document.getElementById('switchModeLink').addEventListener('click', function(e) {
+            document.getElementById('switchModeLink').addEventListener('click', function (e) {
                 e.preventDefault();
                 toggleMode();
             });
 
             // Formularios
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
-            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            document.getElementById('registerStudentForm').addEventListener('submit', handleRegisterStudent);
+            document.getElementById('registerTeacherForm').addEventListener('submit', handleRegisterTeacher);
         }
 
         function updateRoleSelection() {
@@ -203,21 +284,22 @@
             });
             document.querySelector(`[data-role="${currentRole}"]`).classList.add('active');
 
-            // En modo registro, siempre mostrar campo de curso (solo estudiantes pueden registrarse)
-            const courseGroup = document.getElementById('courseGroup');
-            if (!isLoginMode || currentRole === 'estudiante') {
-                courseGroup.style.display = 'block';
-                document.getElementById('registerCourse').required = true;
-            } else {
-                courseGroup.style.display = 'none';
-                document.getElementById('registerCourse').required = false;
+            // Si estamos en modo registro, actualizar el formulario visible
+            if (!isLoginMode) {
+                updateFormDisplay();
             }
         }
 
         function toggleMode() {
             isLoginMode = !isLoginMode;
+            updateFormDisplay();
+            clearAlerts();
+        }
+
+        function updateFormDisplay() {
             const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
+            const registerStudentForm = document.getElementById('registerStudentForm');
+            const registerTeacherForm = document.getElementById('registerTeacherForm');
             const subtitle = document.getElementById('authSubtitle');
             const switchText = document.getElementById('switchText');
             const switchLink = document.getElementById('switchModeLink');
@@ -225,28 +307,34 @@
 
             if (isLoginMode) {
                 loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
+                registerStudentForm.style.display = 'none';
+                registerTeacherForm.style.display = 'none';
                 subtitle.textContent = 'Inicia sesión en tu cuenta';
                 switchText.textContent = '¿No tienes cuenta?';
                 switchLink.textContent = 'Regístrate aquí';
-                roleSelector.style.display = 'flex'; // Mostrar selector para login
+                roleSelector.style.display = 'flex';
             } else {
                 loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                subtitle.textContent = 'Crea tu nueva cuenta de estudiante';
+                roleSelector.style.display = 'flex';
+
+                if (currentRole === 'estudiante') {
+                    registerStudentForm.style.display = 'block';
+                    registerTeacherForm.style.display = 'none';
+                    subtitle.textContent = 'Crea tu cuenta de estudiante';
+                } else {
+                    registerStudentForm.style.display = 'none';
+                    registerTeacherForm.style.display = 'block';
+                    subtitle.textContent = 'Crea tu cuenta de docente';
+                }
+
                 switchText.textContent = '¿Ya tienes cuenta?';
                 switchLink.textContent = 'Inicia sesión aquí';
-                roleSelector.style.display = 'none'; // Ocultar selector en registro
-                currentRole = 'estudiante'; // Forzar rol de estudiante
-                updateRoleSelection();
             }
-
-            clearAlerts();
         }
 
         async function handleLogin(e) {
             e.preventDefault();
-            
+
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
@@ -263,19 +351,16 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Verificar que el rol coincida con la selección
                     if (data.user.role !== currentRole) {
                         showAlert('error', `Este usuario es ${data.user.role}, pero seleccionaste ${currentRole}. Por favor selecciona el rol correcto.`);
                         return;
                     }
 
-                    // Guardar token y datos del usuario
                     localStorage.setItem('retotech_token', data.token);
                     localStorage.setItem('retotech_user', JSON.stringify(data.user));
 
                     showAlert('success', 'Login exitoso. Redirigiendo...');
-                    
-                    // Redirigir según el rol
+
                     setTimeout(() => {
                         if (data.user.role === 'estudiante') {
                             window.location.href = 'student-dashboard.html';
@@ -295,16 +380,15 @@
             }
         }
 
-        async function handleRegister(e) {
+        async function handleRegisterStudent(e) {
             e.preventDefault();
-            
-            const username = document.getElementById('registerUsername').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const curso = document.getElementById('registerCourse').value; // Siempre requerido para estudiantes
 
-            // Validaciones
+            const username = document.getElementById('registerStudentUsername').value;
+            const email = document.getElementById('registerStudentEmail').value;
+            const password = document.getElementById('registerStudentPassword').value;
+            const confirmPassword = document.getElementById('confirmStudentPassword').value;
+            const curso = document.getElementById('registerStudentCourse').value;
+
             if (password !== confirmPassword) {
                 showAlert('error', 'Las contraseñas no coinciden');
                 return;
@@ -315,11 +399,6 @@
                 return;
             }
 
-            if (!curso) {
-                showAlert('error', 'Por favor selecciona tu curso');
-                return;
-            }
-
             try {
                 showLoading(true);
                 const response = await fetch('/api/register', {
@@ -327,24 +406,22 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ 
-                        username, 
-                        email, 
-                        password, 
-                        role: 'estudiante', // Siempre estudiante
-                        curso 
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password,
+                        role: 'estudiante',
+                        curso
                     })
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    showAlert('success', 'Registro de estudiante exitoso. Ya puedes iniciar sesión.');
-                    
-                    // Cambiar a modo login después de un momento
+                    showAlert('success', 'Registro exitoso. Ya puedes iniciar sesión.');
+
                     setTimeout(() => {
                         toggleMode();
-                        // Pre-llenar el email en el login y seleccionar estudiante
                         document.getElementById('loginEmail').value = email;
                         currentRole = 'estudiante';
                         updateRoleSelection();
@@ -361,9 +438,66 @@
             }
         }
 
+        async function handleRegisterTeacher(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('registerTeacherUsername').value;
+            const email = document.getElementById('registerTeacherEmail').value;
+            const password = document.getElementById('registerTeacherPassword').value;
+            const confirmPassword = document.getElementById('confirmTeacherPassword').value;
+            const teacherCode = document.getElementById('registerTeacherCode').value;
+
+            if (password !== confirmPassword) {
+                showAlert('error', 'Las contraseñas no coinciden');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('error', 'La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            try {
+                showLoading(true);
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password,
+                        role: 'docente',
+                        teacherCode
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('success', 'Registro de docente exitoso. Ya puedes iniciar sesión.');
+
+                    setTimeout(() => {
+                        toggleMode();
+                        document.getElementById('loginEmail').value = email;
+                        currentRole = 'docente';
+                        updateRoleSelection();
+                    }, 2000);
+
+                } else {
+                    showAlert('error', data.error || 'Error en el registro');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('error', 'Error de conexión. Por favor intenta de nuevo.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
         async function verifyTokenAndRedirect(token) {
             try {
-                // Hacer una llamada para verificar el token
                 const response = await fetch('/api/student/stats', {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -373,7 +507,6 @@
                 if (response.ok) {
                     const user = JSON.parse(localStorage.getItem('retotech_user'));
                     if (user) {
-                        // Token válido, redirigir según el rol
                         if (user.role === 'estudiante') {
                             window.location.href = 'student-dashboard.html';
                         } else {
@@ -385,8 +518,7 @@
             } catch (error) {
                 console.log('Token inválido o expirado');
             }
-            
-            // Token inválido, limpiar storage
+
             localStorage.removeItem('retotech_token');
             localStorage.removeItem('retotech_user');
         }
@@ -394,7 +526,7 @@
         function showAlert(type, message) {
             const container = document.getElementById('alertContainer');
             const alertClass = type === 'error' ? 'alert-danger' : 'alert-success';
-            
+
             container.innerHTML = `
                 <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
                     ${message}
@@ -412,17 +544,19 @@
             submitBtns.forEach(btn => {
                 if (show) {
                     btn.disabled = true;
+                    const originalText = btn.textContent;
+                    btn.setAttribute('data-original-text', originalText);
                     btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Cargando...';
                 } else {
                     btn.disabled = false;
-                    if (btn.closest('#loginForm')) {
-                        btn.innerHTML = 'Iniciar Sesión';
-                    } else {
-                        btn.innerHTML = 'Registrarse';
+                    const originalText = btn.getAttribute('data-original-text');
+                    if (originalText) {
+                        btn.textContent = originalText;
                     }
                 }
             });
         }
     </script>
 </body>
+
 </html>

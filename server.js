@@ -65,17 +65,28 @@ const verifyTeacher = (req, res, next) => {
 // RUTAS DE AUTENTICACIÓN
 
 // Registro de usuarios
+// Registro de usuarios (estudiantes y docentes)
 app.post('/api/register', async (req, res) => {
     try {
-        const { username, email, password, role, curso } = req.body;
+        const { username, email, password, role, curso, teacherCode } = req.body;
 
         if (!username || !email || !password || !role) {
             return res.status(400).json({ error: 'Todos los campos son requeridos' });
         }
 
-        // Verificar que solo se permita registro de estudiantes
-        if (role !== 'estudiante') {
-            return res.status(403).json({ error: 'Solo se permite el registro de estudiantes' });
+        // Validaciones específicas según el rol
+        if (role === 'estudiante') {
+            if (!curso) {
+                return res.status(400).json({ error: 'Los estudiantes deben seleccionar un curso' });
+            }
+        } else if (role === 'docente') {
+            // Verificar código de docente
+            const validTeacherCode = process.env.TEACHER_CODE || 'DOCENTE2024';
+            if (!teacherCode || teacherCode !== validTeacherCode) {
+                return res.status(403).json({ error: 'Código de docente inválido' });
+            }
+        } else {
+            return res.status(400).json({ error: 'Rol no válido' });
         }
 
         const connection = await createConnection();
@@ -97,13 +108,13 @@ app.post('/api/register', async (req, res) => {
         // Insertar usuario
         const [result] = await connection.execute(
             'INSERT INTO usuarios (username, email, password, role, curso, created_at) VALUES (?, ?, ?, ?, ?, NOW())',
-            [username, email, hashedPassword, role, curso || null]
+            [username, email, hashedPassword, role, role === 'estudiante' ? curso : null]
         );
 
         await connection.end();
 
         res.status(201).json({
-            message: 'Usuario registrado exitosamente',
+            message: `${role.charAt(0).toUpperCase() + role.slice(1)} registrado exitosamente`,
             userId: result.insertId
         });
 
@@ -112,7 +123,6 @@ app.post('/api/register', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-
 // Login de usuarios
 app.post('/api/login', async (req, res) => {
     try {
