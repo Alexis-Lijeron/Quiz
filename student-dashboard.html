@@ -172,11 +172,10 @@
         </div>
     </div>
 
-    <!-- Estadísticas Modernas -->
     <div class="modern-statistics" id="statistics" style="display: none;">
         <div class="stats-header">
             <h2 class="stats-title">📊 Tu Progreso</h2>
-            <p class="stats-subtitle">Revisa tu rendimiento en cada tema</p>
+            <p class="stats-subtitle">Revisa tu rendimiento en cada tema y nivel</p>
         </div>
 
         <!-- Resumen Principal -->
@@ -201,8 +200,9 @@
             </div>
         </div>
 
-        <!-- Progreso por Temas -->
+        <!-- Progreso por Temas con Niveles -->
         <div class="themes-progress">
+            <!-- HTML -->
             <div class="theme-card" data-theme="HTML">
                 <div class="theme-header">
                     <div class="theme-icon html-theme">
@@ -213,16 +213,38 @@
                         <p class="theme-description">Estructura web</p>
                     </div>
                 </div>
-                <div class="theme-stats">
-                    <div class="progress-circle" id="progress-HTML">
-                        <div class="progress-text">
-                            <span class="score" id="score-HTML">0/30</span>
-                            <span class="percentage" id="percent-HTML">0%</span>
+                <div class="theme-levels">
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge basico">📚 Básico</span>
+                            <span class="level-score" id="score-HTML-basico">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-HTML-basico" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge intermedio">📖 Intermedio</span>
+                            <span class="level-score" id="score-HTML-intermedio">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-HTML-intermedio" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge avanzado">🎓 Avanzado</span>
+                            <span class="level-score" id="score-HTML-avanzado">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-HTML-avanzado" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- CSS -->
             <div class="theme-card" data-theme="CSS">
                 <div class="theme-header">
                     <div class="theme-icon css-theme">
@@ -233,16 +255,38 @@
                         <p class="theme-description">Estilos y diseño</p>
                     </div>
                 </div>
-                <div class="theme-stats">
-                    <div class="progress-circle" id="progress-CSS">
-                        <div class="progress-text">
-                            <span class="score" id="score-CSS">0/30</span>
-                            <span class="percentage" id="percent-CSS">0%</span>
+                <div class="theme-levels">
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge basico">📚 Básico</span>
+                            <span class="level-score" id="score-CSS-basico">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-CSS-basico" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge intermedio">📖 Intermedio</span>
+                            <span class="level-score" id="score-CSS-intermedio">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-CSS-intermedio" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge avanzado">🎓 Avanzado</span>
+                            <span class="level-score" id="score-CSS-avanzado">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-CSS-avanzado" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Condicionales -->
             <div class="theme-card" data-theme="Condicionales">
                 <div class="theme-header">
                     <div class="theme-icon js-theme">
@@ -253,16 +297,38 @@
                         <p class="theme-description">Estructuras de control</p>
                     </div>
                 </div>
-                <div class="theme-stats">
-                    <div class="progress-circle" id="progress-Condicionales">
-                        <div class="progress-text">
-                            <span class="score" id="score-Condicionales">0/30</span>
-                            <span class="percentage" id="percent-Condicionales">0%</span>
+                <div class="theme-levels">
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge basico">📚 Básico</span>
+                            <span class="level-score" id="score-Condicionales-basico">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-Condicionales-basico" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge intermedio">📖 Intermedio</span>
+                            <span class="level-score" id="score-Condicionales-intermedio">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-Condicionales-intermedio" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge avanzado">🎓 Avanzado</span>
+                            <span class="level-score" id="score-Condicionales-avanzado">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-Condicionales-avanzado" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- While -->
             <div class="theme-card" data-theme="While">
                 <div class="theme-header">
                     <div class="theme-icon loop-theme">
@@ -273,11 +339,32 @@
                         <p class="theme-description">Bucles y repetición</p>
                     </div>
                 </div>
-                <div class="theme-stats">
-                    <div class="progress-circle" id="progress-While">
-                        <div class="progress-text">
-                            <span class="score" id="score-While">0/30</span>
-                            <span class="percentage" id="percent-While">0%</span>
+                <div class="theme-levels">
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge basico">📚 Básico</span>
+                            <span class="level-score" id="score-While-basico">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-While-basico" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge intermedio">📖 Intermedio</span>
+                            <span class="level-score" id="score-While-intermedio">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-While-intermedio" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-info">
+                            <span class="level-badge avanzado">🎓 Avanzado</span>
+                            <span class="level-score" id="score-While-avanzado">0/10</span>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-fill" id="bar-While-avanzado" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
@@ -292,10 +379,116 @@
         </div>
     </div>
 
+    <style>
+        /* Estilos para niveles en las tarjetas de temas */
+        .theme-levels {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .level-progress {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .level-progress:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-badge {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .level-badge.basico {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .level-badge.intermedio {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .level-badge.avanzado {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .level-score {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #2d3748;
+        }
+
+        .level-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .level-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .level-progress {
+                padding: 0.8rem;
+            }
+
+            .level-badge {
+                font-size: 0.75rem;
+                padding: 3px 10px;
+            }
+
+            .level-score {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-levels {
+                gap: 0.8rem;
+            }
+
+            .level-progress {
+                padding: 0.6rem;
+            }
+
+            .level-info {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Preguntas del quiz - necesarias para el dashboard del estudiante
+        // PREGUNTAS ACTUALIZADAS - 30 por bloque (10 Básico, 10 Intermedio, 10 Avanzado)
         const allQuestions = {
             'HTML': [
                 // BÁSICO (1-10)
@@ -520,17 +713,82 @@
             const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
 
             themes.forEach(theme => {
-                const stat = stats.find(s => s.tema === theme);
+                // Filtrar todas las respuestas de este tema (todos los niveles)
+                const themeStats = stats.filter(s => s.tema === theme);
+
+                let totalCorrect = 0;
+                let totalAnswered = 0;
+
+                themeStats.forEach(stat => {
+                    totalCorrect += parseInt(stat.respuestas_correctas) || 0;
+                    totalAnswered += parseInt(stat.total_preguntas) || 0;
+                });
+
                 const scoreElement = document.getElementById(`score-${theme}`);
                 if (scoreElement) {
-                    const score = stat ? stat.respuestas_correctas : 0;
-                    scoreElement.textContent = `Puntaje: ${score}/30`;
+                    // Mostrar progreso total del tema (de 30 preguntas posibles)
+                    scoreElement.textContent = `Puntaje: ${totalCorrect}/30`;
+
+                    // Agregar indicador visual de progreso
+                    const percentage = (totalCorrect / 30) * 100;
+                    let color = '#6b7280'; // gris por defecto
+
+                    if (percentage >= 80) {
+                        color = '#10b981'; // verde
+                    } else if (percentage >= 60) {
+                        color = '#f59e0b'; // amarillo
+                    } else if (percentage > 0) {
+                        color = '#ef4444'; // rojo
+                    }
+
+                    scoreElement.style.color = color;
+                    scoreElement.style.fontWeight = 'bold';
                 }
             });
         }
+        // AGREGAR función auxiliar para actualizar el progreso en tiempo real
+        async function updateProgressAfterQuiz() {
+            try {
+                const response = await fetch('/api/student/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
 
+                if (response.ok) {
+                    const stats = await response.json();
+                    updateScoreDisplay(stats);
+                }
+            } catch (error) {
+                console.error('Error actualizando progreso:', error);
+            }
+        }
+
+
+        // Variable global para almacenar el nivel seleccionado
+        let selectedLevel = null;
+        let pendingTheme = null;
+
+        // Función modificada para mostrar el selector de nivel
         function startQuiz(theme) {
+            pendingTheme = theme;
+            document.getElementById('levelThemeName').textContent = theme;
+            document.getElementById('levelSelectorOverlay').style.display = 'flex';
+        }
+
+        // Función para seleccionar nivel y comenzar el quiz
+        function selectLevel(level) {
+            selectedLevel = level;
+            document.getElementById('levelSelectorOverlay').style.display = 'none';
+
+            // Iniciar el quiz con el tema y nivel seleccionados
+            initializeQuiz(pendingTheme, selectedLevel);
+        }
+
+        // Función para inicializar el quiz con el nivel seleccionado
+        function initializeQuiz(theme, level) {
             currentTheme = theme;
+            selectedLevel = level;
             currentQuestionIndex = 0;
             quizAnswered = false;
             quizStartTime = Date.now();
@@ -540,14 +798,43 @@
             document.getElementById('quiz-section').style.display = 'block';
 
             // Actualizar tema en header
-            document.getElementById('quiz-theme').textContent = theme;
+            document.getElementById('quiz-theme').textContent = `${theme} - ${level.charAt(0).toUpperCase() + level.slice(1)}`;
 
             displayQuestion();
         }
 
+        // Función para cancelar la selección de nivel
+        function cancelLevelSelection() {
+            document.getElementById('levelSelectorOverlay').style.display = 'none';
+            pendingTheme = null;
+            selectedLevel = null;
+        }
+
+        // MODIFICAR la función displayQuestion para usar el rango de preguntas según el nivel
         function displayQuestion() {
-            const question = allQuestions[currentTheme][currentQuestionIndex];
-            const totalQuestions = allQuestions[currentTheme].length;
+            // Determinar rango de preguntas según el nivel
+            let startIndex, endIndex;
+            switch (selectedLevel) {
+                case 'basico':
+                    startIndex = 0;
+                    endIndex = 10;
+                    break;
+                case 'intermedio':
+                    startIndex = 10;
+                    endIndex = 20;
+                    break;
+                case 'avanzado':
+                    startIndex = 20;
+                    endIndex = 30;
+                    break;
+                default:
+                    startIndex = 0;
+                    endIndex = 10;
+            }
+
+            const levelQuestions = allQuestions[currentTheme].slice(startIndex, endIndex);
+            const question = levelQuestions[currentQuestionIndex];
+            const totalQuestions = levelQuestions.length;
 
             // Actualizar progreso
             const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
@@ -602,6 +889,7 @@
             selectedOption = value;
         }
 
+        // MODIFICAR la función checkAnswer para incluir el nivel
         async function checkAnswer() {
             if (quizAnswered) return;
 
@@ -616,12 +904,30 @@
                 btn.classList.add('disabled');
             });
 
-            const correct = allQuestions[currentTheme][currentQuestionIndex].correct;
+            // Determinar índice real de la pregunta según el nivel
+            let startIndex;
+            switch (selectedLevel) {
+                case 'basico':
+                    startIndex = 0;
+                    break;
+                case 'intermedio':
+                    startIndex = 10;
+                    break;
+                case 'avanzado':
+                    startIndex = 20;
+                    break;
+                default:
+                    startIndex = 0;
+            }
+
+            const realQuestionIndex = startIndex + currentQuestionIndex;
+            const levelQuestions = allQuestions[currentTheme].slice(startIndex, startIndex + 10);
+            const correct = levelQuestions[currentQuestionIndex].correct;
             const isCorrect = selectedOption === correct;
             const timeSpent = Math.floor((Date.now() - quizStartTime) / 1000);
 
-            // Guardar respuesta en la base de datos
-            await saveAnswer(currentTheme, currentQuestionIndex, selectedOption, isCorrect, timeSpent);
+            // Guardar respuesta en la base de datos CON EL NIVEL
+            await saveAnswer(currentTheme, realQuestionIndex, selectedOption, isCorrect, timeSpent, selectedLevel);
 
             // Mostrar feedback
             showFeedback(isCorrect, correct);
@@ -630,7 +936,8 @@
             document.getElementById('next-btn').style.display = 'inline-block';
         }
 
-        async function saveAnswer(tema, preguntaNumero, respuestaSeleccionada, esCorrecta, tiempoRespuesta) {
+        // MODIFICAR la función saveAnswer para incluir el nivel (campo 'nivel')
+        async function saveAnswer(tema, preguntaNumero, respuestaSeleccionada, esCorrecta, tiempoRespuesta, nivel) {
             try {
                 const response = await fetch('/api/quiz/answer', {
                     method: 'POST',
@@ -643,7 +950,8 @@
                         pregunta_numero: preguntaNumero,
                         respuesta_seleccionada: respuestaSeleccionada,
                         es_correcta: esCorrecta,
-                        tiempo_respuesta: tiempoRespuesta
+                        tiempo_respuesta: tiempoRespuesta,
+                        nivel: nivel  // NUEVO CAMPO
                     })
                 });
 
@@ -688,10 +996,12 @@
             }
         }
 
+        // MODIFICAR la función nextQuestion para usar el rango correcto
         async function nextQuestion() {
             currentQuestionIndex++;
 
-            if (currentQuestionIndex >= allQuestions[currentTheme].length) {
+            // Verificar si completó las 10 preguntas del nivel
+            if (currentQuestionIndex >= 10) {
                 // Quiz completado - calcular resultado
                 await showQuizResult();
             } else {
@@ -699,9 +1009,11 @@
             }
         }
 
+
+        // MODIFICAR showQuizResult para actualizar el progreso
         async function showQuizResult() {
             try {
-                // Obtener estadísticas actualizadas para este tema
+                // Obtener estadísticas actualizadas para este tema y nivel
                 const response = await fetch('/api/student/stats', {
                     headers: {
                         'Authorization': `Bearer ${authToken}`
@@ -710,27 +1022,34 @@
 
                 if (response.ok) {
                     const stats = await response.json();
-                    const themeStat = stats.find(s => s.tema === currentTheme);
-                    const correct = themeStat ? themeStat.respuestas_correctas : 0;
-                    const total = themeStat ? themeStat.total_preguntas : 0;
+
+                    // Filtrar por tema y nivel actual
+                    const currentLevelStats = stats.find(s =>
+                        s.tema === currentTheme &&
+                        s.nivel === selectedLevel
+                    );
+
+                    const correct = currentLevelStats ? currentLevelStats.respuestas_correctas : 0;
+                    const total = currentLevelStats ? currentLevelStats.total_preguntas : 0;
 
                     // Mostrar modal de resultados
                     displayQuizResultModal(correct, total);
+
+                    // Actualizar progreso en el menú principal
+                    updateScoreDisplay(stats);
                 } else {
                     // Fallback si no se pueden obtener estadísticas
-                    displayQuizResultModal(0, 30);
+                    displayQuizResultModal(0, 10);
                 }
 
                 // Recargar estadísticas en segundo plano
                 loadStudentStats();
             } catch (error) {
                 console.error('Error:', error);
-                // Fallback en caso de error
-                displayQuizResultModal(0, 30);
+                displayQuizResultModal(0, 10);
                 loadStudentStats();
             }
         }
-
         function displayQuizResultModal(correct, total) {
             const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
             const incorrect = total - correct;
@@ -781,31 +1100,26 @@
             document.getElementById('quiz-result-overlay').style.display = 'none';
         }
 
+        // MODIFICAR retryQuiz para mantener el tema pero pedir nuevo nivel
         function retryQuiz() {
             // Cerrar modal de resultados
             closeQuizResult();
 
-            // Reiniciar el quiz del mismo tema
-            currentQuestionIndex = 0;
-            quizAnswered = false;
-            selectedOption = null;
-            quizStartTime = Date.now();
+            // Mostrar selector de nivel nuevamente para el mismo tema
+            const currentThemeName = currentTheme;
+            currentTheme = null;
+            selectedLevel = null;
 
-            // Limpiar mensaje anterior
-            document.getElementById('message').innerHTML = '';
-            document.getElementById('message').className = 'quiz-message';
-
-            // Resetear botones de control
-            document.getElementById('submit-btn').style.display = 'inline-block';
-            document.getElementById('next-btn').style.display = 'none';
-
-            // Mostrar la primera pregunta del tema actual
-            displayQuestion();
+            startQuiz(currentThemeName);
         }
-
+        // MODIFICAR goBack para resetear el nivel
         function goBack() {
             // Cerrar modal de resultados si está abierto
             document.getElementById('quiz-result-overlay').style.display = 'none';
+
+            // Resetear nivel seleccionado
+            selectedLevel = null;
+            pendingTheme = null;
 
             document.getElementById('quiz-section').style.display = 'none';
             showMainMenu();
@@ -832,11 +1146,9 @@
             const isQuizActive = quizSection.style.display !== 'none';
 
             if (isQuizActive) {
-                // Mostrar confirmación para salir del test
                 const confirmExit = confirm('¿Quiere salir del test para ver las estadísticas?\n\nSe perderá el progreso actual del quiz.');
-
                 if (!confirmExit) {
-                    return; // No hacer nada si cancela
+                    return;
                 }
             }
 
@@ -865,23 +1177,58 @@
             console.log('Estadísticas recibidas:', stats);
 
             const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
+            const levels = ['basico', 'intermedio', 'avanzado'];
+
             let totalQuestions = 0;
             let totalCorrect = 0;
 
-            themes.forEach((theme, index) => {
-                const stat = stats.find(s => s.tema === theme);
-                const correct = stat ? parseInt(stat.respuestas_correctas) || 0 : 0;
-                const total = stat ? parseInt(stat.total_preguntas) || 0 : 0;
+            // Procesar cada tema y nivel
+            themes.forEach((theme, themeIndex) => {
+                levels.forEach((level, levelIndex) => {
+                    // Filtrar respuestas por tema y nivel
+                    const levelStats = stats.filter(s =>
+                        s.tema === theme &&
+                        s.nivel === level
+                    );
 
-                console.log(`${theme}: ${correct}/${total}`);
+                    let correct = 0;
+                    let total = 0;
 
-                totalQuestions += total;
-                totalCorrect += correct;
+                    if (levelStats.length > 0) {
+                        correct = parseInt(levelStats[0].respuestas_correctas) || 0;
+                        total = parseInt(levelStats[0].total_preguntas) || 0;
+                    }
 
-                // Actualizar progreso del tema con animación
-                setTimeout(() => {
-                    updateThemeProgress(theme, correct, total);
-                }, 200 * (index + 1));
+                    console.log(`${theme} - ${level}: ${correct}/${total}`);
+
+                    totalQuestions += total;
+                    totalCorrect += correct;
+
+                    // Actualizar la UI para este nivel
+                    const scoreElement = document.getElementById(`score-${theme}-${level}`);
+                    const barElement = document.getElementById(`bar-${theme}-${level}`);
+
+                    if (scoreElement && barElement) {
+                        scoreElement.textContent = `${correct}/10`;
+
+                        const percentage = total > 0 ? (correct / 10) * 100 : 0;
+
+                        setTimeout(() => {
+                            barElement.style.width = percentage + '%';
+
+                            // Cambiar color según el rendimiento
+                            if (percentage >= 80) {
+                                barElement.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
+                            } else if (percentage >= 60) {
+                                barElement.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+                            } else if (percentage > 0) {
+                                barElement.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+                            } else {
+                                barElement.style.background = 'linear-gradient(90deg, #9ca3af, #d1d5db)';
+                            }
+                        }, 200 * (themeIndex * 3 + levelIndex + 1));
+                    }
+                });
             });
 
             // Actualizar resumen general
@@ -893,7 +1240,6 @@
                 }, 500);
             }, 300);
         }
-
         function updateThemeProgress(theme, correct, total) {
             const scoreElement = document.getElementById(`score-${theme}`);
             const percentElement = document.getElementById(`percent-${theme}`);
@@ -956,6 +1302,218 @@
             window.location.href = 'login.html';
         }
     </script>
+    <!-- Modal de Selección de Nivel - Agregar ANTES del cierre de </body> -->
+    <div class="level-selector-overlay" id="levelSelectorOverlay" style="display: none;">
+        <div class="level-selector-modal">
+            <div class="level-header">
+                <h3>🎯 Selecciona el Nivel de Dificultad</h3>
+                <p id="levelThemeName">HTML</p>
+            </div>
+
+            <div class="level-options">
+                <div class="level-card" onclick="selectLevel('basico')">
+                    <div class="level-icon">📚</div>
+                    <h4>Básico</h4>
+                    <p>Preguntas 1-10</p>
+                    <p class="level-description">Conceptos fundamentales y definiciones</p>
+                </div>
+
+                <div class="level-card" onclick="selectLevel('intermedio')">
+                    <div class="level-icon">📖</div>
+                    <h4>Intermedio</h4>
+                    <p>Preguntas 11-20</p>
+                    <p class="level-description">Aplicación práctica de conceptos</p>
+                </div>
+
+                <div class="level-card" onclick="selectLevel('avanzado')">
+                    <div class="level-icon">🎓</div>
+                    <h4>Avanzado</h4>
+                    <p>Preguntas 21-30</p>
+                    <p class="level-description">Retos complejos y análisis profundo</p>
+                </div>
+            </div>
+
+            <button class="btn-cancel-level" onclick="cancelLevelSelection()">
+                <i class="fas fa-times"></i> Cancelar
+            </button>
+        </div>
+    </div>
+
+    <style>
+        /* Estilos para el modal de selección de nivel */
+        .level-selector-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .level-selector-modal {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 95%;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        .level-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .level-header h3 {
+            color: #2d3748;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-header p {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .level-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .level-card {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .level-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .level-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .level-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .level-card h4 {
+            color: #2d3748;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-description {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .btn-cancel-level {
+            width: 100%;
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel-level:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .level-selector-modal {
+                padding: 1.5rem;
+            }
+
+            .level-options {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .level-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .level-icon {
+                font-size: 2.5rem;
+            }
+
+            .level-header h3 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .level-selector-modal {
+                padding: 1rem;
+                width: 98%;
+            }
+
+            .level-card {
+                padding: 1.2rem 0.8rem;
+            }
+
+            .level-icon {
+                font-size: 2rem;
+            }
+
+            .level-card h4 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </body>
 
 </html>
