@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,22 +9,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Navegación Responsiva -->
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
             <div class="container-fluid px-3">
                 <a class="navbar-brand" href="#">🎓 RetoTech - Estudiante</a>
-                
+
                 <!-- Información del usuario en móviles -->
                 <div class="d-flex align-items-center d-lg-none">
                     <span class="user-info me-2 text-light small">👋 <span id="currentUserNameMobile"></span></span>
                     <span class="badge bg-info me-2 small" id="currentCourseMobile"></span>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-                
+
                 <!-- Información del usuario en escritorio -->
                 <div class="d-none d-lg-flex align-items-center">
                     <span class="user-info me-3">👋 <span id="currentUserName"></span></span>
@@ -58,22 +61,22 @@
         <div class="card" onclick="startQuiz('HTML')">
             <h3>HTML</h3>
             <p>Estructura web</p>
-            <div class="score-board" id="score-HTML">Puntaje: 0/10</div>
+            <div class="score-board" id="score-HTML">Puntaje: 0/30</div>
         </div>
         <div class="card" onclick="startQuiz('CSS')">
             <h3>CSS</h3>
             <p>Estilos y diseño</p>
-            <div class="score-board" id="score-CSS">Puntaje: 0/10</div>
+            <div class="score-board" id="score-CSS">Puntaje: 0/30</div>
         </div>
         <div class="card" onclick="startQuiz('Condicionales')">
             <h3>Condicionales</h3>
             <p>Lógica de decisión</p>
-            <div class="score-board" id="score-Condicionales">Puntaje: 0/10</div>
+            <div class="score-board" id="score-Condicionales">Puntaje: 0/30</div>
         </div>
         <div class="card" onclick="startQuiz('While')">
             <h3>While</h3>
             <p>Bucles y repeticiones</p>
-            <div class="score-board" id="score-While">Puntaje: 0/10</div>
+            <div class="score-board" id="score-While">Puntaje: 0/30</div>
         </div>
     </div>
 
@@ -84,19 +87,19 @@
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <span class="progress-text" id="progress-text">Pregunta 1 de 10</span>
+                <span class="progress-text" id="progress-text">Pregunta 1 de 30</span>
             </div>
             <div class="quiz-theme" id="quiz-theme">HTML</div>
         </div>
-        
+
         <div class="quiz-content">
             <div class="quiz-question">
                 <div class="question-number" id="question-number">1</div>
                 <h3 id="question-text"></h3>
             </div>
-            
+
             <div class="options-container" id="options-container"></div>
-            
+
             <div class="quiz-controls">
                 <button class="btn-quiz btn-primary" id="submit-btn" onclick="checkAnswer()">
                     <span>✓</span> Enviar Respuesta
@@ -108,7 +111,7 @@
                     <span>←</span> Volver al menú
                 </button>
             </div>
-            
+
             <div class="quiz-message" id="message"></div>
         </div>
     </div>
@@ -123,7 +126,7 @@
                 <h2 class="result-title" id="result-title">¡Quiz Completado!</h2>
                 <p class="result-theme" id="result-theme">HTML</p>
             </div>
-            
+
             <div class="result-content">
                 <div class="result-score-circle">
                     <div class="score-circle" id="score-circle">
@@ -131,7 +134,7 @@
                         <div class="score-text">Precisión</div>
                     </div>
                 </div>
-                
+
                 <div class="result-stats">
                     <div class="stat-item">
                         <div class="stat-number correct" id="correct-answers">8</div>
@@ -142,18 +145,18 @@
                         <div class="stat-label">Incorrectas</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number total" id="total-answers">10</div>
+                        <div class="stat-number total" id="total-answers">30</div>
                         <div class="stat-label">Total</div>
                     </div>
                 </div>
-                
+
                 <div class="result-performance" id="result-performance">
                     <div class="performance-badge excellent" id="performance-badge">
                         <i class="fas fa-star"></i>
                         <span>¡Excelente trabajo!</span>
                     </div>
                 </div>
-                
+
                 <div class="result-actions">
                     <button class="btn-result btn-success" onclick="retryQuiz()">
                         <i class="fas fa-redo me-2"></i>Volver a Intentar
@@ -213,7 +216,7 @@
                 <div class="theme-stats">
                     <div class="progress-circle" id="progress-HTML">
                         <div class="progress-text">
-                            <span class="score" id="score-HTML">0/10</span>
+                            <span class="score" id="score-HTML">0/30</span>
                             <span class="percentage" id="percent-HTML">0%</span>
                         </div>
                     </div>
@@ -233,7 +236,7 @@
                 <div class="theme-stats">
                     <div class="progress-circle" id="progress-CSS">
                         <div class="progress-text">
-                            <span class="score" id="score-CSS">0/10</span>
+                            <span class="score" id="score-CSS">0/30</span>
                             <span class="percentage" id="percent-CSS">0%</span>
                         </div>
                     </div>
@@ -253,7 +256,7 @@
                 <div class="theme-stats">
                     <div class="progress-circle" id="progress-Condicionales">
                         <div class="progress-text">
-                            <span class="score" id="score-Condicionales">0/10</span>
+                            <span class="score" id="score-Condicionales">0/30</span>
                             <span class="percentage" id="percent-Condicionales">0%</span>
                         </div>
                     </div>
@@ -273,7 +276,7 @@
                 <div class="theme-stats">
                     <div class="progress-circle" id="progress-While">
                         <div class="progress-text">
-                            <span class="score" id="score-While">0/10</span>
+                            <span class="score" id="score-While">0/30</span>
                             <span class="percentage" id="percent-While">0%</span>
                         </div>
                     </div>
@@ -293,54 +296,155 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Preguntas del quiz - necesarias para el dashboard del estudiante
+        // PREGUNTAS ACTUALIZADAS - 30 por bloque (10 Básico, 10 Intermedio, 10 Avanzado)
         const allQuestions = {
             'HTML': [
+                // BÁSICO (1-10)
                 { question: '¿Qué significa HTML?', options: ['A) Hyper Transfer Machine Language', 'B) HyperText Markup Language', 'C) HighText Machine Language', 'D) HyperTool Manual Language'], correct: 'B' },
-                { question: '¿Cuál de estas es una etiqueta obligatoria en un documento HTML?', options: ['A) <table>', 'B) <section>', 'C) <html>', 'D) <br>'], correct: 'C' },
-                { question: '¿Qué etiqueta se usa para dividir bloques grandes en HTML?', options: ['A) <span>', 'B) <div>', 'C) <header>', 'D) <p>'], correct: 'B' },
-                { question: '¿Qué atributo se usa para vincular una hoja CSS externa?', options: ['A) src', 'B) style', 'C) href', 'D) class'], correct: 'C' },
-                { question: '¿Cuál es la diferencia entre "id" y "class" en HTML?', options: ['A) class es único, id puede repetirse', 'B) Ambos pueden repetirse', 'C) id es único, class se puede repetir', 'D) Ninguno sirve para identificar elementos'], correct: 'C' },
-                { question: '¿Cuál representa una estructura válida de HTML5?', options: ['A) <head><title>Mi sitio</title></head><body><h1>Hola</h1></body>', 'B) <html><body><title>Hola</title></body></html>', 'C) <!DOCTYPE html><html><head><title>Mi primera página HTML</title></head><body><h1>¡Bienvenido!</h1></body></html>', 'D) html<body><h1>Hola mundo</h1></body>'], correct: 'C' },
-                { question: '¿Qué etiqueta se usa para un enlace que diga "Estas visitando mi página"?', options: ['A) <p href="...">', 'B) <a src="...">', 'C) <a href="...">Estas visitando mi pagina</a>', 'D) <link href="...">'], correct: 'C' },
-                { question: '¿Cómo se inserta correctamente una imagen con texto alternativo?', options: ['A) <img href="img.jpg" texto="...">', 'B) <img src="img.jpg" alt="...">', 'C) <img link="img.jpg" content="...">', 'D) <img source="img.jpg" label="...">'], correct: 'B' },
-                { question: '¿Qué opción crea una lista ordenada y un enlace a id="contacto"?', options: ['A) <ul>...</ul><a link="#contacto">...</a>', 'B) <ol>...</ol><a href="#contacto">...</a>', 'C) html<ol>...<goto>...</goto>', 'D) <ul>...<a name="#contacto">...</a>'], correct: 'B' },
-                { question: '¿Qué opción divide la página con clases y <div>?', options: ['A) <div class="principal">...</div><div class="lateral">...</div>', 'B) <section id="principal">...</section><aside class="lateral">...</aside>', 'C) <div id="contenido">...</div><div id="barra">...</div>', 'D) <body class="...">Contenido</body>'], correct: 'A' }
+                { question: '¿Qué etiqueta indica el inicio del documento?', options: ['A) <head>', 'B) <!DOCTYPE html>', 'C) <html>', 'D) <body>'], correct: 'B' },
+                { question: '¿Qué etiqueta se usa para insertar una imagen?', options: ['A) <image>', 'B) <img>', 'C) <src>', 'D) <picture>'], correct: 'B' },
+                { question: '¿Cuál es la función del atributo alt en una imagen?', options: ['A) Cambiar el tamaño', 'B) Texto alternativo', 'C) Agregar un enlace', 'D) Definir el formato'], correct: 'B' },
+                { question: '¿Qué etiqueta se usa para crear listas ordenadas?', options: ['A) <ol>', 'B) <ul>', 'C) <li>', 'D) <list>'], correct: 'A' },
+                { question: '¿Qué etiqueta se usa para crear un enlace?', options: ['A) <a>', 'B) <link>', 'C) <href>', 'D) <url>'], correct: 'A' },
+                { question: '¿Qué atributo abre un enlace en una nueva pestaña?', options: ['A) open="_blank"', 'B) target="_blank"', 'C) href="_blank"', 'D) window="new"'], correct: 'B' },
+                { question: '¿Qué etiqueta define el encabezado principal?', options: ['A) <header>', 'B) <head>', 'C) <hgroup>', 'D) <h1>'], correct: 'A' },
+                { question: '¿Cuál es la diferencia entre <div> y <span>?', options: ['A) div bloque / span línea', 'B) div línea / span bloque', 'C) no hay diferencia', 'D) div es obsoleto'], correct: 'A' },
+                { question: '¿Qué etiqueta se usa para formularios?', options: ['A) <form>', 'B) <input>', 'C) <section>', 'D) <field>'], correct: 'A' },
+
+                // INTERMEDIO (11-20)
+                { question: '¿Qué atributo de <input> define el tipo de dato?', options: ['A) value', 'B) type', 'C) data', 'D) kind'], correct: 'B' },
+                { question: '¿Qué etiqueta agrupa opciones en un menú desplegable?', options: ['A) <group>', 'B) <option>', 'C) <select>', 'D) <dropdown>'], correct: 'C' },
+                { question: '¿Qué etiqueta define el pie de página?', options: ['A) <footer>', 'B) <bottom>', 'C) <end>', 'D) <base>'], correct: 'A' },
+                { question: '¿Qué etiqueta define una celda de encabezado en una tabla?', options: ['A) <th>', 'B) <td>', 'C) <tr>', 'D) <thead>'], correct: 'A' },
+                { question: '¿Qué etiqueta agrupa el contenido principal?', options: ['A) <main>', 'B) <body>', 'C) <article>', 'D) <content>'], correct: 'A' },
+                { question: '¿Qué etiqueta se usa para títulos de distintos niveles?', options: ['A) <h1> - <h6>', 'B) <p>', 'C) <title>', 'D) <heading>'], correct: 'A' },
+                { question: '¿Qué etiqueta se usa para separar secciones temáticas?', options: ['A) <section>', 'B) <div>', 'C) <area>', 'D) <part>'], correct: 'A' },
+                { question: '¿Qué etiqueta se usa para incluir un script externo?', options: ['A) <script src="">', 'B) <code>', 'C) <import>', 'D) <js>'], correct: 'A' },
+                { question: '¿Qué atributo define el texto que aparece al pasar el cursor?', options: ['A) alt', 'B) title', 'C) tooltip', 'D) hint'], correct: 'B' },
+                { question: '¿Qué etiqueta permite insertar audio en una página web?', options: ['A) <sound>', 'B) <audio>', 'C) <music>', 'D) <media>'], correct: 'B' },
+
+                // AVANZADO (21-30)
+                { question: '¿Qué etiqueta define contenido independiente, como una noticia?', options: ['A) <article>', 'B) <section>', 'C) <div>', 'D) <content>'], correct: 'A' },
+                { question: '¿Qué atributo se usa para identificar un elemento único?', options: ['A) class', 'B) id', 'C) key', 'D) name'], correct: 'B' },
+                { question: '¿Qué etiqueta agrupa navegación principal?', options: ['A) <nav>', 'B) <menu>', 'C) <path>', 'D) <navigation>'], correct: 'A' },
+                { question: '¿Qué atributo muestra texto en un campo antes de escribir?', options: ['A) hint', 'B) value', 'C) placeholder', 'D) default'], correct: 'C' },
+                { question: '¿Qué etiqueta representa contenido destacado visualmente?', options: ['A) <strong>', 'B) <mark>', 'C) <highlight>', 'D) <em>'], correct: 'B' },
+                { question: '¿Qué etiqueta define una lista de definiciones?', options: ['A) <dl>', 'B) <ol>', 'C) <ul>', 'D) <def>'], correct: 'A' },
+                { question: '¿Qué atributo en <img> define el texto alternativo?', options: ['A) src', 'B) alt', 'C) title', 'D) desc'], correct: 'B' },
+                { question: '¿Qué etiqueta se usa para contenido externo como videos?', options: ['A) <iframe>', 'B) <video>', 'C) <embed>', 'D) <external>'], correct: 'A' },
+                { question: '¿Qué atributo permite ejecutar una función al hacer clic?', options: ['A) onclick', 'B) action', 'C) onpress', 'D) click'], correct: 'A' },
+                { question: '¿Qué etiqueta se usa para definir una lista desplegable?', options: ['A) <select>', 'B) <input>', 'C) <options>', 'D) <dropdown>'], correct: 'A' }
             ],
             'CSS': [
-                { question: '¿Qué significa CSS?', options: ['A) Creative Style System', 'B) Color Style Script', 'C) Cascading Style Sheets', 'D) Control Style Sheet'], correct: 'C' },
-                { question: '¿Cómo se enlaza un archivo CSS externo correctamente?', options: ['A) <script src="estilos.css">', 'B) <link rel="stylesheet" href="estilos.css">', 'C) <css link="estilos.css">', 'D) <style src="estilos.css">'], correct: 'B' },
-                { question: '¿Qué propiedad controla el espacio entre el borde y el contenido?', options: ['A) border', 'B) padding', 'C) margin', 'D) spacing'], correct: 'B' },
-                { question: '¿Cuál de estas opciones tiene mayor especificidad en CSS?', options: ['A) Selector de etiqueta', 'B) Selector de clase', 'C) Selector de ID', 'D) Selector universal'], correct: 'C' },
-                { question: '¿Cuál es un ejemplo correcto de pseudoelemento en CSS?', options: ['A) p:first-letter {}', 'B) p::first-letter {}', 'C) p->first-letter {}', 'D) p:firstletter {}'], correct: 'B' },
-                { question: '¿Cuál de las siguientes reglas cambia el fondo y el color del texto del cuerpo?', options: ['A) body { background-color: #f0f0f0; color: #333333; }', 'B) body { text-align: center; font-size: 12px; }', 'C) h1 { background: white; color: black; }', 'D) html { background-color: gray; }'], correct: 'A' },
-                { question: '¿Qué propiedad se usa para centrar un texto?', options: ['A) margin: auto;', 'B) align: center;', 'C) text-align: center;', 'D) center: true;'], correct: 'C' },
-                { question: '¿Cuál de estas opciones da estilo a una lista de navegación horizontal?', options: ['A) ul { list-style: disc; }', 'B) ul li { display: block; }', 'C) ul li { list-style: none; display: inline-block; }', 'D) ul { float: left; }'], correct: 'C' },
-                { question: '¿Cuál es una forma correcta de crear una clase ".caja" con fondo azul y borde negro?', options: ['A) .caja { width: 300px; height: 150px; background-color: lightblue; border: 2px solid black; }', 'B) .box { size: 300px 150px; color: blue; }', 'C) .caja { width: 300px; height: 150px; background-color: lightblue; border: 2px solid black; margin: 20px; }', 'D) #caja { width: auto; border-color: black; }'], correct: 'C' },
-                { question: '¿Qué regla CSS aplica Flexbox para distribuir tres elementos en fila?', options: ['A) .container { display: grid; grid-template-columns: auto auto auto; }', 'B) .container { display: flex; justify-content: space-between; }', 'C) .flex { float: left; }', 'D) .parent { column-count: 3; }'], correct: 'B' }
+                // BÁSICO (1-10)
+                { question: '¿Qué significa CSS?', options: ['A) Cascading Style Sheets', 'B) Color Style Syntax', 'C) Computer Style Syntax', 'D) Creative Style System'], correct: 'A' },
+                { question: '¿Qué propiedad cambia el color del texto?', options: ['A) font-color', 'B) text-color', 'C) color', 'D) text'], correct: 'C' },
+                { question: '¿Qué propiedad cambia el color de fondo?', options: ['A) background-color', 'B) fill', 'C) bg-color', 'D) color-bg'], correct: 'A' },
+                { question: '¿Qué propiedad alinea texto al centro?', options: ['A) text-align: center', 'B) center-text', 'C) align-center', 'D) text-center'], correct: 'A' },
+                { question: '¿Qué propiedad controla el tamaño del texto?', options: ['A) font-size', 'B) text-size', 'C) size', 'D) font'], correct: 'A' },
+                { question: '¿Qué diferencia hay entre margin y padding?', options: ['A) margin externo / padding interno', 'B) margin interno / padding externo', 'C) no hay diferencia', 'D) ambos son externos'], correct: 'A' },
+                { question: '¿Qué propiedad cambia el tipo de letra?', options: ['A) font-family', 'B) text-font', 'C) font-name', 'D) typeface'], correct: 'A' },
+                { question: '¿Qué propiedad redondea las esquinas de un elemento?', options: ['A) border-radius', 'B) corner', 'C) round', 'D) curve'], correct: 'A' },
+                { question: '¿Qué propiedad agrega una sombra a un elemento?', options: ['A) box-shadow', 'B) shadow', 'C) border-shadow', 'D) drop-shadow'], correct: 'A' },
+                { question: '¿Qué propiedad controla la altura de línea de texto?', options: ['A) line-height', 'B) height-line', 'C) spacing', 'D) line-space'], correct: 'A' },
+
+                // INTERMEDIO (11-20)
+                { question: '¿Qué hace display:flex?', options: ['A) Mueve el texto', 'B) Crea una estructura flexible', 'C) Alinea imágenes', 'D) Oculta elementos'], correct: 'B' },
+                { question: '¿Qué propiedad distribuye espacio horizontal en Flexbox?', options: ['A) justify-content', 'B) align-items', 'C) space-between', 'D) flex-space'], correct: 'A' },
+                { question: '¿Qué hace la propiedad transition?', options: ['A) Añade animación suave', 'B) Cambia el color', 'C) Activa clic', 'D) Mueve elementos'], correct: 'A' },
+                { question: '¿Qué propiedad controla el espaciado entre letras?', options: ['A) letter-spacing', 'B) word-spacing', 'C) text-space', 'D) char-spacing'], correct: 'A' },
+                { question: '¿Qué propiedad controla la posición de un elemento?', options: ['A) position', 'B) placement', 'C) align', 'D) location'], correct: 'A' },
+                { question: '¿Qué valor posiciona un elemento respecto al contenedor?', options: ['A) relative', 'B) absolute', 'C) static', 'D) fixed'], correct: 'B' },
+                { question: '¿Qué valor coloca elementos uno al lado del otro?', options: ['A) inline-block', 'B) grid', 'C) float', 'D) flex'], correct: 'A' },
+                { question: '¿Qué unidad mide el tamaño relativo a la raíz?', options: ['A) em', 'B) px', 'C) rem', 'D) vh'], correct: 'C' },
+                { question: '¿Qué propiedad controla el orden de apilamiento?', options: ['A) z-index', 'B) stack', 'C) priority', 'D) layer'], correct: 'A' },
+                { question: '¿Qué propiedad controla la opacidad de un elemento?', options: ['A) opacity', 'B) visibility', 'C) blur', 'D) transparent'], correct: 'A' },
+
+                // AVANZADO (21-30)
+                { question: '¿Qué define una animación en CSS?', options: ['A) @animation', 'B) @keyframes', 'C) @frameset', 'D) @animate'], correct: 'B' },
+                { question: '¿Qué propiedad inicia una animación?', options: ['A) animate', 'B) animation-name', 'C) key-name', 'D) start-animation'], correct: 'B' },
+                { question: '¿Qué propiedad define la duración de una animación?', options: ['A) time', 'B) animation-duration', 'C) duration', 'D) length'], correct: 'B' },
+                { question: '¿Qué propiedad hace un contenedor con filas y columnas?', options: ['A) display:grid', 'B) display:block', 'C) display:flex', 'D) display:table'], correct: 'A' },
+                { question: '¿Qué propiedad crea una cuadrícula de 3 columnas?', options: ['A) grid-template-columns: repeat(3, 1fr)', 'B) grid-columns: 3', 'C) columns: grid(3)', 'D) grid: 3'], correct: 'A' },
+                { question: '¿Qué propiedad define espaciado entre filas en Grid?', options: ['A) grid-row-gap', 'B) row-gap', 'C) gap', 'D) spacing'], correct: 'C' },
+                { question: '¿Qué propiedad permite cambio suave de estilo?', options: ['A) transition', 'B) ease', 'C) effect', 'D) smooth'], correct: 'A' },
+                { question: '¿Qué propiedad hace que un elemento sea fijo en pantalla?', options: ['A) position:fixed', 'B) display:block', 'C) float:right', 'D) sticky'], correct: 'A' },
+                { question: '¿Qué propiedad alinea elementos verticalmente en Flexbox?', options: ['A) align-items', 'B) justify-content', 'C) align-self', 'D) vertical-align'], correct: 'A' },
+                { question: '¿Qué propiedad define el color de un borde?', options: ['A) border-color', 'B) outline', 'C) frame', 'D) edge-color'], correct: 'A' }
             ],
             'Condicionales': [
-                { question: '¿Qué estructura se usa para tomar decisiones en programación?', options: ['A) loop', 'B) if', 'C) function', 'D) try'], correct: 'B' },
-                { question: '¿Qué operador verifica si dos valores son iguales en Python?', options: ['A) ===', 'B) ==', 'C) =', 'D) equal()'], correct: 'B' },
-                { question: '¿Cuál es la función del bloque else?', options: ['A) Ejecuta si la condición es verdadera', 'B) Ejecuta si otra condición fue verdadera', 'C) Ejecuta si ninguna condición anterior se cumplió', 'D) Solo se usa con errores'], correct: 'C' },
-                { question: '¿Cuál de estos valores es considerado "falso" (falsy)?', options: ['A) True', 'B) "Hola"', 'C) []', 'D) 1'], correct: 'C' },
-                { question: '¿Qué hace este código en JavaScript?: if (edad > 18 && tieneLicencia) { console.log("Puede conducir"); }', options: ['A) Evalúa si tieneLicencia es true', 'B) Evalúa solo edad', 'C) Evalúa ambas condiciones juntas', 'D) No funciona, falta else'], correct: 'C' },
-                { question: '¿Cuál verifica edad y da mensaje según el valor?', options: ['A) if edad >= 18 { print("Mayor") } else { print("Menor") }', 'B) if edad < 18 then print("Menor")', 'C) edad == 18 ? "Exacto" : "Otro"', 'D) edad = 18'], correct: 'A' },
-                { question: '¿Qué resultado da nota = 9?', options: ['A) Desaprobado', 'B) Bueno', 'C) Excelente', 'D) Regular'], correct: 'C' },
-                { question: '¿Qué estructura permite validar acceso con usuario y clave?', options: ['A) if (usuario == "admin" && clave == "123") { acceso = true }', 'B) if usuario igual admin', 'C) validar(usuario)', 'D) console.log("Listo")'], correct: 'A' },
-                { question: '¿Qué pasa con número = 72 si se evalúa su paridad y valor?', options: ['A) Es impar', 'B) Par y mayor que 50', 'C) Par pero menor o igual a 50', 'D) Nada'], correct: 'B' },
-                { question: '¿Qué operadores evalúan múltiples condiciones en lenguajes como JavaScript?', options: ['A) = y !=', 'B) & y |', 'C) && y ||', 'D) > y <'], correct: 'C' }
+                // BÁSICO (1-10)
+                { question: '¿Qué palabra clave inicia una estructura condicional?', options: ['A) if', 'B) when', 'C) choose', 'D) select'], correct: 'A' },
+                { question: '¿Qué palabra clave se usa cuando la condición no se cumple?', options: ['A) next', 'B) else', 'C) or', 'D) otherwise'], correct: 'B' },
+                { question: '¿Qué operador se utiliza para comparar igualdad?', options: ['A) ==', 'B) =', 'C) ===', 'D) equals'], correct: 'A' },
+                { question: '¿Qué operador lógico representa el "Y" lógico?', options: ['A) &&', 'B) ||', 'C) !=', 'D) AND'], correct: 'A' },
+                { question: '¿Qué valor se considera falso sin compararlo?', options: ['A) 1', 'B) 0', 'C) "texto"', 'D) true'], correct: 'B' },
+                { question: '¿Qué operador invierte el valor lógico de una condición?', options: ['A) &&', 'B) ||', 'C) !', 'D) NOT'], correct: 'C' },
+                { question: '¿Qué palabra evalúa más de una condición?', options: ['A) else if / elif', 'B) case', 'C) for', 'D) switch'], correct: 'A' },
+                { question: '¿Qué significa "evaluación de cortocircuito"?', options: ['A) Se evalúa solo una vez', 'B) El resultado se detiene si ya se conoce', 'C) Ejecuta sin evaluar', 'D) Reinicia la evaluación'], correct: 'B' },
+                { question: '¿Qué operador ternario se usa en muchos lenguajes?', options: ['A) ?:', 'B) ??', 'C) %%', 'D) ::'], correct: 'A' },
+                { question: '¿Qué pasa si ninguna condición se cumple?', options: ['A) El programa se detiene', 'B) Se ejecuta el bloque else', 'C) Se reinicia la condición', 'D) Error de sintaxis'], correct: 'B' },
+
+                // INTERMEDIO (11-20)
+                { question: '¿Qué estructura permite ejecutar distintos bloques según condición?', options: ['A) if - else', 'B) while - for', 'C) do - while', 'D) loop'], correct: 'A' },
+                { question: '¿Qué palabra se usa para encadenar condiciones adicionales?', options: ['A) elseif / elif', 'B) also', 'C) continue', 'D) then'], correct: 'A' },
+                { question: '¿Qué estructura reemplaza varios if en casos conocidos?', options: ['A) switch', 'B) repeat', 'C) loop', 'D) match'], correct: 'A' },
+                { question: '¿Qué hace este código? if (x > 10 && x < 20)', options: ['A) Evalúa si x está entre 10 y 20', 'B) Evalúa si x es mayor que 20', 'C) Evalúa si x es menor que 10', 'D) Da error'], correct: 'A' },
+                { question: 'if (false) {print("Hola")} else {print("Adiós")} ¿Qué imprime?', options: ['A) Hola', 'B) Adiós', 'C) Nada', 'D) Error'], correct: 'B' },
+                { question: '¿Qué estructura es más eficiente para rangos fijos?', options: ['A) switch', 'B) for', 'C) while', 'D) if anidado'], correct: 'A' },
+                { question: '¿Qué palabra define una condición dentro de otra?', options: ['A) if anidado', 'B) condición doble', 'C) condición recursiva', 'D) if compuesto'], correct: 'A' },
+                { question: '¿Qué operador lógico representa el "O" lógico?', options: ['A) &&', 'B) ||', 'C) !!', 'D) OR'], correct: 'B' },
+                { question: '¿Cuál de los siguientes es un operador de comparación?', options: ['A) >=', 'B) &&', 'C) or', 'D) ='], correct: 'A' },
+                { question: '¿Qué tipo de estructura utiliza el operador ternario?', options: ['A) Condicional compacta', 'B) Bucle simple', 'C) Estructura repetitiva', 'D) Función'], correct: 'A' },
+
+                // AVANZADO (21-30)
+                { question: 'x = 5; if x == 5: print("ok") else: print("no"). ¿Qué imprime?', options: ['A) ok', 'B) no', 'C) error', 'D) nada'], correct: 'A' },
+                { question: 'En JavaScript, ¿qué valor devuelve (5 > 2) && (3 < 1)?', options: ['A) true', 'B) false', 'C) undefined', 'D) null'], correct: 'B' },
+                { question: '¿Qué ocurre si colocas un if dentro de un else?', options: ['A) Se evalúan ambos a la vez', 'B) Se crea una estructura anidada', 'C) Genera error de sintaxis', 'D) Solo ejecuta el else'], correct: 'B' },
+                { question: '¿Qué tipo de valores pueden evaluarse en una condición?', options: ['A) Solo números', 'B) Cualquier valor booleano', 'C) Solo texto', 'D) Solo variables'], correct: 'B' },
+                { question: 'En el código if (x != 10), ¿qué significa "!="?', options: ['A) es igual', 'B) es diferente', 'C) es mayor', 'D) es menor'], correct: 'B' },
+                { question: '¿Cuál es el resultado de if (false || true)?', options: ['A) true', 'B) false', 'C) error', 'D) undefined'], correct: 'A' },
+                { question: '¿Qué significa este condicional?: if (!tienePermiso)', options: ['A) Si tiene permiso', 'B) Si no tiene permiso', 'C) Si permiso es undefined', 'D) Error de sintaxis'], correct: 'B' },
+                { question: '¿Qué palabra clave finaliza un bloque if en Python?', options: ['A) endif', 'B) :', 'C) end', 'D) }'], correct: 'B' },
+                { question: '¿Qué operador combina varias condiciones con prioridad?', options: ['A) ()', 'B) {}', 'C) []', 'D) <>'], correct: 'A' },
+                { question: '¿Qué significa else if en un flujo de control?', options: ['A) Condición adicional', 'B) Condición final', 'C) Condición vacía', 'D) Repetición'], correct: 'A' }
             ],
             'While': [
-                { question: '¿Qué pasa si un bucle while nunca se detiene?', options: ['A) Lanza error de sintaxis', 'B) Termina automáticamente', 'C) Genera un bucle infinito', 'D) Salta al siguiente código'], correct: 'C' },
-                { question: '¿Qué bucle se usa cuando no se sabe cuántas veces repetir?', options: ['A) for', 'B) while', 'C) repeat', 'D) do-while'], correct: 'B' },
-                { question: '¿Qué hace break dentro de un bucle?', options: ['A) Repite el ciclo', 'B) Pausa el programa', 'C) Sale del bucle inmediatamente', 'D) Ignora la condición'], correct: 'C' },
-                { question: '¿Qué previene un bucle infinito?', options: ['A) Condición fija', 'B) No usar input()', 'C) Cambiar variables dentro del bucle', 'D) Usar for en lugar de while'], correct: 'C' },
-                { question: '¿Qué hace este código con "salir"?', options: ['A) Repite siempre', 'B) Solo se ejecuta una vez', 'C) Termina si escribís "salir"', 'D) Da error por break'], correct: 'C' },
-                { question: '¿Cómo imprimir del 1 al 10 con while?', options: ['A) while (i <= 10) { print(i); i++ }', 'B) for i in range(10): print(i)', 'C) while true: print("hola")', 'D) i = 0; print(i)'], correct: 'A' },
-                { question: '¿Qué hace este código si ingresas 0?', options: ['A) Suma y termina', 'B) Sigue sumando', 'C) Error', 'D) Se reinicia'], correct: 'A' },
-                { question: '¿Qué hace este while con clave "admin"?', options: ['A) Pide clave hasta acertar', 'B) Solo una vez', 'C) No valida', 'D) Corta siempre'], correct: 'A' },
-                { question: '¿Qué hace este código si adivinas el número?', options: ['A) Nunca se detiene', 'B) Siempre imprime "Correcto"', 'C) Cuenta intentos hasta adivinar', 'D) Solo imprime 1 intento'], correct: 'C' },
-                { question: '¿Qué hace este código con Fibonacci?', options: ['A) Muestra 100 veces el 1', 'B) Solo imprime 0', 'C) Genera números Fibonacci menores a 100', 'D) Da error de sintaxis'], correct: 'C' }
+                // BÁSICO (1-10)
+                { question: '¿Qué hace un bucle while?', options: ['A) Ejecuta código solo una vez', 'B) Repite mientras la condición sea verdadera', 'C) Compara dos valores y termina', 'D) Cuenta hasta 10'], correct: 'B' },
+                { question: '¿Qué tipo de valor evalúa la condición de un while?', options: ['A) Numérico', 'B) Booleano', 'C) Texto', 'D) Array'], correct: 'B' },
+                { question: '¿Qué ocurre si la condición nunca cambia a false?', options: ['A) Se ejecuta una vez', 'B) Se crea un bucle infinito', 'C) Se fuerza un error', 'D) Se detiene solo'], correct: 'B' },
+                { question: '¿Qué palabra clave detiene el bucle inmediatamente?', options: ['A) stop', 'B) exit', 'C) break', 'D) end'], correct: 'C' },
+                { question: '¿Qué palabra clave salta a la siguiente iteración?', options: ['A) continue', 'B) skip', 'C) next', 'D) pass'], correct: 'A' },
+                { question: 'Si la condición es false al inicio, el while...', options: ['A) No se ejecuta', 'B) Se ejecuta una vez', 'C) Se ejecuta dos veces', 'D) Da error'], correct: 'A' },
+                { question: '¿Qué se suele usar para contar iteraciones en un while?', options: ['A) Un acumulador', 'B) Un contador', 'C) Un comparador', 'D) Un índice'], correct: 'B' },
+                { question: 'Para evitar bucles infinitos es importante...', options: ['A) No modificar variables', 'B) Modificar la variable de control apropiadamente', 'C) Usar siempre break', 'D) No usar condiciones'], correct: 'B' },
+                { question: 'i=1; while(i<=3){print(i); i++} ¿Qué imprime?', options: ['A) 1 2 3', 'B) 0 1 2', 'C) 2 3 4', 'D) Error'], correct: 'A' },
+                { question: '¿Qué instrucción para un menú que se repite hasta "Salir"?', options: ['A) while (opcion != "Salir")', 'B) for (siempre)', 'C) switch (Salir)', 'D) if (Salir)'], correct: 'A' },
+
+                // INTERMEDIO (11-20)
+                { question: 'i=0; while(i<5){ i=i+2 } ¿Qué hace?', options: ['A) Itera 3 veces (0,2,4)', 'B) Itera 2 veces (0,2)', 'C) Nunca entra al bucle', 'D) Bucle infinito'], correct: 'A' },
+                { question: '¿Cuál es el problema? while(i<10){ print(i) }', options: ['A) Falta incrementar i; puede ser infinito', 'B) No se puede imprimir en while', 'C) La condición debe ser i<=10', 'D) No hay problema'], correct: 'A' },
+                { question: 'Patrón correcto para sumar 1..n con while', options: ['A) i=1; suma=0; while(i<=n){ suma+=i; i++ }', 'B) i=0; suma=0; mientras(n){ suma+=n }', 'C) i=1; suma=0; while(i<n){ suma=i }', 'D) suma=0; while(true){ suma++ }'], correct: 'A' },
+                { question: '¿Qué hace continue dentro de un while?', options: ['A) Termina el bucle', 'B) Salta el resto y pasa a la siguiente vuelta', 'C) Reinicia las variables', 'D) Pausa el bucle'], correct: 'B' },
+                { question: 'Mejor forma de leer números hasta ingresar 0', options: ['A) while(num != 0){ leer num; acumular }', 'B) while(true){ acumular }', 'C) for(num!=0){ leer num }', 'D) if(num==0){ leer }'], correct: 'A' },
+                { question: 'i=0; while(i<3){ i++; } print(i) ¿Qué imprime?', options: ['A) 0', 'B) 2', 'C) 3', 'D) Error'], correct: 'C' },
+                { question: 'Para validar entrada hasta que sea válida se usa...', options: ['A) Un while con condición sobre la validez', 'B) Un for de 10 iteraciones', 'C) Un switch de opciones', 'D) Un if simple'], correct: 'A' },
+                { question: '¿Qué ventaja tiene while sobre for?', options: ['A) Mejor cuando no se conoce el número de repeticiones', 'B) Siempre es más rápido', 'C) Permite anidar if', 'D) Es más corto'], correct: 'A' },
+                { question: 'i=1; while(i<=5){ if(i%2==0){print(i)}; i++ } ¿Qué imprime?', options: ['A) 1 3 5', 'B) 2 4', 'C) 2 3 4 5', 'D) Error'], correct: 'B' },
+                { question: '¿Qué hace? while True: if intento==3: break', options: ['A) Nunca termina', 'B) Termina al tercer intento', 'C) Termina al primer intento', 'D) Error'], correct: 'B' },
+
+                // AVANZADO (21-30)
+                { question: 'Patrón seguro para leer hasta palabra clave "salir"', options: ['A) while(palabra != "salir"){ leer palabra }', 'B) while("salir"){ leer palabra }', 'C) while(palabra == "salir"){ leer palabra }', 'D) for(palabra){ leer }'], correct: 'A' },
+                { question: 'i=1; total=0; while(i<=4){ total+=i*i; i++ } print(total) ¿Imprime?', options: ['A) 10', 'B) 30', 'C) 20', 'D) 16'], correct: 'B' },
+                { question: 'Para limitar un while a 100 iteraciones máximo, usarías...', options: ['A) Un contador de intentos y condición extra', 'B) Solo break sin condición', 'C) continue dentro de if', 'D) Un for'], correct: 'A' },
+                { question: '¿Qué ocurre si pones break dentro de un if anidado en while?', options: ['A) Rompe todo el while', 'B) Solo salta a la siguiente iteración', 'C) Reinicia el bucle', 'D) Error'], correct: 'A' },
+                { question: 'Patrón correcto para Fibonacci < 100', options: ['A) a=0;b=1; while(a<100){ print(a); a,b=b,a+b }', 'B) a=0; while(a<100){ a=a+a }', 'C) b=1; while(b<100){ print(b); b=b }', 'D) while(100){ print(a) }'], correct: 'A' },
+                { question: '¿Qué hace? while(cond){ ...; if(error){ break } }', options: ['A) Finaliza el bucle si ocurre un error', 'B) Ignora los errores', 'C) Duplica las iteraciones', 'D) Continúa siempre'], correct: 'A' },
+                { question: 'Patrón para "intentos de login" máx. 3', options: ['A) intentos=0; while(intentos<3 && !loginOk){ intentos++ }', 'B) while(loginOk){ pedir credenciales }', 'C) for(loginOk){ pedir credenciales }', 'D) if(intentos==3){ salir }'], correct: 'A' },
+                { question: 'i=0; while(i<5){ i+=2; print(i) } ¿Qué imprime?', options: ['A) 1 2 3 4 5', 'B) 2 4', 'C) 2 4 6', 'D) 0 2 4'], correct: 'B' },
+                { question: 'Para evitar consumir CPU en un while de espera activa...', options: ['A) Agregar una pausa (sleep)', 'B) Usar continue siempre', 'C) Incrementar dos veces el contador', 'D) Usar break'], correct: 'A' },
+                { question: '¿Qué combinación válida para salir por múltiples condiciones?', options: ['A) Condición compuesta y/o break en casos especiales', 'B) Solo usar continue', 'C) Solo usar return', 'D) Solo usar exit'], correct: 'A' }
             ]
         };
     </script>
@@ -355,7 +459,7 @@
         let quizStartTime = null;
 
         // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             initializeStudentDashboard();
         });
 
@@ -363,14 +467,14 @@
             // Verificar autenticación
             authToken = localStorage.getItem('retotech_token');
             const userData = localStorage.getItem('retotech_user');
-            
+
             if (!authToken || !userData) {
                 window.location.href = 'login.html';
                 return;
             }
 
             currentUser = JSON.parse(userData);
-            
+
             // Verificar que sea estudiante
             if (currentUser.role !== 'estudiante') {
                 alert('Acceso denegado. Solo estudiantes pueden acceder aquí.');
@@ -382,7 +486,7 @@
             // Actualizar nombre de usuario en ambas ubicaciones
             document.getElementById('currentUserName').textContent = currentUser.username;
             document.getElementById('currentUserNameMobile').textContent = currentUser.username;
-            
+
             // Actualizar curso en ambas ubicaciones
             document.getElementById('currentCourse').textContent = currentUser.curso;
             document.getElementById('currentCourseMobile').textContent = currentUser.curso;
@@ -415,13 +519,13 @@
 
         function updateScoreDisplay(stats) {
             const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
-            
+
             themes.forEach(theme => {
                 const stat = stats.find(s => s.tema === theme);
                 const scoreElement = document.getElementById(`score-${theme}`);
                 if (scoreElement) {
                     const score = stat ? stat.respuestas_correctas : 0;
-                    scoreElement.textContent = `Puntaje: ${score}/10`;
+                    scoreElement.textContent = `Puntaje: ${score}/30`;
                 }
             });
         }
@@ -435,23 +539,23 @@
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('statistics').style.display = 'none';
             document.getElementById('quiz-section').style.display = 'block';
-            
+
             // Actualizar tema en header
             document.getElementById('quiz-theme').textContent = theme;
-            
+
             displayQuestion();
         }
 
         function displayQuestion() {
             const question = allQuestions[currentTheme][currentQuestionIndex];
             const totalQuestions = allQuestions[currentTheme].length;
-            
+
             // Actualizar progreso
             const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
             document.getElementById('progress-fill').style.width = progressPercent + '%';
             document.getElementById('progress-text').textContent = `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`;
             document.getElementById('question-number').textContent = currentQuestionIndex + 1;
-            
+
             document.getElementById('question-text').innerText = question.question;
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
@@ -508,7 +612,7 @@
             }
 
             quizAnswered = true;
-            
+
             document.querySelectorAll('.option-button').forEach(btn => {
                 btn.classList.add('disabled');
             });
@@ -554,7 +658,7 @@
 
         function showFeedback(isCorrect, correctAnswer) {
             const messageDiv = document.getElementById('message');
-            
+
             if (isCorrect) {
                 messageDiv.innerHTML = `
                     <div class="feedback correct">
@@ -587,7 +691,7 @@
 
         async function nextQuestion() {
             currentQuestionIndex++;
-            
+
             if (currentQuestionIndex >= allQuestions[currentTheme].length) {
                 // Quiz completado - calcular resultado
                 await showQuizResult();
@@ -610,20 +714,20 @@
                     const themeStat = stats.find(s => s.tema === currentTheme);
                     const correct = themeStat ? themeStat.respuestas_correctas : 0;
                     const total = themeStat ? themeStat.total_preguntas : 0;
-                    
+
                     // Mostrar modal de resultados
                     displayQuizResultModal(correct, total);
                 } else {
                     // Fallback si no se pueden obtener estadísticas
-                    displayQuizResultModal(0, 10);
+                    displayQuizResultModal(0, 30);
                 }
-                
+
                 // Recargar estadísticas en segundo plano
                 loadStudentStats();
             } catch (error) {
                 console.error('Error:', error);
                 // Fallback en caso de error
-                displayQuizResultModal(0, 10);
+                displayQuizResultModal(0, 30);
                 loadStudentStats();
             }
         }
@@ -631,23 +735,23 @@
         function displayQuizResultModal(correct, total) {
             const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
             const incorrect = total - correct;
-            
+
             // Actualizar contenido del modal
             document.getElementById('result-theme').textContent = currentTheme;
             document.getElementById('score-percentage').textContent = percentage + '%';
             document.getElementById('correct-answers').textContent = correct;
             document.getElementById('incorrect-answers').textContent = incorrect;
             document.getElementById('total-answers').textContent = total;
-            
+
             // Actualizar círculo de progreso
             const scoreCircle = document.getElementById('score-circle');
             const degrees = (percentage / 100) * 360;
             scoreCircle.style.background = `conic-gradient(#10b981 0deg ${degrees}deg, #e5e7eb ${degrees}deg 360deg)`;
-            
+
             // Determinar performance y mensaje
             const performanceBadge = document.getElementById('performance-badge');
             const resultIcon = document.getElementById('result-icon');
-            
+
             if (percentage >= 90) {
                 performanceBadge.className = 'performance-badge excellent';
                 performanceBadge.innerHTML = '<i class="fas fa-trophy"></i><span>¡Excelente trabajo!</span>';
@@ -669,7 +773,7 @@
                 performanceBadge.innerHTML = '<i class="fas fa-redo"></i><span>Puedes mejorar</span>';
                 resultIcon.innerHTML = '<i class="fas fa-redo"></i>';
             }
-            
+
             // Mostrar el modal
             document.getElementById('quiz-result-overlay').style.display = 'flex';
         }
@@ -681,21 +785,21 @@
         function retryQuiz() {
             // Cerrar modal de resultados
             closeQuizResult();
-            
+
             // Reiniciar el quiz del mismo tema
             currentQuestionIndex = 0;
             quizAnswered = false;
             selectedOption = null;
             quizStartTime = Date.now();
-            
+
             // Limpiar mensaje anterior
             document.getElementById('message').innerHTML = '';
             document.getElementById('message').className = 'quiz-message';
-            
+
             // Resetear botones de control
             document.getElementById('submit-btn').style.display = 'inline-block';
             document.getElementById('next-btn').style.display = 'none';
-            
+
             // Mostrar la primera pregunta del tema actual
             displayQuestion();
         }
@@ -703,7 +807,7 @@
         function goBack() {
             // Cerrar modal de resultados si está abierto
             document.getElementById('quiz-result-overlay').style.display = 'none';
-            
+
             document.getElementById('quiz-section').style.display = 'none';
             showMainMenu();
         }
@@ -714,7 +818,7 @@
             currentQuestionIndex = 0;
             quizAnswered = false;
             selectedOption = null;
-            
+
             document.getElementById('main-menu').style.display = 'flex';
             document.getElementById('statistics').style.display = 'none';
             document.getElementById('quiz-section').style.display = 'none';
@@ -723,25 +827,25 @@
         async function showStatistics() {
             // Cerrar modal de resultados si está abierto
             document.getElementById('quiz-result-overlay').style.display = 'none';
-            
+
             // Verificar si hay un quiz activo
             const quizSection = document.getElementById('quiz-section');
             const isQuizActive = quizSection.style.display !== 'none';
-            
+
             if (isQuizActive) {
                 // Mostrar confirmación para salir del test
                 const confirmExit = confirm('¿Quiere salir del test para ver las estadísticas?\n\nSe perderá el progreso actual del quiz.');
-                
+
                 if (!confirmExit) {
                     return; // No hacer nada si cancela
                 }
             }
-            
+
             // Ocultar todas las secciones y mostrar estadísticas
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('quiz-section').style.display = 'none';
             document.getElementById('statistics').style.display = 'block';
-            
+
             try {
                 const response = await fetch('/api/student/stats', {
                     headers: {
@@ -760,7 +864,7 @@
 
         function displayStatistics(stats) {
             console.log('Estadísticas recibidas:', stats);
-            
+
             const themes = ['HTML', 'CSS', 'Condicionales', 'While'];
             let totalQuestions = 0;
             let totalCorrect = 0;
@@ -769,12 +873,12 @@
                 const stat = stats.find(s => s.tema === theme);
                 const correct = stat ? parseInt(stat.respuestas_correctas) || 0 : 0;
                 const total = stat ? parseInt(stat.total_preguntas) || 0 : 0;
-                
+
                 console.log(`${theme}: ${correct}/${total}`);
-                
+
                 totalQuestions += total;
                 totalCorrect += correct;
-                
+
                 // Actualizar progreso del tema con animación
                 setTimeout(() => {
                     updateThemeProgress(theme, correct, total);
@@ -795,18 +899,18 @@
             const scoreElement = document.getElementById(`score-${theme}`);
             const percentElement = document.getElementById(`percent-${theme}`);
             const progressCircle = document.getElementById(`progress-${theme}`);
-            
+
             if (scoreElement && percentElement && progressCircle) {
                 // Actualizar textos
-                scoreElement.textContent = `${correct}/${Math.max(total, 10)}`;
-                
+                scoreElement.textContent = `${correct}/${Math.max(total, 30)}`;
+
                 const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
                 percentElement.textContent = percentage + '%';
-                
+
                 // Animar círculo de progreso
                 const degrees = (percentage / 100) * 360;
                 const color = getThemeColor(theme);
-                
+
                 setTimeout(() => {
                     progressCircle.style.background = `conic-gradient(${color} 0deg ${degrees}deg, #e5e7eb ${degrees}deg 360deg)`;
                 }, 100);
@@ -814,7 +918,7 @@
         }
 
         function getThemeColor(theme) {
-            switch(theme) {
+            switch (theme) {
                 case 'HTML': return '#e34c26';
                 case 'CSS': return '#1572b6';
                 case 'Condicionales': return '#f7df1e';
@@ -827,21 +931,21 @@
             const element = document.getElementById(id);
             const range = end - start;
             const startTime = performance.now();
-            
+
             function updateValue(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                
+
                 const easeOutQuart = 1 - Math.pow(1 - progress, 4);
                 const current = Math.round(start + (range * easeOutQuart));
-                
+
                 element.textContent = current + suffix;
-                
+
                 if (progress < 1) {
                     requestAnimationFrame(updateValue);
                 }
             }
-            
+
             requestAnimationFrame(updateValue);
         }
 
@@ -854,4 +958,5 @@
         }
     </script>
 </body>
+
 </html>
